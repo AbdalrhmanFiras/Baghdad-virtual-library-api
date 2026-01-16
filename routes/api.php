@@ -1,13 +1,15 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\AuthorController;
-use App\Http\Controllers\ProfileController;
 use App\Models\Author;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AuthorController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CategoryController;
 
 
+////////////////////////////////////?User//////////////////////////////////////////
 
 Route::post('/register' ,[AuthController::class , 'register']);
 Route::post('/login' ,[AuthController::class , 'login']);
@@ -23,7 +25,17 @@ Route::middleware('auth:api')->prefix('user')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update']); 
 });
 
+////////////////////////////////////?Admin//////////////////////////////////////////
+Route::middleware('auth:api')->prefix('admin')->group(function () {
 Route::post('/author' , [AuthorController::class , 'store']);
 Route::put('/author/{Id}' , [AuthorController::class , 'update']);
 Route::delete('/author/{Id}' , [AuthorController::class , 'delete']);
 
+//**********************************/Category/*****************************//
+
+Route::get('/categories', [CategoryController::class, 'index']);
+Route::post('/categories', [CategoryController::class, 'store']);
+Route::get('/categories/{id}', [CategoryController::class, 'show']);
+Route::put('/categories/{id}', [CategoryController::class, 'update']);
+Route::delete('/categories/{id}', [CategoryController::class, 'destroy']);
+});

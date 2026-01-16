@@ -13,6 +13,11 @@ class AuthorController extends Controller
 {
     /**
      * Create Author
+     * 
+     * This endpoint allows you to add a new author to the system.
+     * You must provide `author_name` and `dec`.
+     * 
+     * Admin(only).
      */
     public function store(StoreAuthorRequest $request){
         $data = $request->validated();
@@ -20,7 +25,12 @@ class AuthorController extends Controller
         return $this->responseSuccess($author, 'Author added successfully', 201);
     }
   /**
-     * Update Author
+     * Update Author.
+     * 
+     * This endpoint allows you to update the author.
+     * You must provide `author_name` and `dec`.
+     * 
+     * Admin(only).
      */
     public function update(UpdateAuthorRequest $request, $id){
         $author = Author::find($id);
@@ -33,6 +43,9 @@ class AuthorController extends Controller
     }
   /**
      * Delete Author
+     * 
+     * This endpoint allows you to Delete the author.
+     * Admin(only).
      */
     public function delete($id){
         $author = Author::find($id);
