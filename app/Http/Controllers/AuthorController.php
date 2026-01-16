@@ -17,29 +17,31 @@ class AuthorController extends Controller
     public function store(StoreAuthorRequest $request){
         $data = $request->validated();
         $author = Author::create($data);
-        return $this->responseSuccess($author,'Author added successfully' ,201);
+        return $this->responseSuccess($author, 'Author added successfully', 201);
     }
-
-
-
-    public function update(UpdateAuthorRequest $request,$id){
+  /**
+     * Update Author
+     */
+    public function update(UpdateAuthorRequest $request, $id){
+        $author = Author::find($id);
         $data = $request->validated();
-        if(!Author::where('id' , $id)->exists()){
-            return $this->responseError(null,'Author not found' , 404);
+        if (!$author) {
+            return $this->responseError(null, 'Author not found', 404);
         }
-        $author = Author::update($data);
-        return $this->responseSuccess($author,'Author updated successfully' ,200);
+        $author->update($data);
+        return $this->responseSuccess($author, 'Author updated successfully', 200);
     }
-
-
-
-
+  /**
+     * Delete Author
+     */
     public function delete($id){
         $author = Author::find($id);
         if (!$author) {
-        return $this->responseError(null, 'Author not found', 404);
-         $author->delete();
-        return $this->responseSuccess($author,'Author deleted successfully' ,200);
+            return $this->responseError(null, 'Author not found', 404);
+        }
+
+        $author->delete();
+
+        return $this->responseSuccess(null, 'Author deleted successfully', 200);
     }
-}
 }

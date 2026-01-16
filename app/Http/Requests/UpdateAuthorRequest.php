@@ -22,8 +22,8 @@ class UpdateAuthorRequest extends FormRequest
     public function rules(): array
     {
         return [
-              'author_name' => 'required|string' ,
-            'dec' => 'required|string' 
+            'author_name' => 'sometimes|string' ,
+            'dec' => 'sometimes|string' 
         ];
     }
 }

@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Author;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,3 +22,8 @@ Route::middleware('auth:api')->prefix('user')->group(function () {
     Route::get('/profile', [ProfileController::class, 'show']);    
     Route::patch('/profile', [ProfileController::class, 'update']); 
 });
+
+Route::post('/author' , [AuthorController::class , 'store']);
+Route::put('/author/{Id}' , [AuthorController::class , 'update']);
+Route::delete('/author/{Id}' , [AuthorController::class , 'delete']);
+
