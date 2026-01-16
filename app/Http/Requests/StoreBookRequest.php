@@ -22,16 +22,16 @@ class StoreBookRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'author_id' => 'required|integer|exists:authors.id',
+            'author_id' => 'required|integer',
             'title' => 'required|string',
             'dec' => 'required|string',
-            'pdf_read' => 'nullable|file|mimes:pdf|max:10240',
-            'pdf_download' => 'nullable|file|mimes:pdf|max:10240',
-            'audio' => 'required|file|mimes:mp3,wav,ogg|max:51200',
-            'language' => 'required|string',
             'publish_date' => 'required|date',
-            'rating' => 'required|numeric|between:1,5',
+            'rating' => 'required|numeric|min:1|max:5',
             'status' => 'required|in:draft,published',
+            'language' => 'required|string',
+            'pdf_read' => 'required|file|mimes:pdf|max:10240',
+            'pdf_download' => 'required|file|mimes:pdf|max:10240',
+            'audio' => 'required|file|mimes:mp3,wav,ogg|max:51200',
         ];
     }
 }

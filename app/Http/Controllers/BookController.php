@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\BookStatusEnum;
 use App\Models\Book;
 use Illuminate\Http\Request;
-use App\Http\Resources\BookResources;
+use App\Http\Resources\BookResource;
+
 use App\Http\Requests\StoreBookRequest;
-/**
+ /**
  * @tags Books EndPoint
  */
 class BookController extends Controller
@@ -14,20 +16,36 @@ class BookController extends Controller
     /**
      * Create Book
      */
-    public function store(StoreBookRequest $request){
-
+ public function store(StoreBookRequest $request)
+{
     $data = $request->validated();
-    if($request->hasFile('pdf_read')){
-        $pdf_read_path = $request->file('pdf')->store('books/read','public');
-          $data['pdf_read'] = $pdf_read_path;
-    }
-    if($request->hasFile('pdf_download')){
-        $pdf_download_path = $request->file('pdf_download')->store('books/download', 'public');
-         $data['pdf_download'] = $pdf_download_path;
-    }
-  
-    $book = Book::create($data);
-    return $this->responseSuccess(new BookResources($book), 'Book uploaded successfully', 201);
 
-    }
+    $data['status'] = BookStatusEnum::Draft->value;
+
+    $data['pdf_read'] = $request->hasFile('pdf_read') 
+    ? $request->file('pdf_read')->store('books/read', 'public') 
+    : null;
+
+    $data['is_readable'] = $request->hasFile('pdf_read');
+
+    $data['pdf_download'] = $request->hasFile('pdf_download') 
+    ? $request->file('pdf_download')->store('books/download', 'public') 
+    : null;
+
+    $data['is_downloadable'] = $request->hasFile('pdf_download');
+
+    $data['audio'] = $request->hasFile('audio') 
+    ? $request->file('audio')->store('books/audio', 'public') 
+    : null;
+
+    $data['has_audio'] = $request->hasFile('audio');
+
+    $book = Book::create($data);
+
+    return $this->responseSuccess(
+        new BookResource($book),
+        'Book uploaded successfully',
+        201
+    );
+}
 }

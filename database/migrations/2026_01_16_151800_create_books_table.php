@@ -19,10 +19,13 @@ return new class extends Migration
             $table->string('pdf_read')->nullable();
             $table->string('pdf_download')->nullable();
             $table->string('audio')->nullable(); 
-            $table->date('publish_date');
-            $table->decimal('rating' ,1,5);
+            $table->date('publish_date')->nullable();
+            $table->decimal('rating' ,2,1)->default(1);
             $table->string('language');
             $table->string('status');
+            $table->boolean('is_readable')->default(false);
+            $table->boolean('is_downloadable')->default(false);
+            $table->boolean('has_audio')->default(false);
             $table->timestamps();
         });
     }
