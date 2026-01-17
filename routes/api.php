@@ -43,6 +43,6 @@ Route::delete('/categories/{id}', [CategoryController::class, 'destroy']);
 
 //**********************************/Books/*****************************//
 
-Route::post('/Books', [BookController::class, 'store']);
+Route::post('/books', [BookController::class, 'store']);
 
 });

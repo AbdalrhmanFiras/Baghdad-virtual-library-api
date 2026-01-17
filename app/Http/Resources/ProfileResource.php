@@ -23,7 +23,6 @@ class ProfileResource extends JsonResource
             'age'          => $this->age,
             'gender'        => $this->gender,
             'language'        => $this->language,
-            'user_id'    => $this->user_id,
             'image_url'  => $this->when($this->image_url ,function(){
                 return $this->image_url;
             }), ];

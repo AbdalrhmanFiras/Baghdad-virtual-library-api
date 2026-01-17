@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('pdf_read')->nullable();
             $table->string('pdf_download')->nullable();
             $table->string('audio')->nullable(); 
-            $table->date('publish_date')->nullable();
+            $table->integer('publish_date');
             $table->decimal('rating' ,2,1)->default(1);
             $table->string('language');
             $table->string('status');

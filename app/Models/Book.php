@@ -7,12 +7,24 @@ use Illuminate\Database\Eloquent\Model;
 class Book extends Model
 {
     protected $guarded = ['id'];
+    protected $appends = ['image_url'];
     protected $casts = [
     'is_readable' => 'boolean',
     'is_downloadable' => 'boolean',
     'has_audio' => 'boolean',
 ];
    public function categories() {
-        return $this->belongsToMany(Category::class);
+        return $this->belongsToMany(Category::class,'category_book');
+    }
+
+    public function image(){
+        return $this->morphOne(Image::class , 'imageable');
+    }
+
+    public function getImageUrlAttribute()
+    {
+    return $this->image
+        ? asset('storage/' . $this->image->url)
+        : null;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helper\FileUploadHelper;
 use App\Models\Profile;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -29,26 +30,20 @@ class ProfileController extends Controller
         if(Profile::where('user_id' , $user->id)->exists()){
                  return $this->responseError(null,'Profile already created' , 200);
         }
+        
         $profile = Profile::create($data);
-        if($request->hasFile('image')){
-            $file = $request->file('image');
-            $filename = (string) Str::uuid() . '.' . $file->extension();
-            $path = $file->storeAs('profiles' , $filename, 'public');
-             
-            $profile->image()->create([
+        $file = $request->hasFile('image') ? $request->file('image') : null ; 
+        $path = FileUploadHelper::ImageUpload($file,'profiles',null , 'public');
+         $profile->image()->create([
                 'url' => $path,
                 'type' => 'profile'
             ]);
-        }
-
         $profile = $profile->fresh('image');
-    return response()->json([
+         return response()->json([
         'message' => 'Profile created successfully',
         'data' => new ProfileResource($profile)
-    ], 201);
-    
+    ], 201);    
     }
-
     /**
      * Update Profile
      */
@@ -59,20 +54,12 @@ class ProfileController extends Controller
         $profile = Profile::with('image')
             ->where('user_id', Auth::id())
             ->firstOrFail();
+
+        
         if ($request->hasFile('image')) {
             $file = $request->file('image');
-            $filename = (string) Str::uuid() . '.' . $file->extension();
-            $path = $file->storeAs('profiles', $filename, 'public');
-            if ($profile->image) {
-                Storage::disk('public')->delete($profile->image->url);
-                $profile->image->update([
-                    'url' => $path,
-                ]);
-            } else {
-                $profile->image()->create([
-                    'url' => $path,
-                ]);
-            }
+            $path = FileUploadHelper::ImageUpload($file,'profiles',null,'public');
+            FileUploadHelper::UpdateImage($profile, $path);
         }
         $profile->update($data);
         return response()->json([
@@ -91,14 +78,13 @@ class ProfileController extends Controller
      */
     public function show(){ 
     $profile = Profile::where('user_id', Auth::id())->first();
-
-   if(!$profile) {
+    if(!$profile) {
         return response()->json(['message' => 'Profile not found'], 404);
-    }
+     }
     return response()->json([
         'message' => 'Profile fetched successfully',
         'data' => new ProfileResource($profile)
-    ], 200);
+        ], 200);    
 }
 
 }

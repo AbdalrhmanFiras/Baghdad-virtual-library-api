@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Enum\BookStatusEnum;
 use App\Models\Book;
+use App\Models\Author;
+use App\Enum\BookStatusEnum;
 use Illuminate\Http\Request;
+use App\Helper\FileUploadHelper;
 use App\Http\Resources\BookResource;
-
 use App\Http\Requests\StoreBookRequest;
+
  /**
  * @tags Books EndPoint
  */
@@ -19,33 +21,51 @@ class BookController extends Controller
  public function store(StoreBookRequest $request)
 {
     $data = $request->validated();
-
     $data['status'] = BookStatusEnum::Draft->value;
+    if(!Author::find($data['author_id'])){
+            return $this->responseError(null,'Author not found ' , 404);
+    }
+   if ($request->hasFile('pdf_read')) {
+    $data['pdf_read'] = $request->file('pdf_read')->store('books/read', 'public');
+    $data['is_readable'] = true;
+    } else 
+    {
+        $data['is_readable'] = false;
+    }
 
-    $data['pdf_read'] = $request->hasFile('pdf_read') 
-    ? $request->file('pdf_read')->store('books/read', 'public') 
-    : null;
+    if ($request->hasFile('pdf_download')) {
+        $data['pdf_download'] = $request->file('pdf_download')->store('books/download', 'public');
+        $data['is_downloadable'] = true;
+    } else {
+        $data['is_downloadable'] = false;
+    }
 
-    $data['is_readable'] = $request->hasFile('pdf_read');
-
-    $data['pdf_download'] = $request->hasFile('pdf_download') 
-    ? $request->file('pdf_download')->store('books/download', 'public') 
-    : null;
-
-    $data['is_downloadable'] = $request->hasFile('pdf_download');
-
-    $data['audio'] = $request->hasFile('audio') 
-    ? $request->file('audio')->store('books/audio', 'public') 
-    : null;
-
-    $data['has_audio'] = $request->hasFile('audio');
-
+    if ($request->hasFile('audio')) {
+        $data['audio'] = $request->file('audio')->store('books/saudio', 'public');
+        $data['has_audio'] = true;
+    } else {
+        $data['has_audio'] = false;
+    }
+    $file = $request->hasFile('image') ? $request->file('image') : null;
+    $categories = $data['categories'] ?? [];
+    unset($data['categories']);
     $book = Book::create($data);
-
+    $path = FileUploadHelper::ImageUpload($file ,'books' , 'images', 'public');
+    $book->image()->create([
+        'url' => $path,
+        'type' => 'books',
+    ]);
+    if (!empty($categories)) {
+        $book->categories()->sync($categories);
+    }
     return $this->responseSuccess(
-        new BookResource($book),
+        new BookResource($book->load('categories','image')),
         'Book uploaded successfully',
         201
     );
 }
+
+    public function update($request)
+
+
 }

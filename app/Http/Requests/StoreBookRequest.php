@@ -25,13 +25,16 @@ class StoreBookRequest extends FormRequest
             'author_id' => 'required|integer',
             'title' => 'required|string',
             'dec' => 'required|string',
-            'publish_date' => 'required|date',
+            'categories'    => 'required|array|min:1',
+            'categories.*'  => 'required|exists:categories,id',
+            'publish_date' => 'required|integer|digits:4|max:' . now()->year,
+            'image' => 'required|image|mimes:jpg,png,jpeg',
             'rating' => 'required|numeric|min:1|max:5',
             'status' => 'required|in:draft,published',
             'language' => 'required|string',
             'pdf_read' => 'required|file|mimes:pdf|max:10240',
-            'pdf_download' => 'required|file|mimes:pdf|max:10240',
-            'audio' => 'required|file|mimes:mp3,wav,ogg|max:51200',
+            'pdf_download' => 'nullable|file|mimes:pdf|max:10240',
+            'audio' => 'nullable|file|mimes:mp3,wav,ogg|max:51200',
         ];
     }
 }

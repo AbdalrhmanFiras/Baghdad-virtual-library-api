@@ -6,6 +6,8 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
+use App\Http\Resources\CategoryResource;
+
 /**
  * @tags Category EndPoint
  */
@@ -22,7 +24,7 @@ class CategoryController extends Controller
         if($categories->isEmpty()){
                 return $this->responseError(null, 'There is no Category found', 404);
         }
-        return $this->responseSuccess($categories, 'Categories fetched successfully', 200);
+        return $this->responseSuccess( CategoryResource::collection($categories), 'Categories fetched successfully', 200);
     }
 
      /**
@@ -34,7 +36,7 @@ class CategoryController extends Controller
     {
        $data = $request->validated();
         $category = Category::create($data);
-        return $this->responseSuccess($category, 'Category created successfully', 201);
+        return $this->responseSuccess(new CategoryResource($category), 'Category created successfully', 201);
     }
 
      /**
@@ -48,7 +50,7 @@ class CategoryController extends Controller
         if (!$category) {
             return $this->responseError(null, 'Category not found', 404);
         }
-        return $this->responseSuccess($category, 'Category fetched successfully', 200);
+        return $this->responseSuccess(new CategoryResource($category), 'Category fetched successfully', 200);
     }
 
      /**
@@ -64,7 +66,7 @@ class CategoryController extends Controller
         }
         $data = $request->validated();
         $category->update($data);
-        return $this->responseSuccess($category, 'Category updated successfully', 200);
+        return $this->responseSuccess(new CategoryResource($category), 'Category updated successfully', 200);
     }
 
      /**
