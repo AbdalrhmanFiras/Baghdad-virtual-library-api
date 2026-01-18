@@ -30,7 +30,7 @@ class BookController extends Controller
     if(!Author::find($data['author_id'])){
             return $this->responseError(null,'Author not found.' , 404);
     }
-    if(Book::where('pdf_read')||Book::where('pdf_download')||Book::where('audio')){
+    if(Book::where('pdf_read')->exists()||Book::where('pdf_download')->exists()||Book::where('audio')->exists()){
         return $this->responseError(null,'This book already exists',200);
     }
     if ($path = FileHelper::storeIfExists($request, 'pdf_read', 'books/read','public')) {
