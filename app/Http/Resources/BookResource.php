@@ -27,7 +27,6 @@ class BookResource extends JsonResource
         'pdf_read'     => $this->pdf_read,
         'pdf_download' => $this->when($this->pdf_download, fn() => $this->pdf_download),
         'audio'        => $this->when($this->audio, fn() => $this->audio),
-
          'is_readable' => $this->when($this->is_readable, fn() => $this->is_readable),
          'is_downloadable' => $this->when($this->is_downloadable, fn() => $this->pdf_download),
          'has_audio' => $this->when($this->has_audio, fn() => $this->has_audio)
