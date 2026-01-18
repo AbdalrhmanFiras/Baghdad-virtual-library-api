@@ -34,7 +34,7 @@ class ProfileController extends Controller
         
         $profile = Profile::create($data);
         $file = $request->hasFile('image') ? $request->file('image') : null ; 
-        $path = FileHelper::ImageUpload($file,'profiles',null , 'public');
+        $path = FileHelper::ImageUpload($file,'profiles',null , 's3');
          $profile->image()->create([
                 'url' => $path,
                 'type' => 'profile'
@@ -57,9 +57,12 @@ class ProfileController extends Controller
             ->firstOrFail();
         DB::transaction(function () use ($request, $profile, $data) {
         if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $path = FileHelper::ImageUpload($file,'profiles',null,'public');
-            FileHelper::UpdateImage($profile, $path, 'public');        }
+         $file = $request->file('image');
+
+         $path = FileHelper::ImageUpload($file, 'profiles', null, 's3');
+
+        FileHelper::UpdateImage($profile, $path, 's3');
+}
         $profile->update($data);
         });
         return response()->json([

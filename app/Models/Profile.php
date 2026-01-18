@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Profile extends Model
 {
@@ -21,8 +22,7 @@ class Profile extends Model
    public function getImageUrlAttribute()
 {
     return $this->image
-        ? asset('storage/' . $this->image->url)
-        : null;
+        ? Storage::disk('s3')->url($this->image->url) : null;
 }
 }
 

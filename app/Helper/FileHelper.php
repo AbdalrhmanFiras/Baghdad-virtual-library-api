@@ -8,19 +8,20 @@ use Illuminate\Support\Facades\Storage;
 
 class FileHelper {
     //books/images/uuid.ext
-    public static function ImageUpload($file,string $type , string $content= null ,$disk = 'public'){
+    public static function ImageUpload($file,string $type , string $content= null ,$disk = 's3'){
 
+         if (!$file) return null;
         $ext = $file->extension();
         $filename = (string) Str::uuid() . '.' . $ext;
         if($content){
         $subdir = "{$type}/{$content}";
     }else{
         $subdir = "{$type}";
-    }
+     }
         return $file->storeAs($subdir,$filename,$disk);
     }
 
-     public static function UpdateImage($model,string $path , $disk = 'public')
+     public static function UpdateImage($model,string $path , $disk = 's3')
      {
          if ($model->image) {
                 Storage::disk($disk)->delete($model->image->url);
@@ -34,7 +35,7 @@ class FileHelper {
             }
      }
 
-     public static function DeleteBookStuff($model , $disk = 'public'){
+     public static function DeleteBookStuff($model , $disk = 's3'){
 
         if($model->image){
             if($model->image->url && Storage::disk($disk)->exists($model->image->url)){
@@ -54,7 +55,7 @@ class FileHelper {
      }
 
 
-    public static function updateBookFiles($model, Request $request, $disk = 'public'): array
+    public static function updateBookFiles($model, Request $request, $disk = 's3'): array
     {
     $data = [];
     if ($request->hasFile('pdf_read')) {
@@ -88,7 +89,7 @@ class FileHelper {
     return $data;
 }
 
-     public static function storeIfExists(Request $request, string $field, string $path, $disk = 'public'): ?string
+     public static function storeIfExists(Request $request, string $field, string $path, $disk = 's3'): ?string
     {
         if (!$request->hasFile($field)) {
             return null;

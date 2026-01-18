@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Book extends Model
 {
@@ -23,11 +24,11 @@ class Book extends Model
     }
 
     public function getImageUrlAttribute()
-    {
+{
     return $this->image
-        ? asset('storage/' . $this->image->url)
+        ? Storage::disk('s3')->url($this->image->url)
         : null;
-    }
+}
 
       public function scopeGetBook($query,$id)
     {

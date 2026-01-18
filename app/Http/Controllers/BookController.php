@@ -32,34 +32,43 @@ class BookController extends Controller
     if(!Author::find($data['author_id'])){
             return $this->responseError(null,'Author not found.' , 404);
     }
-    if(Book::where('pdf_read')->exists()||Book::where('pdf_download')->exists()||Book::where('audio')->exists()){
-        return $this->responseError(null,'This book already exists',200);
-    }
-    if ($path = FileHelper::storeIfExists($request, 'pdf_read', 'books/read','public')) {
+    $existsQuery = Book::where('title', $data['title'])
+    ->where('author_id', $data['author_id'])
+    ->where('publish_date', $data['publish_date'] ?? null);
+
+    if ($existsQuery->exists()) {
+    return $this->responseError(null, 'This book already exists', 200);
+}
+    if ($path = FileHelper::storeIfExists($request, 'pdf_read', 'books/read',)) {
         $data['pdf_read'] = $path;
         $data['is_readable'] = true;
     } else {
         $data['is_readable'] = false;
     }
+    $existsQuery = Book::query();
 
-    if ($path = FileHelper::storeIfExists($request, 'pdf_download', 'books/download','public')) {
+
+    if ($path = FileHelper::storeIfExists($request, 'pdf_download', 'books/download')) {
         $data['pdf_download'] = $path;
         $data['is_downloadable'] = true;
     } else {
         $data['is_downloadable'] = false;
     }
 
-    if ($path = FileHelper::storeIfExists($request, 'audio', 'books/audio','public')) {
+    if ($path = FileHelper::storeIfExists($request, 'audio', 'books/audio')) {
         $data['audio'] = $path;
         $data['has_audio'] = true;
     } else {
         $data['has_audio'] = false;
     }
+
+
+
     $file = $request->hasFile('image') ? $request->file('image') : null;
     $categories = $data['categories'] ?? [];
     unset($data['categories']);
     $book = Book::create($data);
-    $path = FileHelper::ImageUpload($file ,'books' , 'images', 'public');
+    $path = FileHelper::ImageUpload($file ,'books' , 'images', 's3');
     $book->image()->create([
         'url' => $path,
         'type' => 'books',
@@ -87,7 +96,7 @@ class BookController extends Controller
         $book = Book::getBook($id)->firstOrFail();
     
         DB::transaction(function () use ($request, $book, $data) {
-            $fileData = FileHelper::updateBookFiles($book, $request,'public');
+            $fileData = FileHelper::updateBookFiles($book, $request);
             $book->update(array_merge($data, $fileData));
             if(isset($data['categories'])){
                 $book->categories()->sync($data['categories']);
@@ -96,8 +105,8 @@ class BookController extends Controller
          if($request->hasFile('image')){
             $file = $request->file('image'); 
     
-        $path = FileHelper::ImageUpload($file  , 'books' ,'images','public');
-        FileHelper::UpdateImage($book ,$path,'public' );
+        $path = FileHelper::ImageUpload($file  , 'books' ,'images',);
+        FileHelper::UpdateImage($book ,$path);
          }
          });
         return response()->json([
@@ -148,7 +157,7 @@ class BookController extends Controller
               try {
                 // remove the pdf too 
              $book = Book::getBook($id)->firstOrFail();
-                  FileHelper::DeleteBookStuff($book,'public');
+                  FileHelper::DeleteBookStuff($book);
                  $book->categories()->detach();// remove from the pivot table 
 
                 $book->delete();
