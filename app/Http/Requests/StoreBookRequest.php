@@ -27,7 +27,7 @@ class StoreBookRequest extends FormRequest
             'dec' => 'required|string',
             'categories'    => 'required|array|min:1',
             'categories.*'  => 'required|exists:categories,id',
-            'publish_date' => 'required|integer|digits:4|max:' . now()->year,
+            'publish_date' => 'required|integer|digits:4|min:1000|max:' . now()->year,
             'image' => 'required|image|mimes:jpg,png,jpeg',
             'rating' => 'required|numeric|min:1|max:5',
             'status' => 'required|in:draft,published',

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Helper\FileUploadHelper;
 use App\Models\Profile;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Helper\FileUploadHelper;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\ProfileResource;
 use Illuminate\Database\Eloquent\Model;
@@ -54,14 +55,13 @@ class ProfileController extends Controller
         $profile = Profile::with('image')
             ->where('user_id', Auth::id())
             ->firstOrFail();
-
-        
+        DB::transaction(function () use ($request, $profile, $data) {
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $path = FileUploadHelper::ImageUpload($file,'profiles',null,'public');
-            FileUploadHelper::UpdateImage($profile, $path);
-        }
+            FileUploadHelper::UpdateImage($profile, $path, 'public');        }
         $profile->update($data);
+        });
         return response()->json([
             'message' => 'Profile updated successfully',
             'data'    => new ProfileResource($profile->fresh('image')),

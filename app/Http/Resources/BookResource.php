@@ -20,7 +20,7 @@ class BookResource extends JsonResource
             'title' => $this->title,
             'dec' => $this->dec,
             'language' => $this->language,
-            'publish_year' => Carbon::parse($this->publish_date)->year,    
+            'publish_date' => $this->publish_date,
             'categories' => CategoryResource::collection($this->whenLoaded('categories')),
             'rating' => $this->rating,
             'pdf_read' => $this->pdf_read,

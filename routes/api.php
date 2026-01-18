@@ -44,5 +44,6 @@ Route::delete('/categories/{id}', [CategoryController::class, 'destroy']);
 //**********************************/Books/*****************************//
 
 Route::post('/books', [BookController::class, 'store']);
+Route::patch('/books/{bookId}', [BookController::class, 'update']);
 
 });

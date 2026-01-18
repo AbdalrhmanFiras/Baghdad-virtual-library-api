@@ -7,8 +7,13 @@ use App\Models\Author;
 use App\Enum\BookStatusEnum;
 use Illuminate\Http\Request;
 use App\Helper\FileUploadHelper;
+use Illuminate\Support\Facades\DB;
 use App\Http\Resources\BookResource;
 use App\Http\Requests\StoreBookRequest;
+use App\Http\Requests\UpdateBookRequest;
+
+use App\Http\Requests\UpdateAuthorRequest;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
  /**
  * @tags Books EndPoint
@@ -65,7 +70,32 @@ class BookController extends Controller
     );
 }
 
-    public function update($request)
+    public function update(UpdateBookRequest $request , $id)
+    {
+        try{
+        $data = $request->validated();
+        $book = Book::with(['image' , 'categories'])->where('id' , $id)->firstOrFail();
+    
+        DB::transaction(function () use ($request, $book, $data) {
+            $book->update($data);
+            if(isset($data['categories'])){
+                $book->categories()->sync($data['categories']);
+            }
 
+         if($request->hasFile('image')){
+            $file = $request->file('image'); 
+    
+        $path = FileUploadHelper::ImageUpload($file  , 'books' ,'images');
+        FileUploadHelper::UpdateImage($book ,$path );
+         }
+         });
+        return response()->json([
+            'message' => 'Book updated successfully',
+            'data'    => new BookResource($book->fresh('image' , 'categories')),
+        ], 200);
+    }catch(ModelNotFoundException){
+        return $this->responseError(null,'Book not found' , 404);
+    }
+    }
 
 }
