@@ -17,7 +17,7 @@ class AuthorController extends Controller
      * This endpoint allows you to add a new author to the system.
      * You must provide `author_name` and `dec`.
      * 
-     * Admin(only).
+     * `Admin(only)`
      */
     public function store(StoreAuthorRequest $request){
         $data = $request->validated();
@@ -30,7 +30,7 @@ class AuthorController extends Controller
      * This endpoint allows you to update the author.
      * You must provide `author_name` and `dec`.
      * 
-     * Admin(only).
+     * `Admin(only)`
      */
     public function update(UpdateAuthorRequest $request, $id){
         $author = Author::find($id);
@@ -45,7 +45,7 @@ class AuthorController extends Controller
      * Delete Author
      * 
      * This endpoint allows you to Delete the author.
-     * Admin(only).
+     * `Admin(only)`
      */
     public function delete($id){
         $author = Author::find($id);

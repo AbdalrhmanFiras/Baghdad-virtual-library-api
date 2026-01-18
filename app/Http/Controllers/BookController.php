@@ -22,6 +22,8 @@ class BookController extends Controller
 {
     /**
      * Create Book
+     * 
+     * `Admin(only)`
      */
  public function store(StoreBookRequest $request)
 {
@@ -74,6 +76,8 @@ class BookController extends Controller
 
     /**
      * Update Book
+     * 
+     * `Admin(only)`
      */
     public function update(UpdateBookRequest $request , $id)
     {
@@ -137,6 +141,8 @@ class BookController extends Controller
 
        /**
        * Delete a Book
+       * 
+       * `Admin(only)`
        */
         public function delete($id){        
               try {

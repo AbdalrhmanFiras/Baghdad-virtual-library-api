@@ -16,7 +16,7 @@ class CategoryController extends Controller
     /**
      * Show(All) Category
      * 
-     * Admin(only).
+     * `Admin(only)`
      */
      public function index()
     {
@@ -30,7 +30,7 @@ class CategoryController extends Controller
      /**
      * Create Category
      * 
-     * Admin(only).
+     * `Admin(only)`
      */
     public function store(StoreCategoryRequest $request)
     {
@@ -42,7 +42,7 @@ class CategoryController extends Controller
      /**
      * Show Category
      * 
-     * Admin(only).
+     * `Admin(only)`
      */
     public function show($id)
     {
@@ -56,7 +56,7 @@ class CategoryController extends Controller
      /**
      * Update Category
      * 
-     * Admin(only).
+     * `Admin(only)`
      */
     public function update(UpdateCategoryRequest $request, $id)
     {
@@ -72,7 +72,7 @@ class CategoryController extends Controller
      /**
      * Delete Category
      * 
-     * Admin(only).
+     * `Admin(only)`
      */
     public function destroy($id)
     {
