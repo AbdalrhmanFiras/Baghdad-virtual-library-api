@@ -31,8 +31,8 @@ class BookResource extends JsonResource
          'is_readable' => $this->when($this->is_readable, fn() => $this->is_readable),
          'is_downloadable' => $this->when($this->is_downloadable, fn() => $this->pdf_download),
          'has_audio' => $this->when($this->has_audio, fn() => $this->has_audio)
-       
-    ,
+       ,
+        
         'image_url'    => $this->when($this->image_url, fn() => $this->image_url),
 
         'categories'   => CategoryResource::collection($this->whenLoaded('categories')),
