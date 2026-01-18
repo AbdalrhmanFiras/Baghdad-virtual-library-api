@@ -43,7 +43,10 @@ Route::delete('/categories/{id}', [CategoryController::class, 'destroy']);
 
 //**********************************/Books/*****************************//
 
+Route::get('/books', [BookController::class, 'index']);
 Route::post('/books', [BookController::class, 'store']);
+Route::get('/books/{bookId}', [BookController::class, 'show']);
 Route::patch('/books/{bookId}', [BookController::class, 'update']);
+Route::delete('/books/{bookId}', [BookController::class, 'delete']);
 
 });

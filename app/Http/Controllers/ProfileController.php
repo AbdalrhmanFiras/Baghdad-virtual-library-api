@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Profile;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Helper\FileUploadHelper;
+use App\Helper\FileHelper;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\ProfileResource;
@@ -34,7 +34,7 @@ class ProfileController extends Controller
         
         $profile = Profile::create($data);
         $file = $request->hasFile('image') ? $request->file('image') : null ; 
-        $path = FileUploadHelper::ImageUpload($file,'profiles',null , 'public');
+        $path = FileHelper::ImageUpload($file,'profiles',null , 'public');
          $profile->image()->create([
                 'url' => $path,
                 'type' => 'profile'
@@ -52,14 +52,14 @@ class ProfileController extends Controller
 {
     $data = $request->validated();
     try {
-        $profile = Profile::with('image')
-            ->where('user_id', Auth::id())
+        $profile = Profile::
+            where('user_id', Auth::id())
             ->firstOrFail();
         DB::transaction(function () use ($request, $profile, $data) {
         if ($request->hasFile('image')) {
             $file = $request->file('image');
-            $path = FileUploadHelper::ImageUpload($file,'profiles',null,'public');
-            FileUploadHelper::UpdateImage($profile, $path, 'public');        }
+            $path = FileHelper::ImageUpload($file,'profiles',null,'public');
+            FileHelper::UpdateImage($profile, $path, 'public');        }
         $profile->update($data);
         });
         return response()->json([

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Profile extends Model
 {
+    protected $with = ['image'];
     protected $guarded = ['id'];
     protected $appends = ['image_url'];
 
