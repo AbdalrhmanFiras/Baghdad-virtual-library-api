@@ -2,101 +2,112 @@
 
 namespace App\Helper;
 
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
-class FileHelper {
-    //books/images/uuid.ext
-    public static function ImageUpload($file,string $type , string $content= null ,$disk = 's3'){
+class FileHelper
+{
+    // books/images/uuid.ext
+    public static function ImageUpload($file, string $type, ?string $content = null, $disk = 's3')
+    {
 
-         if (!$file) return null;
+        if (! $file) {
+            return null;
+        }
         $ext = $file->extension();
-        $filename = (string) Str::uuid() . '.' . $ext;
-        if($content){
-        $subdir = "{$type}/{$content}";
-    }else{
-        $subdir = "{$type}";
-     }
-        return $file->storeAs($subdir,$filename,$disk);
+        $filename = (string) Str::uuid().'.'.$ext;
+        if ($content) {
+            $subdir = "{$type}/{$content}";
+        } else {
+            $subdir = "{$type}";
+        }
+
+        return $file->storeAs($subdir, $filename, $disk);
     }
 
-     public static function UpdateImage($model,string $path , $disk = 's3')
-     {
-         if ($model->image) {
-                Storage::disk($disk)->delete($model->image->url);
-                $model->image->update([
-                    'url' => $path,
-                ]);
-            } else {
-                $model->image()->create([
-                    'url' => $path,
-                ]);
-            }
-     }
-
-     public static function DeleteBookStuff($model , $disk = 's3'){
-
-        if($model->image){
-            if($model->image->url && Storage::disk($disk)->exists($model->image->url)){
-                Storage::disk($disk)->delete($model->image->url);
-            }
-        }
-             if ($model->pdf_read && Storage::disk($disk)->exists($model->pdf_read)) {
-            Storage::disk($disk)->delete($model->pdf_read);
-        }
-            if($model->audio && Storage::disk($disk)->exists($model->audio)){
-                Storage::disk($disk)->delete($model->audio);
-
-            }
-               if ($model->pdf_download && Storage::disk($disk)->exists($model->pdf_download)) {
-                    Storage::disk($disk)->delete($model->pdf_download);
-                 }
-     }
-
-
-    public static function updateBookFiles($model, Request $request, $disk = 's3'): array
+    public static function UpdateImage($model, string $path, $disk = 's3')
     {
-    $data = [];
-    if ($request->hasFile('pdf_read')) {
+        if ($model->image) {
+            Storage::disk($disk)->delete($model->image->url);
+            $model->image->update([
+                'url' => $path,
+            ]);
+        } else {
+            $model->image()->create([
+                'url' => $path,
+            ]);
+        }
+    }
+
+    public static function DeleteImage($model, $disk = 's3')
+    {
+        if ($model->image && $model->image->url) {
+            if (Storage::disk($disk)->exists($model->image->url)) {
+                Storage::disk($disk)->delete($model->image->url);
+            }
+        }
+    }
+
+    public static function DeleteBookStuff($model, $disk = 's3')
+    {
+
+        if ($model->image) {
+            if ($model->image->url && Storage::disk($disk)->exists($model->image->url)) {
+                Storage::disk($disk)->delete($model->image->url);
+            }
+        }
         if ($model->pdf_read && Storage::disk($disk)->exists($model->pdf_read)) {
             Storage::disk($disk)->delete($model->pdf_read);
         }
+        if ($model->audio && Storage::disk($disk)->exists($model->audio)) {
+            Storage::disk($disk)->delete($model->audio);
 
-        $data['pdf_read'] = $request->file('pdf_read')->store('books/read', $disk);
-        $data['is_readable'] = true;
-    }
-
-    
-    if ($request->hasFile('pdf_download')) {
+        }
         if ($model->pdf_download && Storage::disk($disk)->exists($model->pdf_download)) {
             Storage::disk($disk)->delete($model->pdf_download);
         }
-
-        $data['pdf_download'] = $request->file('pdf_download')->store('books/download', 'public');
-        $data['is_downloadable'] = true;
     }
 
-    if ($request->hasFile('audio')) {
-        if ($model->audio && Storage::disk($disk)->exists($model->audio)) {
-            Storage::disk($disk)->delete($model->audio);
+    public static function updateBookFiles($model, Request $request, $disk = 's3'): array
+    {
+        $data = [];
+        if ($request->hasFile('pdf_read')) {
+            if ($model->pdf_read && Storage::disk($disk)->exists($model->pdf_read)) {
+                Storage::disk($disk)->delete($model->pdf_read);
+            }
+
+            $data['pdf_read'] = $request->file('pdf_read')->store('books/read', $disk);
+            $data['is_readable'] = true;
         }
 
-        $data['audio'] = $request->file('audio')->store('books/audio', $disk);
-        $data['has_audio'] = true;
+        if ($request->hasFile('pdf_download')) {
+            if ($model->pdf_download && Storage::disk($disk)->exists($model->pdf_download)) {
+                Storage::disk($disk)->delete($model->pdf_download);
+            }
+
+            $data['pdf_download'] = $request->file('pdf_download')->store('books/download', 'public');
+            $data['is_downloadable'] = true;
+        }
+
+        if ($request->hasFile('audio')) {
+            if ($model->audio && Storage::disk($disk)->exists($model->audio)) {
+                Storage::disk($disk)->delete($model->audio);
+            }
+
+            $data['audio'] = $request->file('audio')->store('books/audio', $disk);
+            $data['has_audio'] = true;
+        }
+
+        return $data;
     }
 
-    return $data;
-}
-
-     public static function storeIfExists(Request $request, string $field, string $path, $disk = 's3'): ?string
+    public static function storeIfExists(Request $request, string $field, string $path, $disk = 's3'): ?string
     {
-        if (!$request->hasFile($field)) {
+        if (! $request->hasFile($field)) {
             return null;
         }
+
         return $request->file($field)->store($path, $disk);
     }
-
-
-
 }

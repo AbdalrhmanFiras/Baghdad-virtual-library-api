@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,26 +15,25 @@ class BookResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-        'id'           => $this->id,
-        'title'        => $this->title,
-        'description'  => $this->dec,
-        'language'     => $this->language,
-        'publish_date' => (int) $this->publish_date,
-        'rating'       => (float) $this->rating,
-        'status'       => $this->status,
+            'id' => $this->id,
+            'title' => $this->title,
+            'description' => $this->dec,
+            'language' => $this->language,
+            'publish_date' => (int) $this->publish_date,
+            'rating' => (float) $this->rating,
+            'status' => $this->status,
 
-        'pdf_read'     => $this->pdf_read,
-        'pdf_download' => $this->when($this->pdf_download, fn() => $this->pdf_download),
-        'audio'        => $this->when($this->audio, fn() => $this->audio),
+            'pdf_read' => $this->pdf_read,
+            'pdf_download' => $this->when($this->pdf_download, fn () => $this->pdf_download),
+            'audio' => $this->when($this->audio, fn () => $this->audio),
 
-         'is_readable' => $this->when($this->is_readable, fn() => $this->is_readable),
-         'is_downloadable' => $this->when($this->is_downloadable, fn() => $this->pdf_download),
-         'has_audio' => $this->when($this->has_audio, fn() => $this->has_audio)
-       ,
-        
-        'image_url'    => $this->when($this->image_url, fn() => $this->image_url),
+            'is_readable' => $this->when($this->is_readable, fn () => $this->is_readable),
+            'is_downloadable' => $this->when($this->is_downloadable, fn () => $this->pdf_download),
+            'has_audio' => $this->when($this->has_audio, fn () => $this->has_audio),
 
-        'categories'   => CategoryResource::collection($this->whenLoaded('categories')),
+            'image_url' => $this->when($this->image_url, fn () => $this->image_url),
+
+            'categories' => CategoryResource::collection($this->whenLoaded('categories')),
         ];
     }
 }
