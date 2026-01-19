@@ -17,6 +17,12 @@ class CommentController extends Controller
 {
     /**
      * Create(Add) Comment to book
+     *
+     * we have two type of comment
+     * one for book
+     * second for groups
+     *
+     * this route is to Add Comment to `Book`
      */
 
     // For BooK
@@ -36,6 +42,8 @@ class CommentController extends Controller
 
     /**
      * Get all your comments
+     *
+     * `Admin(only)`
      */
     public function index()
     {
@@ -48,11 +56,13 @@ class CommentController extends Controller
 
     /**
      * Get all post comments
+     *
+     * `Admin(only)`
      */
     // For Book
     public function getBookcomment($bookId)
     {
-        $comments = Comment::where('book_id', $bookId)->with('user')
+        $comments = Comment::where('book_id', $bookId)->with(['user'])
             ->paginate(100);
 
         if ($comments->isEmpty()) {
@@ -80,7 +90,7 @@ class CommentController extends Controller
 
             return $this->responseSuccess(null, 'Comment deleted successfully', 200);
         } catch (ModelNotFoundException) {
-            return $this->responseError(null, 'comment not found', 404);
+            return $this->responseError(null, 'Comment not found', 404);
         }
     }
 

@@ -4,12 +4,14 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 // //////////////////////////////////?User//////////////////////////////////////////
 
+// **********************************/Auth/*****************************//
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -17,11 +19,21 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']);
 });
+// **********************************/Profile/*****************************//
 
 Route::middleware('auth:api')->prefix('user')->group(function () {
     Route::post('/profile', [ProfileController::class, 'store']);
     Route::get('/profile', [ProfileController::class, 'show']);
     Route::patch('/profile', [ProfileController::class, 'update']);
+
+    // **********************************/Comments Books/*****************************//
+    Route::prefix('book')->group(function () {
+        Route::get('/comment', [CommentController::class, 'index']);
+        Route::post('/comment/{bookId}', [CommentController::class, 'store']);
+        Route::get('/comment/{bookId}', [CommentController::class, 'getBookcomment']);
+        Route::patch('/comment/{bookId}/{commentId}', [CommentController::class, 'update']);
+        Route::delete('/comment/{bookId}/{commentId}', [CommentController::class, 'delete']);
+    });
 });
 
 // //////////////////////////////////?Admin//////////////////////////////////////////

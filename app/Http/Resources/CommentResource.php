@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class CommentResource extends JsonResource
 {
@@ -17,8 +18,10 @@ class CommentResource extends JsonResource
         return [
             'id' => $this->id,
             'context' => $this->context,
-            'profile_image' => optional($this->user->profile)->image,
-            'profile_name' => optional($this->user->profile)->name,
+            'profile_image' => $this->user->profile->image
+                ? Storage::disk('s3')->url($this->user->profile->image->url)
+                : null,
+            'profile_name' => optional($this->user->profile)->fullname,
             'user_id' => $this->user_id,
             'book_id' => $this->book_id,
         ];
