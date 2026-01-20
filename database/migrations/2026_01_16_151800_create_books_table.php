@@ -16,12 +16,11 @@ return new class extends Migration
             $table->foreignId('author_id')->constrained('authors')->cascadeOnDelete();
             $table->string('title');
             $table->text('dec');
+            $table->year('publish_year');
             $table->string('pdf_read')->nullable();
             $table->string('pdf_download')->nullable();
             $table->string('audio')->nullable();
-            $table->integer('publish_date');
             $table->decimal('rating', 2, 1)->default(1);
-            // $table->year('publish_year');
             $table->string('language');
             $table->string('status');
             $table->boolean('is_readable')->default(false);

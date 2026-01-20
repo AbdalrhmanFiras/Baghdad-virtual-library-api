@@ -21,7 +21,7 @@ class BookResource extends JsonResource
             'title' => $this->title,
             'description' => $this->dec,
             'language' => $this->language,
-            'publish_date' => (int) $this->publish_date,
+            'publish_year' => (int) $this->publish_year,
             'rating' => (float) $this->rating,
             'status' => $this->status,
 

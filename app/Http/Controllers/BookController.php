@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enum\BookStatusEnum;
+use App\Enum\UserBookEnum;
 use App\Helper\FileHelper;
 use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
@@ -10,6 +11,7 @@ use App\Http\Resources\BookResource;
 use App\Models\Author;
 use App\Models\Book;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -38,7 +40,7 @@ class BookController extends Controller
 
             $existsQuery = Book::where('title', $data['title'])
                 ->where('author_id', $data['author_id'])
-                ->where('publish_date', $data['publish_date'] ?? null);
+                ->where('publish_year', $data['publish_year'] ?? null);
 
             if ($existsQuery->exists()) {
                 return $this->responseError(null, 'This book already exists', 200);
@@ -197,15 +199,6 @@ class BookController extends Controller
     /**
      * Read the Book
      */
-    public function streamPdfRead(Book $book)
-    {
-        if (! $book->pdf_read) {
-            abort(404, 'PDF not available.');
-        }
-
-        return FileHelper::streamFile($book->pdf_read, 'application/pdf', 'inline');
-    }
-
     public function streamPdfDownload(Book $book)
     {
         if (! $book->pdf_download) {
@@ -222,5 +215,191 @@ class BookController extends Controller
         }
 
         return FileHelper::streamFile($book->audio, 'audio/mpeg', 'inline');
+    }
+
+    /**
+     * Add the Book to Favorite
+     */
+    public function addBooktofav($bookId)
+    {
+
+        $user = Auth::user();
+
+        if (! Book::where('id', $bookId)->exists()) {
+            return $this->responseError(null, 'Book no longer exists', 404);
+        }
+        if ($user->books()->where('book_id', $bookId)->exists()) {
+            $user->books()->updateExistingPivot($bookId, [
+                'fav' => true,
+            ]);
+        } else {
+
+            $user->books()->attach($bookId, [
+                'fav' => true,
+            ]);
+
+        }
+
+        return $this->responseSuccess(null, 'Book add to favorite', 201);
+    }
+
+    /**
+     * Add the Book to To_Read list
+     */
+    public function addToRead($bookId)
+    {
+        $user = Auth::user();
+
+        if (! Book::where('id', $bookId)->exists()) {
+            return $this->responseError(null, 'Book no longer exists', 404);
+        }
+
+        if ($user->books()->where('book_id', $bookId)->exists()) {
+            $user->books()->updateExistingPivot($bookId, [
+                'to_read' => true,
+            ]);
+        } else {
+
+            $user->books()->attach($bookId, ['to_read' => true]);
+        }
+
+        return $this->responseSuccess(null, 'Book add to read', 201);
+
+    }
+
+    /**
+     * Track the Book progress
+     *
+     * track the number of page and handle the status of it
+     */
+    public function streamPdfTrack(Book $book)
+    {
+        $user = Auth::user();
+
+        return FileHelper::streamFilepdf($book, $user);
+    }
+
+    /**
+     * dont touch it
+     *
+     * `Admin(only)`
+     */
+    public function updatePagesRead(Book $book, $request)
+    {
+        $user = Auth::user();
+        $pagesRead = (int) $request->input('pages_read');
+
+        $pivot = $user->books()->find($book->id);
+
+        if (! $pivot) {
+            return response()->json(['message' => 'User has not started this book'], 400);
+        }
+
+        $totalPages = $pivot->pivot->total_pages ?? $pagesRead;
+
+        $newPagesRead = min($pagesRead, $totalPages);
+
+        $status = $newPagesRead >= $totalPages
+            ? UserBookEnum::Completed->value
+            : UserBookEnum::Reading->value;
+
+        $user->books()->updateExistingPivot($book->id, [
+            'pages_read' => $newPagesRead,
+            'status' => $status,
+        ]);
+
+        return response()->json([
+            'pages_read' => $newPagesRead,
+            'total_pages' => $totalPages,
+            'status' => $status,
+        ]);
+    }
+
+    /**
+     * Gett Book from Favorite list
+     */
+    public function getFav()
+    {
+        $user = Auth::user();
+
+        $books = $user->books()
+            ->wherePivot('fav', true)
+            ->paginate(10);
+
+        if ($books->isEmpty()) {
+            return $this->responseSuccess(null, 'No favorite books yet.', 404);
+        }
+
+        return $this->responseSuccess(['data' => BookResource::collection($books),
+            'meta' => [
+                'current_page' => $books->currentPage(),
+                'last_page' => $books->lastPage(),
+                'per_page' => $books->perPage(),
+                'total' => $books->total(),
+            ]], 'Favorite books fetched', 200);
+    }
+
+    /**
+     * Remove Book from Favorite list
+     */
+    public function removeFav($bookId)
+    {
+        $user = Auth::user();
+
+        if (! $user->books()
+            ->wherePivot('fav', true)
+            ->where('book_id', $bookId)
+            ->exists()) {
+            return $this->responseSuccess(null, 'Book not found.', 404);
+        }
+
+        $user->books()->updateExistingPivot($bookId, [
+            'fav' => false]);
+
+        return $this->responseSuccess(null, 'Book removed from favorite', 200);
+    }
+
+    /**
+     * Get Book from To_read list
+     */
+    public function getToRead()
+    {
+        $user = Auth::user();
+
+        $books = $user->books()
+            ->wherePivot('to_read', true)  // مهم: pivot
+            ->paginate(10);
+
+        if ($books->isEmpty()) {
+            return $this->responseSuccess(null, 'No books to read yet.', 404);
+        }
+
+        return $this->responseSuccess(['data' => BookResource::collection($books),
+            'meta' => [
+                'current_page' => $books->currentPage(),
+                'last_page' => $books->lastPage(),
+                'per_page' => $books->perPage(),
+                'total' => $books->total(),
+            ]], 'books fetched', 200);
+    }
+
+    /**
+     * Remove Book from To_read list
+     */
+    public function removeToRead($bookId)
+    {
+        $user = Auth::user();
+
+        if (! $user->books()
+            ->wherePivot('to_read', true)
+            ->where('book_id', $bookId)
+            ->exists()) {
+            return $this->responseSuccess(null, 'Book not found.', 404);
+        }
+
+        $user->books()->updateExistingPivot($bookId, [
+            'to_read' => false]);
+
+        return $this->responseSuccess(null, 'Book removed from to read list', 200);
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Helper;
 
+use App\Enum\UserBookEnum;
+use App\Models\Book;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -124,6 +126,39 @@ class FileHelper
         }, 200, [
             'Content-Type' => $contentType,
             'Content-Disposition' => "$disposition; filename=\"".basename($path).'"',
+        ]);
+    }
+
+    public static function streamFilepdf(Book $book, $user)
+    {
+        if (! $book->pdf_read) {
+            abort(404, 'PDF not available.');
+        }
+
+        $disk = Storage::disk('s3-private');
+
+        if (! $disk->exists($book->pdf_read)) {
+            abort(404, 'File not found.');
+        }
+
+        $userBook = $user->books()->find($book->id);
+        if (! $userBook) {
+            $user->books()->attach($book->id, [
+                'status' => UserBookEnum::Reading->value,
+                'pages_read' => 0,
+                'total_pages' => $book->total_pages ?? null,
+            ]);
+        }
+
+        return new StreamedResponse(function () use ($disk, $book) {
+            $stream = $disk->readStream($book->pdf_read);
+            fpassthru($stream);
+            if (is_resource($stream)) {
+                fclose($stream);
+            }
+        }, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="'.basename($book->pdf_read).'"',
         ]);
     }
 }

@@ -67,4 +67,11 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasOne(Profile::class);
     }
+
+    public function books()
+    {
+        return $this->belongsToMany(Book::class, 'user_books')
+            ->withPivot('status', 'fav', 'to_read', 'total_pages', 'pages_read')// use pivot model
+            ->withTimestamps();
+    }
 }

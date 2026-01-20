@@ -35,6 +35,13 @@ class Book extends Model
         return $this->morphOne(Image::class, 'imageable');
     }
 
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'user_books')
+            ->withPivot('status', 'fav', 'to_read', 'pages_read', 'total_pages')
+            ->withTimestamps();
+    }
+
     public function getImageUrlAttribute()
     {
         return $this->image
