@@ -5,6 +5,7 @@ namespace App\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class FileHelper
 {
@@ -109,5 +110,20 @@ class FileHelper
         }
 
         return $request->file($field)->store($path, $disk);
+    }
+
+    public static function streamFile(string $path, string $contentType, string $disposition = 'inline'): StreamedResponse
+    {
+
+        if (! Storage::disk('s3-private')->exists($path)) {
+            abort(404, 'File not found.');
+        }
+
+        return new StreamedResponse(function () use ($path) {
+            echo Storage::disk('s3-private')->get($path);
+        }, 200, [
+            'Content-Type' => $contentType,
+            'Content-Disposition' => "$disposition; filename=\"".basename($path).'"',
+        ]);
     }
 }

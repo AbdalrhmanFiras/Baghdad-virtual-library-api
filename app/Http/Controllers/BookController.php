@@ -193,4 +193,34 @@ class BookController extends Controller
             return $this->responseError(null, 'Book not found.', 404);
         }
     }
+
+    /**
+     * Read the Book
+     */
+    public function streamPdfRead(Book $book)
+    {
+        if (! $book->pdf_read) {
+            abort(404, 'PDF not available.');
+        }
+
+        return FileHelper::streamFile($book->pdf_read, 'application/pdf', 'inline');
+    }
+
+    public function streamPdfDownload(Book $book)
+    {
+        if (! $book->pdf_download) {
+            abort(404, 'PDF not available.');
+        }
+
+        return FileHelper::streamFile($book->pdf_download, 'application/pdf', 'attachment');
+    }
+
+    public function streamAudio(Book $book)
+    {
+        if (! $book->audio) {
+            abort(404, 'Audio not available.');
+        }
+
+        return FileHelper::streamFile($book->audio, 'audio/mpeg', 'inline');
+    }
 }

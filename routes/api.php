@@ -57,6 +57,8 @@ Route::middleware('auth:api')->prefix('admin')->group(function () {
     Route::get('/books/{bookId}', [BookController::class, 'show']);
     Route::patch('/books/{bookId}', [BookController::class, 'update']);
     Route::delete('/books/{bookId}', [BookController::class, 'delete']);
+    Route::get('books/{book}/read', [BookController::class, 'streamPdfRead']);
+    Route::get('books/{book}/download', [BookController::class, 'streamPdfDownload']);
 
     // **********************************/News/*****************************//
 
