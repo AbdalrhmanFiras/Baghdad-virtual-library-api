@@ -26,56 +26,79 @@ class BookController extends Controller
     {
         $data = $request->validated();
         $data['status'] = BookStatusEnum::Draft->value;
-        if (! Author::find($data['author_id'])) {
-            return $this->responseError(null, 'Author not found.', 404);
-        }
-        $existsQuery = Book::where('title', $data['title'])
-            ->where('author_id', $data['author_id'])
-            ->where('publish_date', $data['publish_date'] ?? null);
-
-        if ($existsQuery->exists()) {
-            return $this->responseError(null, 'This book already exists', 200);
-        }
-        if ($path = FileHelper::storeIfExists($request, 'pdf_read', 'books/read')) {
-            $data['pdf_read'] = $path;
-            $data['is_readable'] = true;
-        } else {
-            $data['is_readable'] = false;
-        }
-        $existsQuery = Book::query();
-
-        if ($path = FileHelper::storeIfExists($request, 'pdf_download', 'books/download')) {
-            $data['pdf_download'] = $path;
-            $data['is_downloadable'] = true;
-        } else {
-            $data['is_downloadable'] = false;
-        }
-
-        if ($path = FileHelper::storeIfExists($request, 'audio', 'books/audio')) {
-            $data['audio'] = $path;
-            $data['has_audio'] = true;
-        } else {
-            $data['has_audio'] = false;
-        }
-
-        $file = $request->hasFile('image') ? $request->file('image') : null;
         $categories = $data['categories'] ?? [];
         unset($data['categories']);
-        $book = Book::create($data);
-        $path = FileHelper::ImageUpload($file, 'books', 'images', 's3');
-        $book->image()->create([
-            'url' => $path,
-            'type' => 'books',
-        ]);
-        if (! empty($categories)) {
-            $book->categories()->sync($categories);
-        }
 
-        return $this->responseSuccess(
-            new BookResource($book->load('categories', 'image')),
-            'Book uploaded successfully.',
-            201
-        );
+        DB::beginTransaction();
+
+        try {
+            if (! Author::find($data['author_id'])) {
+                return $this->responseError(null, 'Author not found.', 404);
+            }
+
+            $existsQuery = Book::where('title', $data['title'])
+                ->where('author_id', $data['author_id'])
+                ->where('publish_date', $data['publish_date'] ?? null);
+
+            if ($existsQuery->exists()) {
+                return $this->responseError(null, 'This book already exists', 200);
+            }
+
+            if ($path = FileHelper::storeIfExists($request, 'pdf_read', 'books/read', 's3-private')) {
+                $data['pdf_read'] = $path;
+                $data['is_readable'] = true;
+            } else {
+                $data['is_readable'] = false;
+            }
+
+            if ($path = FileHelper::storeIfExists($request, 'pdf_download', 'books/download', 's3-private')) {
+                $data['pdf_download'] = $path;
+                $data['is_downloadable'] = true;
+            } else {
+                $data['is_downloadable'] = false;
+            }
+
+            if ($path = FileHelper::storeIfExists($request, 'audio', 'books/audio', 's3-private')) {
+                $data['audio'] = $path;
+                $data['has_audio'] = true;
+            } else {
+                $data['has_audio'] = false;
+            }
+
+            $book = Book::create($data);
+
+            $file = $request->file('image') ?? null;
+            if ($file) {
+                $path = FileHelper::ImageUpload($file, 'books', 'images', 's3-private');
+
+                if (! $path) {
+                    throw new \Exception('Image upload failed');
+                }
+
+                $book->image()->create([
+                    'url' => $path,
+                    'type' => 'books',
+                ]);
+            }
+
+            if (! empty($categories)) {
+                $book->categories()->sync($categories);
+            }
+            DB::commit();
+
+            return $this->responseSuccess(
+                new BookResource($book->load('categories')),
+                'Book uploaded successfully.',
+                201
+            );
+        } catch (\Exception $e) {
+            DB::rollBack();
+            if (isset($book)) {
+                FileHelper::DeleteBookStuff($book, 's3-private');
+            }
+
+            return $this->responseError(null, $e->getMessage(), 500);
+        }
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
@@ -37,7 +38,7 @@ class Book extends Model
     public function getImageUrlAttribute()
     {
         return $this->image
-            ? Storage::disk('s3')->url($this->image->url)
+            ? Storage::disk('s3-private')->temporaryUrl($this->image->url, Carbon::now()->addHours(24))
             : null;
     }
 

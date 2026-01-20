@@ -2,8 +2,10 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class BookResource extends JsonResource
 {
@@ -23,7 +25,7 @@ class BookResource extends JsonResource
             'rating' => (float) $this->rating,
             'status' => $this->status,
 
-            'pdf_read' => $this->pdf_read,
+            'pdf_read' => Storage::disk('s3-private')->temporaryUrl($this->pdf_read, Carbon::now()->addMinute(5)),
             'pdf_download' => $this->when($this->pdf_download, fn () => $this->pdf_download),
             'audio' => $this->when($this->audio, fn () => $this->audio),
 

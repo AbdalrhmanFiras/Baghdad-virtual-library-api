@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 class FileHelper
 {
     // books/images/uuid.ext
-    public static function ImageUpload($file, string $type, ?string $content = null, $disk = 's3')
+    public static function ImageUpload($file, string $type, ?string $content, $disk = 's3-private')
     {
 
         if (! $file) {
@@ -26,7 +26,7 @@ class FileHelper
         return $file->storeAs($subdir, $filename, $disk);
     }
 
-    public static function UpdateImage($model, string $path, $disk = 's3')
+    public static function UpdateImage($model, string $path, $disk = 's3-private')
     {
         if ($model->image) {
             Storage::disk($disk)->delete($model->image->url);
@@ -40,7 +40,7 @@ class FileHelper
         }
     }
 
-    public static function DeleteImage($model, $disk = 's3')
+    public static function DeleteImage($model, $disk = 's3-private')
     {
         if ($model->image && $model->image->url) {
             if (Storage::disk($disk)->exists($model->image->url)) {
@@ -49,7 +49,7 @@ class FileHelper
         }
     }
 
-    public static function DeleteBookStuff($model, $disk = 's3')
+    public static function DeleteBookStuff($model, $disk = 's3-private')
     {
 
         if ($model->image) {
@@ -69,7 +69,7 @@ class FileHelper
         }
     }
 
-    public static function updateBookFiles($model, Request $request, $disk = 's3'): array
+    public static function updateBookFiles($model, Request $request, $disk = 's3-private'): array
     {
         $data = [];
         if ($request->hasFile('pdf_read')) {
@@ -86,7 +86,7 @@ class FileHelper
                 Storage::disk($disk)->delete($model->pdf_download);
             }
 
-            $data['pdf_download'] = $request->file('pdf_download')->store('books/download', 'public');
+            $data['pdf_download'] = $request->file('pdf_download')->store('books/download', $disk);
             $data['is_downloadable'] = true;
         }
 
@@ -102,7 +102,7 @@ class FileHelper
         return $data;
     }
 
-    public static function storeIfExists(Request $request, string $field, string $path, $disk = 's3'): ?string
+    public static function storeIfExists(Request $request, string $field, string $path, $disk = 's3-private'): ?string
     {
         if (! $request->hasFile($field)) {
             return null;
