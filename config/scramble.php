@@ -44,7 +44,7 @@ return [
         /*
          * Define the theme of the documentation. Available options are `light`, `dark`, and `system`.
          */
-        'theme' => 'system',
+        'theme' => 'dark',
 
         /*
          * Hide the `Try It` feature. Enabled by default.

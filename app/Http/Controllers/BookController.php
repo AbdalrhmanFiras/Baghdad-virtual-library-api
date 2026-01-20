@@ -164,14 +164,20 @@ class BookController extends Controller
      */
     public function show($id)
     {
+        $user = Auth::user();
 
-        try {
-            $book = Book::with('comments')->getBook($id)->firstOrFail();
+        $book = Book::with('comments')->findOrFail($id);
 
-            return $this->responseSuccess(new BookResource($book), 'Book fetched successfully.', 200);
-        } catch (ModelNotFoundException) {
-            return $this->responseError(null, 'Book not found.', 404);
+        if ($user) {
+            $userBook = $user->books()->where('books.id', $book->id)->first();
+            $book->setRelation('pivot', $userBook?->pivot);
         }
+
+        return $this->responseSuccess(
+            new BookResource($book),
+            'Book fetched successfully.',
+            200
+        );
     }
 
     /**
@@ -259,12 +265,12 @@ class BookController extends Controller
                 'to_read' => true,
             ]);
         } else {
-
-            $user->books()->attach($bookId, ['to_read' => true]);
+            $user->books()->attach($bookId, [
+                'to_read' => true,
+            ]);
         }
 
-        return $this->responseSuccess(null, 'Book add to read', 201);
-
+        return $this->responseSuccess(null, 'Book added to read', 201);
     }
 
     /**
@@ -316,7 +322,7 @@ class BookController extends Controller
     }
 
     /**
-     * Gett Book from Favorite list
+     * Get Book from Favorite list
      */
     public function getFav()
     {
@@ -401,5 +407,53 @@ class BookController extends Controller
             'to_read' => false]);
 
         return $this->responseSuccess(null, 'Book removed from to read list', 200);
+    }
+
+    /**
+     * Get Reading Book
+     */
+    public function getReading()
+    {
+        $user = Auth::user();
+
+        $books = $user->books()
+            ->wherePivot('status', UserBookEnum::Reading->value)
+            ->paginate(10);
+
+        if ($books->isEmpty()) {
+            return $this->responseSuccess(null, 'No Reading books yet.', 404);
+        }
+
+        return $this->responseSuccess(['data' => BookResource::collection($books),
+            'meta' => [
+                'current_page' => $books->currentPage(),
+                'last_page' => $books->lastPage(),
+                'per_page' => $books->perPage(),
+                'total' => $books->total(),
+            ]], 'Reading books fetched', 200);
+    }
+
+    /**
+     * Get Completed Book
+     */
+    public function getComplete()
+    {
+        $user = Auth::user();
+
+        $books = $user->books()
+            ->wherePivot('status', UserBookEnum::Completed->value)
+            ->paginate(10);
+
+        if ($books->isEmpty()) {
+            return $this->responseSuccess(null, 'No Completed books yet.', 404);
+        }
+
+        return $this->responseSuccess(['data' => BookResource::collection($books),
+            'meta' => [
+                'current_page' => $books->currentPage(),
+                'last_page' => $books->lastPage(),
+                'per_page' => $books->perPage(),
+                'total' => $books->total(),
+            ]], 'Completed books fetched', 200);
     }
 }
