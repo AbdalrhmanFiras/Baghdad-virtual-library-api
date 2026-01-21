@@ -51,6 +51,8 @@ Route::middleware('auth:api')->prefix('admin')->group(function () {
     Route::get('/groups/my', [GroupsController::class, 'showMy']);
     Route::patch('/groups/{id}', [GroupsController::class, 'update'])->whereNumber('id');
     Route::delete('/groups/{id}', [GroupsController::class, 'destroy'])->whereNumber('id');
+    Route::post('/groups/{id}/join', [GroupsController::class, 'join'])->whereNumber('id');
+    Route::post('/groups/{id}/leave', [GroupsController::class, 'leave'])->whereNumber('id');
 
     Route::prefix('categories')->group(function () {
 

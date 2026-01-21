@@ -63,7 +63,7 @@ class GroupsController extends Controller
 
     public function showMy()
     {
-        $groups = Groups::where('user_id', Auth::id())->paginate(5);
+        $groups = Groups::with(['image', 'category_groups', 'users'])->where('user_id', Auth::id())->paginate(5);
         if ($groups->isEmpty()) {
             return $this->responseError('null', 'There is no groups found', 404);
         }
@@ -78,7 +78,7 @@ class GroupsController extends Controller
 
     public function index()
     {
-        $groups = Groups::paginate(5);
+        $groups = Groups::with(['image', 'category_groups', 'users'])->paginate(5);
         if ($groups->isEmpty()) {
             return $this->responseError('null', 'There is no groups found', 404);
         }
@@ -97,7 +97,7 @@ class GroupsController extends Controller
             $userId = Auth::id();
             $data = $request->validated();
             DB::beginTransaction();
-            $group = Groups::where('user_id', $userId)->where('id', $groupId)->firstOrFail();
+            $group = Groups::with(['image', 'category_groups'])->where('user_id', $userId)->where('id', $groupId)->firstOrFail();
             if (! $userId === $group->user_id) {
                 return $this->responseError('null', 'You dont have permission to update', 200);
             }// in case
@@ -117,6 +117,45 @@ class GroupsController extends Controller
 
             return $this->responseError(null, $e->getMessage(), 500);
 
+        }
+    }
+
+    public function join($groupId)
+    {
+        try {
+            $userId = Auth::id();
+            $group = Groups::where('id', $groupId)->firstOrFail();
+            if ($group->users()->where('user_id', $userId)->exists()) {
+                return $this->responseError(null, 'You are already joined to this group.', 400);
+            }
+            $group->users()->attach($userId);
+
+            return $this->responseSuccess(null, 'Joined to group successfully', 200);
+        } catch (ModelNotFoundException) {
+            return $this->responseError('null', 'This group is not longer exists.', 404);
+
+        } catch (Exception $e) {
+
+            return $this->responseError(null, $e->getMessage(), 500);
+        }
+    }
+
+    public function leave($groupId)
+    {
+        try {
+            $userId = Auth::id();
+            $group = Groups::where('id', $groupId)->firstOrFail();
+            if (! $group->users()->where('user_id', $userId)->exists()) {
+                return $this->responseError(null, 'You are not member of this group.', 400);
+            }
+            $group->users()->detach($userId);
+
+            return $this->responseSuccess(null, 'Left the group successfully', 200);
+        } catch (ModelNotFoundException) {
+            return $this->responseError('null', 'This group is not longer exists.', 404);
+        } catch (Exception $e) {
+
+            return $this->responseError(null, $e->getMessage(), 500);
         }
     }
 }

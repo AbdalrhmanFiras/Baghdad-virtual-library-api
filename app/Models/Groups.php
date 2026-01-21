@@ -12,8 +12,6 @@ class Groups extends Model
 
     protected $appends = ['image_url'];
 
-    protected $with = ['image', 'category_groups'];
-
     public function category_groups()
     {
         return $this->belongsToMany(CategoryGroup::class, 'group_category_groups', 'group_id',
@@ -35,5 +33,10 @@ class Groups extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'group_users', 'group_id', 'user_id');
     }
 }
