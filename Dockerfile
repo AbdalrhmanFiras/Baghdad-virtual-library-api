@@ -37,9 +37,7 @@ RUN mkdir -p storage/framework/{sessions,views,cache} \
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev || \
     composer install --no-interaction --prefer-dist --optimize-autoloader
 
-# نسخ ملف entrypoint وضبط الصلاحيات
-COPY docker-entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
 
 # ضبط صلاحيات Laravel بشكل صحيح
 RUN chown -R www-data:www-data storage bootstrap/cache \
@@ -49,4 +47,3 @@ RUN chown -R www-data:www-data storage bootstrap/cache \
 EXPOSE 80
 
 # استخدام entrypoint
-ENTRYPOINT ["docker-entrypoint.sh"]
