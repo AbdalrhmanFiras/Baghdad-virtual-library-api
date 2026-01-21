@@ -10,6 +10,26 @@ services:
       - "8000:80"
     volumes:
       - storage_data:/var/www/html/storage
+    networks:
+      - coolify
+    labels:
+      # Traefik Labels
+      - "traefik.enable=true"
+      - "traefik.http.middlewares.gzip.compress=true"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.http-0-w4ccogg4okcs8k48cw0g000w.entryPoints=http"
+      - "traefik.http.routers.http-0-w4ccogg4okcs8k48cw0g000w.middlewares=gzip"
+      - "traefik.http.routers.http-0-w4ccogg4okcs8k48cw0g000w.rule=Host(`w4ccogg4okcs8k48cw0g000w.168.231.110.172.sslip.io`) && PathPrefix(`/`)"
+      - "traefik.http.routers.http-0-w4ccogg4okcs8k48cw0g000w.service=http-0-w4ccogg4okcs8k48cw0g000w"
+      - "traefik.http.services.http-0-w4ccogg4okcs8k48cw0g000w.loadbalancer.server.port=80"
+      # Caddy Labels
+      - "caddy_0.encode=zstd gzip"
+      - "caddy_0.handle_path.0_reverse_proxy={{upstreams 80}}"
+      - "caddy_0.handle_path=/*"
+      - "caddy_0.header=-Server"
+      - "caddy_0.try_files={path} /index.html /index.php"
+      - "caddy_0=http://w4ccogg4okcs8k48cw0g000w.168.231.110.172.sslip.io"
+      - "caddy_ingress_network=coolify"
     environment:
       APP_ENV: production
       APP_DEBUG: true
@@ -31,3 +51,7 @@ services:
 
 volumes:
   storage_data:
+
+networks:
+  coolify:
+    external: true
