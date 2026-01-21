@@ -5,49 +5,29 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: laravel-app
     container_name: laravel-app
-    restart: unless-stopped
-    working_dir: /var/www/html
+    ports:
+      - "8000:80"
     volumes:
-      - ./:/var/www/html
-      - ./vendor:/var/www/html/vendor
-      - ./storage:/var/www/html/storage
+      - storage_data:/var/www/html/storage
     environment:
       APP_ENV: production
-      APP_DEBUG: false
+      APP_DEBUG: true
+      APP_KEY: base64:GtSJDLnHBAfs8dLzOkfvcIfLLZogjD61xPTj6R7TWrM=
+      APP_URL: http://localhost:8000
+
       DB_CONNECTION: mysql
       DB_HOST: 168.231.110.172
       DB_PORT: 4443
       DB_DATABASE: default
       DB_USERNAME: mysql
       DB_PASSWORD: rDDlkNAVzxO5bmpW0J3K9etsKtRvDYHhpaQ8OUa33W6O4bw0xtOL7V9MjjMU4BeJ
-      CACHE_DRIVER: database
+
+      JWT_SECRET: fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI
+      JWT_TTL: 1440
       SESSION_DRIVER: database
+      CACHE_STORE: database
       QUEUE_CONNECTION: database
-      REDIS_HOST: redis
-      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
-      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
-      AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION}
-      AWS_BUCKET: ${AWS_BUCKET}
-    depends_on:
-      - redis
 
-  web:
-    image: nginx:alpine
-    container_name: laravel-web
-    restart: unless-stopped
-    ports:
-      - "80:80"
-    volumes:
-      - ./:/var/www/html
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-    depends_on:
-      - app
-
-  redis:
-    image: redis:7-alpine
-    container_name: laravel-redis
-    restart: unless-stopped
-    ports:
-      - "6379:6379"
+volumes:
+  storage_data:
