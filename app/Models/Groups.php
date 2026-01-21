@@ -1,0 +1,39 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
+
+class Groups extends Model
+{
+    protected $guarded = ['id'];
+
+    protected $appends = ['image_url'];
+
+    protected $with = ['image', 'category_groups'];
+
+    public function category_groups()
+    {
+        return $this->belongsToMany(CategoryGroup::class, 'group_category_groups', 'group_id',
+            'category_group_id');
+    }
+
+    public function image()
+    {
+        return $this->morphOne(Image::class, 'imageable');
+    }
+
+    public function getImageUrlAttribute()
+    {
+        return $this->image
+            ? Storage::disk('s3-private')->temporaryUrl($this->image->url, Carbon::now()->addHours(24))
+            : null;
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+}

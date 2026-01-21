@@ -4,7 +4,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CategoryGroupController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\GroupsController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -42,15 +44,30 @@ Route::middleware('auth:api')->prefix('admin')->group(function () {
     Route::put('/author/{Id}', [AuthorController::class, 'update']);
     Route::delete('/author/{Id}', [AuthorController::class, 'delete']);
 
-    // **********************************/Category/*****************************//
+    // **********************************/groups/*****************************//
 
-    Route::get('/categories', [CategoryController::class, 'index']);
-    Route::post('/categories', [CategoryController::class, 'store']);
-    Route::get('/categories/{id}', [CategoryController::class, 'show']);
-    Route::patch('/categories/{id}', [CategoryController::class, 'update']);
-    Route::delete('/categories/{id}', [CategoryController::class, 'destroy']);
+    Route::get('/groups', [GroupsController::class, 'index']);
+    Route::post('/groups', [GroupsController::class, 'store']);
+    Route::get('/groups/my', [GroupsController::class, 'showMy']);
+    Route::patch('/groups/{id}', [GroupsController::class, 'update'])->whereNumber('id');
+    Route::delete('/groups/{id}', [GroupsController::class, 'destroy'])->whereNumber('id');
 
-    // **********************************/Books/*****************************//
+    Route::prefix('categories')->group(function () {
+
+        Route::get('/groups', [CategoryGroupController::class, 'index']);
+        Route::post('/groups', [CategoryGroupController::class, 'store']);
+        Route::get('/groups/{id}', [CategoryGroupController::class, 'show'])->whereNumber('id');
+        Route::patch('/groups/{id}', [CategoryGroupController::class, 'update'])->whereNumber('id');
+        Route::delete('/groups/{id}', [CategoryGroupController::class, 'destroy'])->whereNumber('id');
+
+        // **********************************/Category Groups/*****************************//
+
+        Route::get('/', [CategoryController::class, 'index']);
+        Route::post('/', [CategoryController::class, 'store']);
+        Route::get('/{id}', [CategoryController::class, 'show'])->whereNumber('id');
+        Route::patch('/{id}', [CategoryController::class, 'update'])->whereNumber('id');
+        Route::delete('/{id}', [CategoryController::class, 'destroy'])->whereNumber('id');
+    });
 
     Route::get('/books', [BookController::class, 'index']);
     Route::get('books/fav', [BookController::class, 'getFav']);
