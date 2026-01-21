@@ -22,7 +22,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
 });
 // **********************************/Profile/*****************************//
-
+// test
 Route::middleware('auth:api')->prefix('user')->group(function () {
     Route::post('/profile', [ProfileController::class, 'store']);
     Route::get('/profile', [ProfileController::class, 'show']);
