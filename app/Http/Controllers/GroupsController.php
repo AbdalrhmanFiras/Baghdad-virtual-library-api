@@ -61,6 +61,9 @@ class GroupsController extends Controller
 
     }
 
+    /**
+     * Show my Groups
+     */
     public function showMy()
     {
         $groups = Groups::with(['image', 'category_groups', 'users'])->where('user_id', Auth::id())->paginate(5);
@@ -76,6 +79,9 @@ class GroupsController extends Controller
         ]], 'Groups fetched successfully.', 200);
     }
 
+    /**
+     * Show(All) Groups
+     */
     public function index()
     {
         $groups = Groups::with(['image', 'category_groups', 'users'])->paginate(5);
@@ -91,6 +97,9 @@ class GroupsController extends Controller
         ]], 'Groups fetched successfully.', 200);
     }
 
+    /**
+     * Update Groups
+     */
     public function update(UpdateGroupRequest $request, $groupId)
     {
         try {
@@ -120,6 +129,9 @@ class GroupsController extends Controller
         }
     }
 
+    /**
+     * join to Group
+     */
     public function join($groupId)
     {
         try {
@@ -140,6 +152,9 @@ class GroupsController extends Controller
         }
     }
 
+    /**
+     * Left from Group
+     */
     public function leave($groupId)
     {
         try {
