@@ -1,7 +1,7 @@
 FROM php:8.4-apache
 
 # Set Apache document root to public directory
-ENV APACHE_DOCUMENT_ROOT /var/www/html/public
+ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 
 # Configure Apache to use public directory
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf \
