@@ -1,75 +1,52 @@
+# استخدم صورة PHP مع Apache
 FROM php:8.4-apache
 
-# Set Apache document root to public directory
+# إعداد مجلد public كجذر للموقع
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 
-# Configure Apache to use public directory
+# تعديل إعدادات Apache لتوجيه للـ public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf \
     && sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
-# Install system dependencies and PHP extensios
+# تثبيت المتطلبات اللازمة لـ Laravel
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    git \
-    curl \
-    zip \
-    unzip \
-    libonig-dev \
-    libzip-dev \
-    libxml2-dev \
-    libpng-dev \
-    libjpeg-dev \
-    libfreetype6-dev \
-    netcat-openbsd \
-    iputils-ping \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) \
-    pdo \
-    pdo_mysql \
-    zip \
-    mbstring \
-    exif \
-    pcntl \
-    bcmath \
-    gd \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    git curl zip unzip \
+    libonig-dev libzip-dev libxml2-dev \
+    netcat-openbsd iputils-ping \
+    && docker-php-ext-install pdo pdo_mysql zip mbstring exif pcntl bcmath \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install Composer
+# تثبيت Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Set working directory
+# تعيين مجلد العمل
 WORKDIR /var/www/html
 
-# Copy composer files first for better caching
-COPY composer.json composer.lock ./
-
-# Install PHP dependencies
-RUN composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev --no-scripts
-
-# Copy application files
+# نسخ ملفات Laravel
 COPY . .
 
-# Enable Apache mod_rewrite
+# تفعيل mod_rewrite في Apache
 RUN a2enmod rewrite
 
-# Create necessary directories
+# إنشاء مجلدات التخزين والكاش
 RUN mkdir -p storage/framework/{sessions,views,cache} \
     storage/logs \
     bootstrap/cache
 
-# Copy and set permissions for entrypoint script
+# تثبيت حزم Composer
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev || \
+    composer install --no-interaction --prefer-dist --optimize-autoloader
+
+# نسخ ملف entrypoint وضبط الصلاحيات
 COPY docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-# Set proper permissions
+# ضبط صلاحيات Laravel بشكل صحيح
 RUN chown -R www-data:www-data storage bootstrap/cache \
     && chmod -R 775 storage bootstrap/cache
 
-# Expose port 80
+# فتح البورت
 EXPOSE 80
 
-# Use entrypoint script
+# استخدام entrypoint
 ENTRYPOINT ["docker-entrypoint.sh"]
-
-# Start Apache
-CMD ["apache2-foreground"]
