@@ -150,7 +150,7 @@ class GroupsController extends Controller
             }
             $group->users()->detach($userId);
 
-            return $this->responseSuccess(null, 'Left the group successfully', 200);
+            return $this->responseSuccess(null, 'Left the group successfully.', 200);
         } catch (ModelNotFoundException) {
             return $this->responseError('null', 'This group is not longer exists.', 404);
         } catch (Exception $e) {
