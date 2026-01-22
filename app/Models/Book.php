@@ -54,10 +54,10 @@ class Book extends Model
         return $query->where('id', $id);
     }
 
-    public function scopeFilterByAuthorName($query, $name)
+    public function scopeAuthorName($query, $name)
     {
         return $query->whereHas('author', function ($q) use ($name) {
-            $q->where('name', 'like', "%{$name}%");
+            $q->where('author_name', 'like', "%{$name}%");
         });
     }
 

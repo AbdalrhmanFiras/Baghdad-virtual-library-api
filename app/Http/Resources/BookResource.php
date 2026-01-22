@@ -25,6 +25,7 @@ class BookResource extends JsonResource
             'publish_year' => (int) $this->publish_year,
             'rating' => (float) $this->rating,
             'status' => $this->status_case,
+            'author_name' => $this->author_name
 
             'fav' => (bool) ($this->pivot?->fav),
             'book_status' => $this->pivot?->status ?? 'none',
