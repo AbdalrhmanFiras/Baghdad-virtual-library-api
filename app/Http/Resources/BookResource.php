@@ -4,8 +4,9 @@ namespace App\Http\Resources;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\CommentResource;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class BookResource extends JsonResource
 {
@@ -31,7 +32,9 @@ class BookResource extends JsonResource
             'pages_read' => (int) ($this->pivot?->pages_read ?? 0),
 
             'pdf_read' => Storage::disk('s3-private')->temporaryUrl($this->pdf_read, Carbon::now()->addMinute(5)),
-            'pdf_download' => $this->when($this->pdf_download, fn () => $this->pdf_download),
+
+            'pdf_download' => Storage::disk('s3-private')->temporaryUrl($this->pdf_download, Carbon::now()->addMinute(5)),
+
             'audio' => $this->when($this->audio, fn () => $this->audio),
 
             'is_readable' => $this->when($this->is_readable, fn () => $this->is_readable),
@@ -41,6 +44,8 @@ class BookResource extends JsonResource
             'image_url' => $this->when($this->image_url, fn () => $this->image_url),
 
             'categories' => CategoryResource::collection($this->whenLoaded('categories')),
+            'comments' => CommentResource::collection($this->whenLoaded('comments')),
+            
         ];
     }
 }
