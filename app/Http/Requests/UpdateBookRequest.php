@@ -30,7 +30,7 @@ class UpdateBookRequest extends FormRequest
             'publish_year' => 'sometimes|integer|digits:4|max:'.now()->year,
             'image' => 'sometimes|image|mimes:jpg,png,jpeg',
             'rating' => 'sometimes|numeric|min:1|max:5',
-            'status' => 'sometimes|in:draft,published',
+            'status_case' => 'sometimes|in:draft,published',
             'language' => 'sometimes|string',
             'pdf_read' => 'sometimes|file|mimes:pdf|max:10240',
             'pdf_download' => 'sometimes|file|mimes:pdf|max:10240',

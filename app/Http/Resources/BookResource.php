@@ -23,10 +23,10 @@ class BookResource extends JsonResource
             'language' => $this->language,
             'publish_year' => (int) $this->publish_year,
             'rating' => (float) $this->rating,
-            'book_status' => $this->status,
+            'status' => $this->status_case,
 
             'fav' => (bool) ($this->pivot?->fav),
-            'status' => $this->pivot?->status,
+            'book_status' => $this->pivot?->status,
             'to_read' => (bool) ($this->pivot?->to_read),
             'pages_read' => (int) ($this->pivot?->pages_read ?? 0),
 

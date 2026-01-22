@@ -27,7 +27,7 @@ class BookController extends Controller
     public function store(StoreBookRequest $request)
     {
         $data = $request->validated();
-        $data['status'] = BookStatusEnum::Draft->value;
+        $data['status_case'] = BookStatusEnum::Draft->value;
         $categories = $data['categories'] ?? [];
         unset($data['categories']);
 

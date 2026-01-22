@@ -30,7 +30,7 @@ class StoreBookRequest extends FormRequest
             'publish_year' => 'required|integer|digits:4|min:1000|max:'.now()->year,
             'image' => 'required|image|mimes:jpg,png,jpeg',
             'rating' => 'required|numeric|min:1|max:5',
-            'status' => 'required|in:draft,published',
+            'status_case' => 'required|in:draft,published',
             'language' => 'required|string',
             'pdf_read' => 'required|file|mimes:pdf|max:10240',
             'pdf_download' => 'nullable|file|mimes:pdf|max:10240',

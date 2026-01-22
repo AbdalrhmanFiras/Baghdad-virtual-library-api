@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('audio')->nullable();
             $table->decimal('rating', 2, 1)->default(1);
             $table->string('language');
-            $table->string('status');
+            $table->string('status_case');
             $table->boolean('is_readable')->default(false);
             $table->boolean('is_downloadable')->default(false);
             $table->boolean('has_audio')->default(false);
