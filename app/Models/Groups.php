@@ -39,4 +39,11 @@ class Groups extends Model
     {
         return $this->belongsToMany(User::class, 'group_users', 'group_id', 'user_id');
     }
+
+    public function scopeCategoryGroupId($query, $id)
+    {
+        $query->whereHas('category_groups', function ($q) use ($id) {
+            $q->where('id', $id);
+        });
+    }
 }

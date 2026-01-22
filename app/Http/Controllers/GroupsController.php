@@ -11,6 +11,8 @@ use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 /**
  * @tags Groups EndPoint
@@ -172,5 +174,33 @@ class GroupsController extends Controller
 
             return $this->responseError(null, $e->getMessage(), 500);
         }
+    }
+
+    /**
+     * Search Group
+     */
+    public function search()
+    {
+        $groups = QueryBuilder::for(Groups::class)
+            ->allowedFilters([
+                AllowedFilter::partial('title'),
+                AllowedFilter::callback('category_groups', function ($query, $value) {
+                    if (is_array($value)) {
+                        $query->whereHas('category_groups', fn ($q) => $q->whereIn('id', $value));
+                    } else {
+                        $query->whereHas('category_groups', fn ($q) => $q->where('id', $value));
+                    }
+                }),
+            ])
+            ->allowedSorts(['title', 'rating'])
+            ->allowedIncludes(['category_groups'])
+            ->paginate(10)
+            ->appends(request()->query());
+
+        return $this->responseSuccess(
+            ['data' => GroupResource::collection($groups)],
+            'Groups fetched successfully.',
+            200
+        );
     }
 }

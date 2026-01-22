@@ -478,8 +478,6 @@ class BookController extends Controller
                         $query->whereBetween('publish_year', [$value[0], $value[1]]);
                     }
                 }),
-                AllowedFilter::exact('status_case'),
-                AllowedFilter::exact('is_readable'),
                 AllowedFilter::exact('is_downloadable'),
                 AllowedFilter::exact('has_audio'),
                 AllowedFilter::partial('title'),
