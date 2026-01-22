@@ -26,7 +26,7 @@ class BookResource extends JsonResource
             'status' => $this->status_case,
 
             'fav' => (bool) ($this->pivot?->fav),
-            'book_status' => $this->pivot?->status,
+            'book_status' => $this->pivot?->status ?? 'none',
             'to_read' => (bool) ($this->pivot?->to_read),
             'pages_read' => (int) ($this->pivot?->pages_read ?? 0),
 
