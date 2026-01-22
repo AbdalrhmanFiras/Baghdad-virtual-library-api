@@ -164,6 +164,7 @@ class BookController extends Controller
      */
     public function show($id)
     {
+        try{
         $user = Auth::user();
 
         $book = Book::with('comments')->findOrFail($id);
@@ -178,6 +179,10 @@ class BookController extends Controller
             'Book fetched successfully.',
             200
         );
+    } catch(ModelNotFoundException){
+        return $this->responseError(null, 'Book not found.', 404);
+
+    }
     }
 
     /**
