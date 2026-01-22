@@ -464,6 +464,9 @@ class BookController extends Controller
             ]], 'Completed books fetched', 200);
     }
 
+    /**
+     * Search Books
+     */
     public function search()
     {
 
