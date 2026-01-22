@@ -4,9 +4,8 @@ namespace App\Http\Resources;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Http\Resources\CommentResource;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class BookResource extends JsonResource
 {
@@ -25,8 +24,7 @@ class BookResource extends JsonResource
             'publish_year' => (int) $this->publish_year,
             'rating' => (float) $this->rating,
             'status' => $this->status_case,
-            'author_name' => $this->author_name
-
+            'author_name' => $this->author->author_name ?? null,
             'fav' => (bool) ($this->pivot?->fav),
             'book_status' => $this->pivot?->status ?? 'none',
             'to_read' => (bool) ($this->pivot?->to_read),
@@ -46,7 +44,7 @@ class BookResource extends JsonResource
 
             'categories' => CategoryResource::collection($this->whenLoaded('categories')),
             'comments' => CommentResource::collection($this->whenLoaded('comments')),
-            
+
         ];
     }
 }

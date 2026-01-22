@@ -30,7 +30,6 @@ class BookController extends Controller
     {
         $data = $request->validated();
         $data['status_case'] = BookStatusEnum::Draft->value;
-        $author = Author::find($data['author_id']);
         $categories = $data['categories'] ?? [];
         unset($data['categories']);
 
@@ -38,11 +37,9 @@ class BookController extends Controller
 
         try {
 
-            if (! $author) {
+            if (! Author::find($data['author_id'])) {
                 return $this->responseError(null, 'Author not found.', 404);
             }
-
-            $data['author_name'] = $author->author_name;
             $existsQuery = Book::where('title', $data['title'])
                 ->where('author_id', $data['author_id'])
                 ->where('publish_year', $data['publish_year'] ?? null);
@@ -94,7 +91,7 @@ class BookController extends Controller
             DB::commit();
 
             return $this->responseSuccess(
-                new BookResource($book->load('categories')),
+                new BookResource($book->load('categories', 'author')),
                 'Book uploaded successfully.',
                 201
             );
