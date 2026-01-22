@@ -13,6 +13,8 @@ use App\Models\Book;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 /**
  * @tags Books EndPoint
@@ -164,25 +166,25 @@ class BookController extends Controller
      */
     public function show($id)
     {
-        try{
-        $user = Auth::user();
+        try {
+            $user = Auth::user();
 
-        $book = Book::with('comments')->findOrFail($id);
+            $book = Book::with('comments')->findOrFail($id);
 
-        if ($user) {
-            $userBook = $user->books()->where('books.id', $book->id)->first();
-            $book->setRelation('pivot', $userBook?->pivot);
+            if ($user) {
+                $userBook = $user->books()->where('books.id', $book->id)->first();
+                $book->setRelation('pivot', $userBook?->pivot);
+            }
+
+            return $this->responseSuccess(
+                new BookResource($book),
+                'Book fetched successfully.',
+                200
+            );
+        } catch (ModelNotFoundException) {
+            return $this->responseError(null, 'Book not found.', 404);
+
         }
-
-        return $this->responseSuccess(
-            new BookResource($book),
-            'Book fetched successfully.',
-            200
-        );
-    } catch(ModelNotFoundException){
-        return $this->responseError(null, 'Book not found.', 404);
-
-    }
     }
 
     /**
@@ -460,5 +462,32 @@ class BookController extends Controller
                 'per_page' => $books->perPage(),
                 'total' => $books->total(),
             ]], 'Completed books fetched', 200);
+    }
+
+    public function search()
+    {
+
+        $books = QueryBuilder::for(Book::class)
+            ->allowedFilters([
+                AllowedFilter::scope('author_name'),
+                AllowedFilter::callback('publish_year_between', function ($query, $value) {
+                    if (is_array($value) && count($value) === 2) {
+                        $query->whereBetween('publish_year', [$value[0], $value[1]]);
+                    }
+                }),
+                AllowedFilter::exact('status_case'),
+                AllowedFilter::exact('is_readable'),
+                AllowedFilter::exact('is_downloadable'),
+                AllowedFilter::exact('has_audio'),
+                AllowedFilter::partial('title'),
+                AllowedFilter::partial('language'),
+                AllowedFilter::exact('categories.id'),
+            ])
+            ->allowedSorts(['title', 'publish_year', 'rating', 'author'])
+            ->allowedIncludes(['author', 'categories'])
+            ->paginate(10)
+            ->appends(request()->query());
+
+        return $this->responseSuccess(['data' => BookResource::collection($books)], 'Books fetched successfully.', 200);
     }
 }

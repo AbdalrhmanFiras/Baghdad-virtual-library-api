@@ -70,7 +70,7 @@ Route::middleware('auth:api')->prefix('admin')->group(function () {
         Route::patch('/{id}', [CategoryController::class, 'update'])->whereNumber('id');
         Route::delete('/{id}', [CategoryController::class, 'destroy'])->whereNumber('id');
     });
-
+    Route::get('/books-search', [BookController::class, 'search']);
     Route::get('/books', [BookController::class, 'index']);
     Route::get('books/fav', [BookController::class, 'getFav']);
     Route::get('books/to-read', [BookController::class, 'getToRead']);
