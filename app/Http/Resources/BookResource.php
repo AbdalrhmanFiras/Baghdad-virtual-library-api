@@ -23,7 +23,7 @@ class BookResource extends JsonResource
             'language' => $this->language,
             'publish_year' => (int) $this->publish_year,
             'rating' => (float) $this->rating,
-            'status' => $this->status,
+            'book_status' => $this->status,
 
             'fav' => (bool) ($this->pivot?->fav),
             'status' => $this->pivot?->status,
@@ -35,7 +35,7 @@ class BookResource extends JsonResource
             'audio' => $this->when($this->audio, fn () => $this->audio),
 
             'is_readable' => $this->when($this->is_readable, fn () => $this->is_readable),
-            'is_downloadable' => $this->when($this->is_downloadable, fn () => $this->pdf_download),
+            'is_downloadable' => $this->when($this->is_downloadable, fn () => $this->is_downloadable),
             'has_audio' => $this->when($this->has_audio, fn () => $this->has_audio),
 
             'image_url' => $this->when($this->image_url, fn () => $this->image_url),

@@ -57,4 +57,10 @@ class AuthorController extends Controller
 
         return $this->responseSuccess(null, 'Author deleted successfully', 200);
     }
+
+
+
+    // public function index(){
+    //    $authors = Author::paginate(10);
+    // }
 }
