@@ -26,7 +26,7 @@ class UpdateProfileRequest extends FormRequest
         'bio'   => 'sometimes|string',
         'age' => 'sometimes|integer', 
         'phone' => 'sometimes|string|min:5', 
-         'gender' => 'sometimes|in:male,female',
+        'gender' => 'sometimes|in:male,female',
         'language' => 'sometimes|string',
         'image' => 'sometimes|image|mimes:jpg,jpeg,png|max:2048'
         ];

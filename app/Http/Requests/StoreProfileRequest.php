@@ -26,7 +26,7 @@ class StoreProfileRequest extends FormRequest
         'bio'  => 'nullable|string',
         'age' => 'nullable|integer', 
         'phone' => 'nullable|string|min:7', 
-        'gender' => 'nullable|in:male,female',
+        'gender' => 'required|in:male,female',
         'language' => 'nullable|string',
         'image'=> 'required|image|mimes:jpg,jpeg,png|max:2048'
         ];
