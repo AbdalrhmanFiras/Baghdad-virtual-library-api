@@ -44,7 +44,7 @@ Route::middleware('auth:api')->prefix('admin')->group(function () {
     Route::put('/author/{Id}', [AuthorController::class, 'update']);
     Route::delete('/author/{Id}', [AuthorController::class, 'delete']);
 
-    // **********************************/groups/*****************************//
+    // **********************************/Groups/*****************************//
     Route::get('/groups-search', [BookController::class, 'search']);
     Route::get('/groups', [GroupsController::class, 'index']);
     Route::post('/groups', [GroupsController::class, 'store']);
@@ -53,6 +53,7 @@ Route::middleware('auth:api')->prefix('admin')->group(function () {
     Route::delete('/groups/{id}', [GroupsController::class, 'destroy'])->whereNumber('id');
     Route::post('/groups/{id}/join', [GroupsController::class, 'join'])->whereNumber('id');
     Route::post('/groups/{id}/leave', [GroupsController::class, 'leave'])->whereNumber('id');
+    // **********************************/Category Groups/*****************************//
 
     Route::prefix('categories')->group(function () {
 
@@ -62,7 +63,7 @@ Route::middleware('auth:api')->prefix('admin')->group(function () {
         Route::patch('/groups/{id}', [CategoryGroupController::class, 'update'])->whereNumber('id');
         Route::delete('/groups/{id}', [CategoryGroupController::class, 'destroy'])->whereNumber('id');
 
-        // **********************************/Category Groups/*****************************//
+        // **********************************/Category/*****************************//
 
         Route::get('/', [CategoryController::class, 'index']);
         Route::post('/', [CategoryController::class, 'store']);
@@ -70,6 +71,9 @@ Route::middleware('auth:api')->prefix('admin')->group(function () {
         Route::patch('/{id}', [CategoryController::class, 'update'])->whereNumber('id');
         Route::delete('/{id}', [CategoryController::class, 'destroy'])->whereNumber('id');
     });
+
+    // **********************************/Books/*****************************//
+
     Route::get('/books-search', [BookController::class, 'search']);
     Route::get('/books', [BookController::class, 'index']);
     Route::get('books/fav', [BookController::class, 'getFav']);
