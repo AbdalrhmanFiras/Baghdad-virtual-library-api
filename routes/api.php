@@ -6,6 +6,8 @@ use App\Http\Controllers\BookController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CategoryGroupController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\CommentLikeController;
+use App\Http\Controllers\GroupCommentController;
 use App\Http\Controllers\GroupsController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ProfileController;
@@ -100,14 +102,12 @@ Route::middleware('auth:api')->prefix('admin')->group(function () {
     Route::get('/news/{newId}', [NewsController::class, 'show']);
     Route::patch('news/{newId}/', [NewsController::class, 'update']);
     Route::delete('news/{newId}/', [NewsController::class, 'delete']);
-});
 
-// **********************************/User Tags/*****************************//
+    // **********************************/User Tags/*****************************//
 
-Route::middleware('auth:api')->group(function () {
-    Route::prefix('')->group(function () {
-        Route::get('', [UserTagsController::class, 'index']);
-        Route::post('', [UserTagsController::class, 'store']);
+    Route::prefix('/')->group(function () {
+        Route::get('/', [UserTagsController::class, 'index']);
+        Route::post('/', [UserTagsController::class, 'store']);
         Route::get('/{id}', [UserTagsController::class, 'show']);
         Route::put('/{id}', [UserTagsController::class, 'update']);
         Route::delete('/{id}', [UserTagsController::class, 'destroy']);
@@ -115,4 +115,15 @@ Route::middleware('auth:api')->group(function () {
     Route::post('users/{userId}/tags', [UserTagsController::class, 'addTagsToUser']);
     Route::put('users/{userId}/tags', [UserTagsController::class, 'updateTagsOfUser']);
     Route::delete('users/{userId}/tags/{tagId}', [UserTagsController::class, 'deleteTagFromUser']);
+
+    // **********************************/Groups Comments/*****************************//
+
+    Route::post('groups/comments', [GroupCommentController::class, 'store']);
+    Route::put('groups/comments/{commentId}', [GroupCommentController::class, 'updateComment']);
+    Route::post('groups/comments/{commentId}/like', [CommentLikeController::class, 'store']);
+    Route::delete('groups/comments/{commentId}/like', [CommentLikeController::class, 'destroy']);
+
+    Route::get('groups/{groupID}/comments', [GroupCommentController::class, 'index']);
+    Route::delete('groups/comments/{commentId}', [GroupCommentController::class, 'destroy']);
+
 });

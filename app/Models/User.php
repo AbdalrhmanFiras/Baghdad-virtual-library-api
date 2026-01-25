@@ -65,6 +65,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Comment::class);
     }
 
+    public function group_comments()
+    {
+        return $this->hasMany(GroupComment::class);
+    }
+
     public function profile()
     {
         return $this->hasOne(Profile::class);

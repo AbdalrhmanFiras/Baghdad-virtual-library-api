@@ -46,4 +46,9 @@ class Groups extends Model
             $q->where('id', $id);
         });
     }
+
+    public function comments()
+    {
+        return $this->hasMany(GroupComment::class);
+    }
 }
