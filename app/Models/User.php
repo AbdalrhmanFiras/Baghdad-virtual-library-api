@@ -86,4 +86,9 @@ class User extends Authenticatable implements JWTSubject
             ->withPivot('status', 'fav', 'to_read', 'total_pages', 'pages_read')// use pivot model
             ->withTimestamps();
     }
+
+    public function user_tags()
+    {
+        return $this->belongsToMany(UserTags::class, 'tag_users', 'user_id', 'user_tag_id');
+    }
 }

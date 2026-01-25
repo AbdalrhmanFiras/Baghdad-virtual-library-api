@@ -9,6 +9,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\GroupsController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserTagsController;
 use Illuminate\Support\Facades\Route;
 
 // //////////////////////////////////?User//////////////////////////////////////////
@@ -99,4 +100,19 @@ Route::middleware('auth:api')->prefix('admin')->group(function () {
     Route::get('/news/{newId}', [NewsController::class, 'show']);
     Route::patch('news/{newId}/', [NewsController::class, 'update']);
     Route::delete('news/{newId}/', [NewsController::class, 'delete']);
+});
+
+// **********************************/User Tags/*****************************//
+
+Route::middleware('auth:api')->group(function () {
+    Route::prefix('')->group(function () {
+        Route::get('', [UserTagsController::class, 'index']);
+        Route::post('', [UserTagsController::class, 'store']);
+        Route::get('/{id}', [UserTagsController::class, 'show']);
+        Route::put('/{id}', [UserTagsController::class, 'update']);
+        Route::delete('/{id}', [UserTagsController::class, 'destroy']);
+    });
+    Route::post('users/{userId}/tags', [UserTagsController::class, 'addTagsToUser']);
+    Route::put('users/{userId}/tags', [UserTagsController::class, 'updateTagsOfUser']);
+    Route::delete('users/{userId}/tags/{tagId}', [UserTagsController::class, 'deleteTagFromUser']);
 });

@@ -483,6 +483,13 @@ class BookController extends Controller
                 AllowedFilter::partial('title'),
                 AllowedFilter::partial('language'),
                 AllowedFilter::exact('categories.id'),
+                AllowedFilter::callback('rating_between', function ($query, $value) {
+                    if (is_array($value) && count($value) === 2) {
+                        $query->whereBetween('rating', [$value[0], $value[1]]);
+                    } else {
+                        $query->where('rating', $value);
+                    }
+                }),
             ])
             ->allowedSorts(['title', 'publish_year', 'rating', 'author'])
             ->allowedIncludes(['author', 'categories'])

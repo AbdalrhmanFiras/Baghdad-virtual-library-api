@@ -222,7 +222,7 @@ class GroupsController extends Controller
             $group->users()->detach();
 
             if ($group->image) {
-                FileHelper::DeleteImage($group, 's3-private'); // حسب helper عندك
+                FileHelper::DeleteImage($group, 's3-private');
             }
 
             $group->category_groups()->detach();
