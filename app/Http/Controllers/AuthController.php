@@ -72,6 +72,9 @@ class AuthController extends Controller
         return response()->json(auth()->user());
     }
 
+    /**
+     * Login with Google
+     */
     public function google(Request $request)
     {
         $request->validate([
