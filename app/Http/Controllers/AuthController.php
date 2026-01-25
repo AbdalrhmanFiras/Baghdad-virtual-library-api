@@ -78,6 +78,7 @@ class AuthController extends Controller
 
     public function callback()
     {
+
         $googleUser = Socialite::driver('google')->user();
 
         $user = User::where('google_id', $googleUser->id)
@@ -98,11 +99,8 @@ class AuthController extends Controller
                 'auth_provider' => 'google',
             ]);
         }
-
-        // اصدار JWT
         $token = JWTAuth::fromUser($user);
 
-        // إعادة التوجيه للواجهة الأمامية مع الـ token
         return redirect()->to('https://abdalrhman.cupital.xyz/docs/api?token='.$token);
     }
 }
