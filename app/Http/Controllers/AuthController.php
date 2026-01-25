@@ -6,6 +6,7 @@ use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserRgisterRequest;
 use App\Http\Resources\UserAuthResource;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -71,15 +72,15 @@ class AuthController extends Controller
         return response()->json(auth()->user());
     }
 
-    public function redirect()
+    public function google(Request $request)
     {
-        return Socialite::driver('google')->redirect();
-    }
+        $request->validate([
+            'id_token' => 'required|string',
+        ]);
 
-    public function callback()
-    {
-
-        $googleUser = Socialite::driver('google')->user();
+        $googleUser = Socialite::driver('google')
+            ->stateless()
+            ->userFromToken($request->id_token);
 
         $user = User::where('google_id', $googleUser->id)
             ->orWhere('email', $googleUser->email)
@@ -99,8 +100,12 @@ class AuthController extends Controller
                 'auth_provider' => 'google',
             ]);
         }
+
         $token = JWTAuth::fromUser($user);
 
-        return redirect()->to('https://abdalrhman.cupital.xyz/docs/api?token='.$token);
+        return response()->json([
+            'user' => new UserAuthResource($user),
+            'token' => $token,
+        ]);
     }
 }
