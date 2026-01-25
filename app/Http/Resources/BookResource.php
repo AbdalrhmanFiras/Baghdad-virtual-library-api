@@ -22,6 +22,7 @@ class BookResource extends JsonResource
             'description' => $this->dec,
             'language' => $this->language,
             'publish_year' => (int) $this->publish_year,
+            'flags' => $this->flags,
             'rating' => (float) $this->rating,
             'status' => $this->status_case,
             'author_name' => $this->author->author_name ?? null,
@@ -29,7 +30,7 @@ class BookResource extends JsonResource
             'book_status' => $this->pivot?->status ?? 'none',
             'to_read' => (bool) ($this->pivot?->to_read),
             'pages_read' => (int) ($this->pivot?->pages_read ?? 0),
-
+            'reads_count' => $this->reads_count,
             'pdf_read' => Storage::disk('s3-private')->temporaryUrl($this->pdf_read, Carbon::now()->addMinute(5)),
 
             'pdf_download' => Storage::disk('s3-private')->temporaryUrl($this->pdf_download, Carbon::now()->addMinute(5)),

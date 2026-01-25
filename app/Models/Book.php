@@ -25,6 +25,16 @@ class Book extends Model
         return $this->belongsToMany(Category::class, 'category_book');
     }
 
+    public function hasFlag(string $flag)// for checking
+    {
+        return $this->flags()->where('flag', $flag)->exists();
+    }
+
+    public function flags()
+    {
+        return $this->hasMany(BookFlags::class);
+    }
+
     public function comments()
     {
         return $this->hasMany(Comment::class);

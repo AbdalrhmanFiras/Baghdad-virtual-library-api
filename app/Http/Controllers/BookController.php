@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Enum\BookStatusEnum;
 use App\Enum\UserBookEnum;
 use App\Helper\FileHelper;
+use App\Http\Requests\AddBookFlagRequest;
 use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
 use App\Http\Resources\BookResource;
 use App\Models\Author;
 use App\Models\Book;
+use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -217,6 +219,7 @@ class BookController extends Controller
         if (! $book->pdf_download) {
             abort(404, 'PDF not available.');
         }
+        $book->increment('reads_count');
 
         return FileHelper::streamFile($book->pdf_download, 'application/pdf', 'attachment');
     }
@@ -497,5 +500,39 @@ class BookController extends Controller
             ->appends(request()->query());
 
         return $this->responseSuccess(['data' => BookResource::collection($books)], 'Books fetched successfully.', 200);
+    }
+
+    public function addFlagToBook(AddBookFlagRequest $request)
+    {
+        try {
+            $data = $request->validated();
+            $bookId = $request->input('book_id');
+
+            $book = Book::find($bookId);
+            if (! $book) {
+                return response()->json([
+                    'message' => 'Book not found',
+                ], 404);
+            }
+            if ($book->flags()->where('flag', $data['flag'])->exists()) {
+                return response()->json([
+                    'message' => 'Flag already exists for this book',
+                ], 409);
+            }
+            $book->flags()->create([
+                'flag' => $data['flag'],
+            ]);
+
+            return response()->json([
+                'message' => 'Flag added successfully',
+                'book_id' => $book->id,
+                'flag' => $data['flag'],
+            ], 201);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => 'Something went wrong',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 }

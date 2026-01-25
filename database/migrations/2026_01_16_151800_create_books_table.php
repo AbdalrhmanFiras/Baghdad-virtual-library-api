@@ -19,6 +19,7 @@ return new class extends Migration
             $table->year('publish_year');
             $table->string('pdf_read')->nullable();
             $table->string('pdf_download')->nullable();
+            $table->unsignedBigInteger('reads_count')->default(0);
             $table->string('audio')->nullable();
             $table->decimal('rating', 2, 1)->default(1);
             $table->string('language');

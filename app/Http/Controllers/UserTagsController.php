@@ -16,6 +16,8 @@ class UserTagsController extends Controller
 {
     /**
      * Get All Tags
+     *
+     * `Admin(only)`
      */
     public function index()
     {
@@ -30,6 +32,8 @@ class UserTagsController extends Controller
 
     /**
      * Add Tags
+     *
+     * `Admin(only)`
      */
     public function store(StoreUserTagsRequest $request)
     {
@@ -49,6 +53,8 @@ class UserTagsController extends Controller
 
     /**
      * Update Tags
+     *
+     * `Admin(only)`
      */
     public function update(UpdateUserTagsRequest $request, $id)
     {
@@ -67,6 +73,8 @@ class UserTagsController extends Controller
 
     /**
      * Delete Tags
+     *
+     * `Admin(only)`
      */
     public function destroy($id)
     {
@@ -85,6 +93,8 @@ class UserTagsController extends Controller
 
     /**
      * Add Tag to user
+     *
+     * `Admin(only)`
      */
     public function addTagsToUser($memberId, array $tags)
     {
@@ -109,6 +119,9 @@ class UserTagsController extends Controller
 
     /**
      * Change Tag of user
+     *
+     *
+     * `Admin(only)`
      */
     public function updateTagsOfUser($memberId, array $tags)
     {
@@ -132,6 +145,8 @@ class UserTagsController extends Controller
 
     /**
      * Remove Tag from user
+     *
+     * `Admin(only)`
      */
     public function deleteTagFromUser($memberId, $tagId)
     {
