@@ -203,4 +203,42 @@ class GroupsController extends Controller
             200
         );
     }
+
+    /**
+     * Delete Group
+     */
+    public function destroy($groupId)
+    {
+        try {
+            $userId = Auth::id();
+
+            $group = Groups::with('users', 'image', 'category_groups')
+                ->where('user_id', $userId)
+                ->where('id', $groupId)
+                ->firstOrFail();
+
+            DB::beginTransaction();
+
+            $group->users()->detach();
+
+            if ($group->image) {
+                FileHelper::DeleteImage($group, 's3-private'); // حسب helper عندك
+            }
+
+            $group->category_groups()->detach();
+
+            $group->delete();
+
+            DB::commit();
+
+            return $this->responseSuccess(null, 'Group deleted successfully', 200);
+
+        } catch (ModelNotFoundException) {
+            return $this->responseError(null, 'This group does not exist.', 404);
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return $this->responseError(null, $e->getMessage(), 500);
+        }
+    }
 }
