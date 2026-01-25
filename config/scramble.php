@@ -29,7 +29,7 @@ return [
         /*
          * Description rendered on the home page of the API documentation (`/docs/api`).
          */
-        'description' => 'by Abdalrhman firas',
+        'description' => 'by Abdalrhman Firas',
     ],
 
     /*
