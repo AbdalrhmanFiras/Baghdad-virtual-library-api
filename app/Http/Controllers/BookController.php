@@ -502,6 +502,11 @@ class BookController extends Controller
         return $this->responseSuccess(['data' => BookResource::collection($books)], 'Books fetched successfully.', 200);
     }
 
+    /**
+     * Add Flags to Book
+     *
+     * `Admin(only)`
+     */
     public function addFlagToBook(AddBookFlagRequest $request)
     {
         try {
