@@ -108,7 +108,6 @@ Route::middleware('auth:api')->prefix('admin')->group(function () {
     Route::prefix('/')->group(function () {
         Route::get('/', [UserTagsController::class, 'index']);
         Route::post('/', [UserTagsController::class, 'store']);
-        Route::get('/{id}', [UserTagsController::class, 'show']);
         Route::put('/{id}', [UserTagsController::class, 'update']);
         Route::delete('/{id}', [UserTagsController::class, 'destroy']);
     });
