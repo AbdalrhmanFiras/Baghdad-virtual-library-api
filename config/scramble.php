@@ -29,7 +29,7 @@ return [
         /*
          * Description rendered on the home page of the API documentation (`/docs/api`).
          */
-        'description' => '',
+        'description' => 'by Abdalrhman Firas',
     ],
 
     /*
@@ -39,12 +39,12 @@ return [
         /*
          * Define the title of the documentation's website. App name is used when this config is `null`.
          */
-        'title' => null,
+        'title' => 'Virtul Library',
 
         /*
          * Define the theme of the documentation. Available options are `light`, `dark`, and `system`.
          */
-        'theme' => 'light',
+        'theme' => 'dark',
 
         /*
          * Hide the `Try It` feature. Enabled by default.
@@ -54,7 +54,7 @@ return [
         /*
          * Hide the schemas in the Table of Contents. Enabled by default.
          */
-        'hide_schemas' => false,
+        'hide_schemas' => true,
 
         /*
          * URL to an image that displays as a small square logo next to the title, above the table of contents.
@@ -90,7 +90,7 @@ return [
      * ```
      */
     'servers' => env('APP_ENV') === 'local' ? null : [
-        'Production' => env('APP_URL') . '/api',
+        'Production' => env('APP_URL').'/api',
     ],
 
     /**

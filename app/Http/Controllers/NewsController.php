@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 
 /**
- * @tags News EndPoint
+ * @tags News Endpoint
  */
 class NewsController extends Controller
 {

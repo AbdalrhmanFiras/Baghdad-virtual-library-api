@@ -8,7 +8,7 @@ use Exception;
 use Illuminate\Support\Facades\Auth;
 
 /**
- * @tags Like EndPoint
+ * @tags Like Endpoint
  */
 class CommentLikeController extends Controller
 {

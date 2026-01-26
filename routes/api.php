@@ -48,7 +48,7 @@ Route::middleware('auth:api')->prefix('admin')->group(function () {
     Route::delete('/author/{Id}', [AuthorController::class, 'delete']);
 
     // **********************************/Groups/*****************************//
-    Route::get('/groups-search', [BookController::class, 'search']);
+    Route::get('/groups-search', [GroupsController::class, 'search']);
     Route::get('/groups', [GroupsController::class, 'index']);
     Route::post('/groups', [GroupsController::class, 'store']);
     Route::get('/groups/my', [GroupsController::class, 'showMy']);

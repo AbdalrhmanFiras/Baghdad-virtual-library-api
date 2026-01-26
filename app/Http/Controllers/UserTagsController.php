@@ -10,7 +10,7 @@ use Exception;
 use Illuminate\Support\Facades\Auth;
 
 /**
- * @tags User Tags EndPoint
+ * @tags User Tags Endpoint
  */
 class UserTagsController extends Controller
 {

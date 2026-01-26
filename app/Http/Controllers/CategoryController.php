@@ -8,7 +8,7 @@ use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 
 /**
- * @tags Category EndPoint
+ * @tags Category Endpoint
  */
 class CategoryController extends Controller
 {

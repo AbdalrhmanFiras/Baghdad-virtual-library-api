@@ -19,7 +19,7 @@ use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
- * @tags Books EndPoint
+ * @tags Books Endpoint
  */
 class BookController extends Controller
 {

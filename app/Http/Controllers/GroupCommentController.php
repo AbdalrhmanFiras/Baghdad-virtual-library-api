@@ -10,7 +10,7 @@ use Exception;
 use Illuminate\Support\Facades\Auth;
 
 /**
- * @tags Comments Group
+ * @tags Comments Group Endpoint
  */
 class GroupCommentController extends Controller
 {
