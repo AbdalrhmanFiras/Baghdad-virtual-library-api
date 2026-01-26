@@ -16,11 +16,9 @@ return [
     'allowed_methods' => ['*'],
 
     'allowed_origins' => [
-        env('APP_URL', 'http://localhost:8000'),
-        'http://localhost:3000',
-        'http://localhost:5173',
-        'https://abdalrhman.cupital.xyz',
-        '*', // للتجربة فقط، ثم أزله
+        'https://abdalrhman.cupital.xyz', // رابط السيرفر
+        'http://localhost:3000',           // React default
+        'http://localhost:5173',           // Vite default
     ],
 
     'allowed_origins_patterns' => [],
