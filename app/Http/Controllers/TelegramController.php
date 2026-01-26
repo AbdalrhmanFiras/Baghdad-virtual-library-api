@@ -17,7 +17,6 @@ class TelegramController extends Controller
             $chatId = $data['message']['chat']['id'];
             $text = $data['message']['text'] ?? '';
 
-            // إرسال رد بسيط
             file_get_contents('https://api.telegram.org/bot'.config('telegram.bot_token')."/sendMessage?chat_id=$chatId&text=".urlencode("وصلت رسالتك: $text"));
         }
 
