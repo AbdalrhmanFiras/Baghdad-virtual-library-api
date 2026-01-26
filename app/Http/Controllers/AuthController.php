@@ -6,6 +6,7 @@ use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserRgisterRequest;
 use App\Http\Resources\UserAuthResource;
 use App\Models\User;
+use App\Services\TelegramService;
 use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -26,6 +27,11 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+        $telegram = new TelegramService;
+        $message = "🆕 مستخدم جديد سجل في الموقع!\n";
+        $message .= "👤 الاسم: {$user->name}\n";
+        $message .= "📧 البريد: {$user->email}";
+        $telegram->sendMessage($message);
         $token = JWTAuth::fromUser($user);
 
         return $this->responseSuccess(
