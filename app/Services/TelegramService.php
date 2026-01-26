@@ -20,10 +20,12 @@ class TelegramService
     {
         $url = "https://api.telegram.org/bot{$this->botToken}/sendMessage";
 
-        return Http::post($url, [
-            'chat_id' => $this->chatId,
-            'text' => $message,
-            'parse_mode' => 'HTML',
-        ]);
+        foreach ($this->chatIds as $chatId) {
+            Http::post($url, [
+                'chat_id' => $chatId,
+                'text' => $message,
+                'parse_mode' => 'HTML',
+            ]);
+        }
     }
 }
