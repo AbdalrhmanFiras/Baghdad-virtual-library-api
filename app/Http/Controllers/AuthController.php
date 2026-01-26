@@ -10,13 +10,14 @@ use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
-/**
- * @tags Auth Endpoint
- */
 class AuthController extends Controller
 {
     /**
-     * User Register
+     * Get all books
+     *
+     * @group auth
+     *
+     * @authenticated
      */
     public function register(UserRgisterRequest $request)
     {
