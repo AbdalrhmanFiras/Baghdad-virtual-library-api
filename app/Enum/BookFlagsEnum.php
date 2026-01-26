@@ -5,7 +5,7 @@ namespace App\Enums;
 enum BookFlagsEnum: string
 {
     case Hot = 'hot';
-    // hi
+    // hi try server
     case Best = 'best';
     case New = 'new';
     case Trending = 'trending';
