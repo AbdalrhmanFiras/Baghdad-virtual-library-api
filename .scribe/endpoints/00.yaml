@@ -17,6 +17,7 @@ endpoints:
       authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -64,7 +65,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null

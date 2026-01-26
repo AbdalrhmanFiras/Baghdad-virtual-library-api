@@ -14,9 +14,10 @@ endpoints:
       subgroupDescription: ''
       title: 'User Login'
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -52,7 +53,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -69,9 +73,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Login with Google'
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -95,7 +100,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -112,9 +120,10 @@ endpoints:
       subgroupDescription: ''
       title: 'User Logout'
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -126,7 +135,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -143,9 +155,10 @@ endpoints:
       subgroupDescription: ''
       title: 'User Token(me)'
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -166,7 +179,10 @@ endpoints:
           access-control-allow-origin: 'https://abdalrhman.cupital.xyz'
         description: null
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -183,9 +199,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Create Profile'
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: multipart/form-data
       Accept: application/json
     urlParameters: []
@@ -283,7 +300,10 @@ endpoints:
       image: null
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -300,9 +320,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Show(get) Profile'
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -323,7 +344,10 @@ endpoints:
           access-control-allow-origin: 'https://abdalrhman.cupital.xyz'
         description: null
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -340,9 +364,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Update Profile'
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: multipart/form-data
       Accept: application/json
     urlParameters: []
@@ -399,7 +424,7 @@ endpoints:
         name: gender
         description: ''
         required: false
-        example: male
+        example: female
         type: string
         enumValues:
           - male
@@ -434,13 +459,16 @@ endpoints:
       bio: architecto
       age: 16
       phone: ngzmiyvdljnikhwaykcmyuwpwlvqwrsitcpscqldzsnrwtujwvlxjklqppwqbewtnnoqitpxntlt
-      gender: male
+      gender: female
       language: architecto
     fileParameters:
       image: null
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -457,9 +485,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Get all your comments'
       description: '`Admin(only)`'
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -480,7 +509,10 @@ endpoints:
           access-control-allow-origin: 'https://abdalrhman.cupital.xyz'
         description: null
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -502,9 +534,10 @@ endpoints:
         second for groups
 
         this route is to Add Comment to `Book`
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -540,7 +573,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -557,9 +593,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Get all post comments'
       description: '`Admin(only)`'
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -592,7 +629,10 @@ endpoints:
           access-control-allow-origin: 'https://abdalrhman.cupital.xyz'
         description: null
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -609,9 +649,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Update my comment'
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -659,7 +700,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -676,9 +720,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Delete my comment'
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -714,7 +759,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -735,9 +783,10 @@ endpoints:
         You must provide `author_name` and `dec`.
 
         `Admin(only)`
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -773,7 +822,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -794,9 +846,10 @@ endpoints:
         You must provide `author_name` and `dec`.
 
         `Admin(only)`
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -844,7 +897,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -863,9 +919,10 @@ endpoints:
       description: |-
         This endpoint allows you to Delete the author.
         `Admin(only)`
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -889,7 +946,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -906,9 +966,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Search Books'
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -929,7 +990,10 @@ endpoints:
           access-control-allow-origin: 'https://abdalrhman.cupital.xyz'
         description: null
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -946,9 +1010,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Show(All) Groups'
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -969,7 +1034,10 @@ endpoints:
           access-control-allow-origin: 'https://abdalrhman.cupital.xyz'
         description: null
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -986,9 +1054,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Create Groups'
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: multipart/form-data
       Accept: application/json
     urlParameters: []
@@ -1070,7 +1139,7 @@ endpoints:
         name: availbility
         description: ''
         required: true
-        example: active
+        example: unactive
         type: string
         enumValues:
           - active
@@ -1085,12 +1154,15 @@ endpoints:
         - architecto
       rating: 1
       status: private
-      availbility: active
+      availbility: unactive
     fileParameters:
       image: null
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -1107,9 +1179,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Show my Groups'
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -1130,7 +1203,10 @@ endpoints:
           access-control-allow-origin: 'https://abdalrhman.cupital.xyz'
         description: null
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -1147,9 +1223,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Update Groups'
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: multipart/form-data
       Accept: application/json
     urlParameters:
@@ -1249,7 +1326,10 @@ endpoints:
       image: null
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -1266,9 +1346,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Delete Group'
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -1292,7 +1373,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -1309,9 +1393,10 @@ endpoints:
       subgroupDescription: ''
       title: 'join to Group'
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -1335,7 +1420,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -1352,9 +1440,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Left from Group'
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -1378,7 +1467,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -1395,9 +1487,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Show(All) Category Groups'
       description: '`Admin(only)`'
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -1418,7 +1511,10 @@ endpoints:
           access-control-allow-origin: 'https://abdalrhman.cupital.xyz'
         description: null
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -1435,9 +1531,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Create Category Groups'
       description: '`Admin(only)`'
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -1473,7 +1570,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -1490,9 +1590,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Show Category Group'
       description: '`Admin(only)`'
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -1525,7 +1626,10 @@ endpoints:
           access-control-allow-origin: 'https://abdalrhman.cupital.xyz'
         description: null
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -1542,9 +1646,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Update Category Group'
       description: '`Admin(only)`'
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -1592,7 +1697,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -1609,9 +1717,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Delete Category Group'
       description: '`Admin(only)`'
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -1635,7 +1744,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -1652,9 +1764,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Show(All) Category'
       description: '`Admin(only)`'
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -1675,7 +1788,10 @@ endpoints:
           access-control-allow-origin: 'https://abdalrhman.cupital.xyz'
         description: null
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -1692,9 +1808,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Create Category'
       description: '`Admin(only)`'
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -1730,7 +1847,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -1747,9 +1867,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Show Category'
       description: '`Admin(only)`'
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -1782,7 +1903,10 @@ endpoints:
           access-control-allow-origin: 'https://abdalrhman.cupital.xyz'
         description: null
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -1799,9 +1923,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Update Category'
       description: '`Admin(only)`'
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -1849,7 +1974,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -1866,9 +1994,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Delete Category'
       description: '`Admin(only)`'
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -1892,7 +2021,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -1909,9 +2041,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Search Books'
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -1932,7 +2065,10 @@ endpoints:
           access-control-allow-origin: 'https://abdalrhman.cupital.xyz'
         description: null
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -1949,9 +2085,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Get All Books'
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -1972,7 +2109,10 @@ endpoints:
           access-control-allow-origin: 'https://abdalrhman.cupital.xyz'
         description: null
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -1989,9 +2129,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Get Book from Favorite list'
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -2012,7 +2153,10 @@ endpoints:
           access-control-allow-origin: 'https://abdalrhman.cupital.xyz'
         description: null
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -2029,9 +2173,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Get Book from To_read list'
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -2052,7 +2197,10 @@ endpoints:
           access-control-allow-origin: 'https://abdalrhman.cupital.xyz'
         description: null
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -2069,9 +2217,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Get Reading Book'
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -2092,7 +2241,10 @@ endpoints:
           access-control-allow-origin: 'https://abdalrhman.cupital.xyz'
         description: null
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -2109,9 +2261,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Get Completed Book'
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -2132,7 +2285,10 @@ endpoints:
           access-control-allow-origin: 'https://abdalrhman.cupital.xyz'
         description: null
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -2149,9 +2305,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Create Book'
       description: '`Admin(only)`'
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: multipart/form-data
       Accept: application/json
     urlParameters: []
@@ -2311,7 +2468,10 @@ endpoints:
       audio: null
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -2328,9 +2488,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Get(show) Book'
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -2363,7 +2524,10 @@ endpoints:
           access-control-allow-origin: 'https://abdalrhman.cupital.xyz'
         description: null
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -2380,9 +2544,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Update Book'
       description: '`Admin(only)`'
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: multipart/form-data
       Accept: application/json
     urlParameters:
@@ -2484,7 +2649,7 @@ endpoints:
         name: status_case
         description: ''
         required: false
-        example: published
+        example: draft
         type: string
         enumValues:
           - draft
@@ -2542,7 +2707,7 @@ endpoints:
       dec: architecto
       publish_year: 'n'
       rating: 1
-      status_case: published
+      status_case: draft
       language: architecto
     fileParameters:
       image: null
@@ -2551,7 +2716,10 @@ endpoints:
       audio: null
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -2568,9 +2736,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Delete a Book'
       description: '`Admin(only)`'
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -2594,7 +2763,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -2611,9 +2783,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Read the Book'
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -2646,7 +2819,10 @@ endpoints:
           access-control-allow-origin: 'https://abdalrhman.cupital.xyz'
         description: null
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -2663,9 +2839,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Add the Book to Favorite'
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -2698,7 +2875,10 @@ endpoints:
           access-control-allow-origin: 'https://abdalrhman.cupital.xyz'
         description: null
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -2715,9 +2895,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Add the Book to To_Read list'
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -2750,7 +2931,10 @@ endpoints:
           access-control-allow-origin: 'https://abdalrhman.cupital.xyz'
         description: null
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -2767,9 +2951,10 @@ endpoints:
       subgroupDescription: ''
       title: 'dont touch it'
       description: '`Admin(only)`'
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -2793,7 +2978,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -2810,9 +2998,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Remove Book from To_read list'
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -2836,7 +3025,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -2853,9 +3045,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Remove Book from Favorite list'
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -2879,7 +3072,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -2896,9 +3092,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Show(All) News'
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -2919,7 +3116,10 @@ endpoints:
           access-control-allow-origin: 'https://abdalrhman.cupital.xyz'
         description: null
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -2936,9 +3136,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Create News'
       description: '`Admin(only)`'
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: multipart/form-data
       Accept: application/json
     urlParameters: []
@@ -2986,7 +3187,10 @@ endpoints:
       image: null
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -3003,9 +3207,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Show News'
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -3038,7 +3243,10 @@ endpoints:
           access-control-allow-origin: 'https://abdalrhman.cupital.xyz'
         description: null
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -3055,9 +3263,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Update News'
       description: '`Admin(only)`'
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: multipart/form-data
       Accept: application/json
     urlParameters:
@@ -3117,7 +3326,10 @@ endpoints:
       image: null
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -3134,9 +3346,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Delete News'
       description: '`Admin(only)`'
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -3160,7 +3373,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -3177,9 +3393,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Get All Tags'
       description: '`Admin(only)`'
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -3200,7 +3417,10 @@ endpoints:
           access-control-allow-origin: 'https://abdalrhman.cupital.xyz'
         description: null
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -3217,9 +3437,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Add Tags'
       description: '`Admin(only)`'
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -3243,7 +3464,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -3260,9 +3484,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Update Tags'
       description: '`Admin(only)`'
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -3298,7 +3523,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -3315,9 +3543,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Delete Tags'
       description: '`Admin(only)`'
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -3341,7 +3570,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -3358,9 +3590,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Add Tag to user'
       description: '`Admin(only)`'
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -3384,7 +3617,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -3401,9 +3637,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Change Tag of user'
       description: '`Admin(only)`'
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -3427,7 +3664,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -3444,9 +3684,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Remove Tag from user'
       description: '`Admin(only)`'
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -3482,7 +3723,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -3499,9 +3743,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Add Comment(Text)'
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: multipart/form-data
       Accept: application/json
     urlParameters: []
@@ -3549,7 +3794,10 @@ endpoints:
       pdf: null
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -3566,9 +3814,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Update Comment(Text)'
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -3604,7 +3853,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -3621,9 +3873,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Put Like'
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -3647,7 +3900,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -3664,9 +3920,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Remove Like'
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -3690,7 +3947,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -3707,9 +3967,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Get All Text'
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -3742,7 +4003,10 @@ endpoints:
           access-control-allow-origin: 'https://abdalrhman.cupital.xyz'
         description: null
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
@@ -3759,9 +4023,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Remove my Text(comment)'
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer Bearer {YOUR_JWT_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -3785,7 +4050,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer fA67XUAx2di7o06MPiNSg690mj3ETAu8jOeZFFdJeTCEpY9bm8D7Z3ePzUQhm1TI'
     controller: null
     method: null
     route: null
