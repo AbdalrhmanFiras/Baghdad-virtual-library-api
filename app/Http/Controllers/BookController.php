@@ -9,7 +9,6 @@ use App\Http\Requests\AddBookFlagRequest;
 use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
 use App\Http\Resources\BookResource;
-use App\Jobs\UpdateBookFileJob;
 use App\Models\Author;
 use App\Models\Book;
 use Exception;
@@ -120,28 +119,24 @@ class BookController extends Controller
             $book = Book::getBook($id)->firstOrFail();
 
             DB::transaction(function () use ($request, $book, $data) {
-                $book->update($data);
+                $fileData = FileHelper::updateBookFiles($book, $request);
+                $book->update(array_merge($data, $fileData));
                 if (isset($data['categories'])) {
                     $book->categories()->sync($data['categories']);
                 }
+
                 if ($request->hasFile('image')) {
                     $file = $request->file('image');
+
                     $path = FileHelper::ImageUpload($file, 'books', 'images');
                     FileHelper::UpdateImage($book, $path);
                 }
             });
 
-            UpdateBookFileJob::dispatch($book, [
-                'pdf_read' => $request->file('pdf_read'),
-                'pdf_download' => $request->file('pdf_download'),
-                'audio' => $request->file('audio'),
-            ]);
-
             return response()->json([
-                'message' => 'Book updated successfully. Files are being processed in the background.',
+                'message' => 'Book updated successfully',
                 'data' => new BookResource($book->fresh('image', 'categories')),
             ], 200);
-
         } catch (ModelNotFoundException) {
             return $this->responseError(null, 'Book not found.', 404);
         }
