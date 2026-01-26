@@ -17,8 +17,6 @@ return [
 
     'allowed_origins' => [
         'https://abdalrhman.cupital.xyz', // رابط السيرفر
-        'http://localhost:3000',           // React default
-        'http://localhost:5173',           // Vite default
     ],
 
     'allowed_origins_patterns' => [],
