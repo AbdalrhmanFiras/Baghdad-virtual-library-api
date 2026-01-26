@@ -9,7 +9,7 @@ class TelegramController extends Controller
 {
     public function handle(Request $request)
     {
-        Log::info('Telegram Webhook HIT', $request->all());
+        Log::info('Telegram Webhook HIT: '.json_encode($request->all()));
 
         return response()->json(['ok' => true]);
     }
