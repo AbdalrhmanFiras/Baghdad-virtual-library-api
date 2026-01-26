@@ -89,7 +89,7 @@ return [
      * ],
      * ```
      */
-    'servers' => 'https://abdalrhman.cupital.xyz',
+    'servers' => null,
 
     /**
      * Determines how Scramble stores the descriptions of enum cases.
