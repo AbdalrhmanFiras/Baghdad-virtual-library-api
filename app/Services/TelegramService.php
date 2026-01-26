@@ -8,7 +8,7 @@ class TelegramService
 {
     protected $botToken;
 
-    protected $chatId = [906995381, 7824179425];
+    protected $chatIds = [906995381, 7824179425];
 
     public function __construct()
     {
