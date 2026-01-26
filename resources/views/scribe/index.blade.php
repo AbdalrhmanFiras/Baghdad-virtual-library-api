@@ -71,10 +71,7 @@
                     <a href="#endpoints">Endpoints</a>
                 </li>
                                     <ul id="tocify-subheader-endpoints" class="tocify-subheader">
-                                                    <li class="tocify-item level-2" data-unique="endpoints-POSTapi-register">
-                                <a href="#endpoints-POSTapi-register">User Register</a>
-                            </li>
-                                                                                <li class="tocify-item level-2" data-unique="endpoints-POSTapi-login">
+                                                    <li class="tocify-item level-2" data-unique="endpoints-POSTapi-login">
                                 <a href="#endpoints-POSTapi-login">User Login</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="endpoints-POSTapi-auth-google">
@@ -277,6 +274,16 @@
                             </li>
                                                                         </ul>
                             </ul>
+                    <ul id="tocify-header-auth" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="auth">
+                    <a href="#auth">auth</a>
+                </li>
+                                    <ul id="tocify-subheader-auth" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="auth-POSTapi-register">
+                                <a href="#auth-POSTapi-register">Get all books</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
             </div>
 
     <ul class="toc-footer" id="toc-footer">
@@ -309,167 +316,7 @@ You can switch the language used with the tabs at the top right (or from the nav
 
     
 
-                                <h2 id="endpoints-POSTapi-register">User Register</h2>
-
-<p>
-</p>
-
-
-
-<span id="example-requests-POSTapi-register">
-<blockquote>Example request:</blockquote>
-
-
-<div class="bash-example">
-    <pre><code class="language-bash">curl --request POST \
-    "https://abdalrhman.cupital.xyz/api/register" \
-    --header "Content-Type: application/json" \
-    --header "Accept: application/json" \
-    --data "{
-    \"name\": \"b\",
-    \"email\": \"zbailey@example.net\",
-    \"password\": \"-0pBNvYgxw\"
-}"
-</code></pre></div>
-
-
-<div class="javascript-example">
-    <pre><code class="language-javascript">const url = new URL(
-    "https://abdalrhman.cupital.xyz/api/register"
-);
-
-const headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-};
-
-let body = {
-    "name": "b",
-    "email": "zbailey@example.net",
-    "password": "-0pBNvYgxw"
-};
-
-fetch(url, {
-    method: "POST",
-    headers,
-    body: JSON.stringify(body),
-}).then(response =&gt; response.json());</code></pre></div>
-
-</span>
-
-<span id="example-responses-POSTapi-register">
-</span>
-<span id="execution-results-POSTapi-register" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-POSTapi-register"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-POSTapi-register"
-      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
-</span>
-<span id="execution-error-POSTapi-register" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-POSTapi-register">
-
-Tip: Check that you&#039;re properly connected to the network.
-If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
-You can check the Dev Tools console for debugging information.</code></pre>
-</span>
-<form id="form-POSTapi-register" data-method="POST"
-      data-path="api/register"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('POSTapi-register', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
-                    <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-POSTapi-register"
-                    onclick="tryItOut('POSTapi-register');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-POSTapi-register"
-                    onclick="cancelTryOut('POSTapi-register');" hidden>Cancel 🛑
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-POSTapi-register"
-                    data-initial-text="Send Request 💥"
-                    data-loading-text="⏱ Sending..."
-                    hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-black">POST</small>
-            <b><code>api/register</code></b>
-        </p>
-                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
-                                <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
-&nbsp;
- &nbsp;
- &nbsp;
-                <input type="text" style="display: none"
-                              name="Content-Type"                data-endpoint="POSTapi-register"
-               value="application/json"
-               data-component="header">
-    <br>
-<p>Example: <code>application/json</code></p>
-            </div>
-                                <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
-&nbsp;
- &nbsp;
- &nbsp;
-                <input type="text" style="display: none"
-                              name="Accept"                data-endpoint="POSTapi-register"
-               value="application/json"
-               data-component="header">
-    <br>
-<p>Example: <code>application/json</code></p>
-            </div>
-                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
-        <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>name</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
- &nbsp;
- &nbsp;
-                <input type="text" style="display: none"
-                              name="name"                data-endpoint="POSTapi-register"
-               value="b"
-               data-component="body">
-    <br>
-<p>Must not be greater than 255 characters. Example: <code>b</code></p>
-        </div>
-                <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>email</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
- &nbsp;
- &nbsp;
-                <input type="text" style="display: none"
-                              name="email"                data-endpoint="POSTapi-register"
-               value="zbailey@example.net"
-               data-component="body">
-    <br>
-<p>Must be a valid email address. Example: <code>zbailey@example.net</code></p>
-        </div>
-                <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>password</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
- &nbsp;
- &nbsp;
-                <input type="text" style="display: none"
-                              name="password"                data-endpoint="POSTapi-register"
-               value="-0pBNvYgxw"
-               data-component="body">
-    <br>
-<p>Must be at least 6 characters. Example: <code>-0pBNvYgxw</code></p>
-        </div>
-        </form>
-
-                    <h2 id="endpoints-POSTapi-login">User Login</h2>
+                                <h2 id="endpoints-POSTapi-login">User Login</h2>
 
 <p>
 </p>
@@ -1003,9 +850,9 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --form "bio=architecto"\
     --form "age=16"\
     --form "phone=ngzmiyvdljnikhwaykcmyuwpwlvqwrsitc"\
-    --form "gender=female"\
+    --form "gender=male"\
     --form "language=architecto"\
-    --form "image=@/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/php4e7a2kvnnelm26DjHhf" </code></pre></div>
+    --form "image=@/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/php4l5rckdj1avhdzlcEk3" </code></pre></div>
 
 
 <div class="javascript-example">
@@ -1023,7 +870,7 @@ body.append('fullname', 'b');
 body.append('bio', 'architecto');
 body.append('age', '16');
 body.append('phone', 'ngzmiyvdljnikhwaykcmyuwpwlvqwrsitc');
-body.append('gender', 'female');
+body.append('gender', 'male');
 body.append('language', 'architecto');
 body.append('image', document.querySelector('input[name="image"]').files[0]);
 
@@ -1164,10 +1011,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="gender"                data-endpoint="POSTapi-user-profile"
-               value="female"
+               value="male"
                data-component="body">
     <br>
-<p>Example: <code>female</code></p>
+<p>Example: <code>male</code></p>
 Must be one of:
 <ul style="list-style-type: square;"><li><code>male</code></li> <li><code>female</code></li></ul>
         </div>
@@ -1193,7 +1040,7 @@ Must be one of:
                value=""
                data-component="body">
     <br>
-<p>Must be an image. Must not be greater than 2048 kilobytes. Example: <code>/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/php4e7a2kvnnelm26DjHhf</code></p>
+<p>Must be an image. Must not be greater than 2048 kilobytes. Example: <code>/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/php4l5rckdj1avhdzlcEk3</code></p>
         </div>
         </form>
 
@@ -1345,7 +1192,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --form "phone=ngzmiyvdljnikhwaykcmyuwpwlvqwrsitcpscqldzsnrwtujwvlxjklqppwqbewtnnoqitpxntlt"\
     --form "gender=male"\
     --form "language=architecto"\
-    --form "image=@/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/phpv7eanpquofei5hnQ56n" </code></pre></div>
+    --form "image=@/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/php5kvihfvmgr337i6EDfR" </code></pre></div>
 
 
 <div class="javascript-example">
@@ -1533,7 +1380,7 @@ Must be one of:
                value=""
                data-component="body">
     <br>
-<p>Must be an image. Must not be greater than 2048 kilobytes. Example: <code>/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/phpv7eanpquofei5hnQ56n</code></p>
+<p>Must be an image. Must not be greater than 2048 kilobytes. Example: <code>/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/php5kvihfvmgr337i6EDfR</code></p>
         </div>
         </form>
 
@@ -2947,9 +2794,9 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --form "des=architecto"\
     --form "categories[]=architecto"\
     --form "rating=1"\
-    --form "status=public"\
+    --form "status=private"\
     --form "availbility=active"\
-    --form "image=@/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/phpbl5r0u56vbir9QZivOS" </code></pre></div>
+    --form "image=@/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/phptjkjqthvmpme6aMScSv" </code></pre></div>
 
 
 <div class="javascript-example">
@@ -2967,7 +2814,7 @@ body.append('title', 'architecto');
 body.append('des', 'architecto');
 body.append('categories[]', 'architecto');
 body.append('rating', '1');
-body.append('status', 'public');
+body.append('status', 'private');
 body.append('availbility', 'active');
 body.append('image', document.querySelector('input[name="image"]').files[0]);
 
@@ -3101,7 +2948,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value=""
                data-component="body">
     <br>
-<p>Must be an image. Example: <code>/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/phpbl5r0u56vbir9QZivOS</code></p>
+<p>Must be an image. Example: <code>/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/phptjkjqthvmpme6aMScSv</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>rating</code></b>&nbsp;&nbsp;
@@ -3122,10 +2969,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="status"                data-endpoint="POSTapi-admin-groups"
-               value="public"
+               value="private"
                data-component="body">
     <br>
-<p>Example: <code>public</code></p>
+<p>Example: <code>private</code></p>
 Must be one of:
 <ul style="list-style-type: square;"><li><code>public</code></li> <li><code>private</code></li></ul>
         </div>
@@ -3292,7 +3139,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --form "rating=1"\
     --form "status=public"\
     --form "availbility=unactive"\
-    --form "image=@/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/phppmeo3l225tcc77S6Lzx" </code></pre></div>
+    --form "image=@/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/phpa1n1e562547dcThQYT6" </code></pre></div>
 
 
 <div class="javascript-example">
@@ -3442,7 +3289,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value=""
                data-component="body">
     <br>
-<p>Must be an image. Example: <code>/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/phppmeo3l225tcc77S6Lzx</code></p>
+<p>Must be an image. Example: <code>/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/phpa1n1e562547dcThQYT6</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>rating</code></b>&nbsp;&nbsp;
@@ -6021,10 +5868,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --form "rating=1"\
     --form "status_case=draft"\
     --form "language=architecto"\
-    --form "image=@/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/php7t8r53ek5bf9bxx8Fq3" \
-    --form "pdf_read=@/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/phpnjknr226gocd5gapIaM" \
-    --form "pdf_download=@/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/phpbi53bluej5j3cOWAqeY" \
-    --form "audio=@/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/phpjos34i65h0tnaUw4Ehq" </code></pre></div>
+    --form "image=@/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/phpqdjl2qji8ekmeaRCWeE" \
+    --form "pdf_read=@/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/phpqbte5vbutbi6dRnflU2" \
+    --form "pdf_download=@/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/phpalegl0fa5e2g3PW1qWe" \
+    --form "audio=@/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/phpm7uvqaebsuij6G7xVYE" </code></pre></div>
 
 
 <div class="javascript-example">
@@ -6205,7 +6052,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value=""
                data-component="body">
     <br>
-<p>Must be an image. Example: <code>/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/php7t8r53ek5bf9bxx8Fq3</code></p>
+<p>Must be an image. Example: <code>/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/phpqdjl2qji8ekmeaRCWeE</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>rating</code></b>&nbsp;&nbsp;
@@ -6255,7 +6102,7 @@ Must be one of:
                value=""
                data-component="body">
     <br>
-<p>Must be a file. Must not be greater than 10240 kilobytes. Example: <code>/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/phpnjknr226gocd5gapIaM</code></p>
+<p>Must be a file. Must not be greater than 10240 kilobytes. Example: <code>/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/phpqbte5vbutbi6dRnflU2</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>pdf_download</code></b>&nbsp;&nbsp;
@@ -6267,7 +6114,7 @@ Must be one of:
                value=""
                data-component="body">
     <br>
-<p>Must be a file. Must not be greater than 10240 kilobytes. Example: <code>/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/phpbi53bluej5j3cOWAqeY</code></p>
+<p>Must be a file. Must not be greater than 10240 kilobytes. Example: <code>/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/phpalegl0fa5e2g3PW1qWe</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>audio</code></b>&nbsp;&nbsp;
@@ -6279,7 +6126,7 @@ Must be one of:
                value=""
                data-component="body">
     <br>
-<p>Must be a file. Must not be greater than 51200 kilobytes. Example: <code>/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/phpjos34i65h0tnaUw4Ehq</code></p>
+<p>Must be a file. Must not be greater than 51200 kilobytes. Example: <code>/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/phpm7uvqaebsuij6G7xVYE</code></p>
         </div>
         </form>
 
@@ -6445,10 +6292,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --form "rating=1"\
     --form "status_case=published"\
     --form "language=architecto"\
-    --form "image=@/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/php6h552vg0qiq22nO9fGA" \
-    --form "pdf_read=@/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/php0hhmrputcqeq5b2TpCe" \
-    --form "pdf_download=@/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/phprf7eha4g2gqd6a4ljCL" \
-    --form "audio=@/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/phpbok9ul5cj5q40RPxW74" </code></pre></div>
+    --form "image=@/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/php3rr7qmlf780q2bzvFnV" \
+    --form "pdf_read=@/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/phptul6l3ll4o2k0UJQoYw" \
+    --form "pdf_download=@/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/phpgmv59852m6q5bxnI71x" \
+    --form "audio=@/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/phphm94ft72aj1p6nOMt2R" </code></pre></div>
 
 
 <div class="javascript-example">
@@ -6641,7 +6488,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value=""
                data-component="body">
     <br>
-<p>Must be an image. Example: <code>/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/php6h552vg0qiq22nO9fGA</code></p>
+<p>Must be an image. Example: <code>/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/php3rr7qmlf780q2bzvFnV</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>rating</code></b>&nbsp;&nbsp;
@@ -6691,7 +6538,7 @@ Must be one of:
                value=""
                data-component="body">
     <br>
-<p>Must be a file. Must not be greater than 10240 kilobytes. Example: <code>/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/php0hhmrputcqeq5b2TpCe</code></p>
+<p>Must be a file. Must not be greater than 10240 kilobytes. Example: <code>/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/phptul6l3ll4o2k0UJQoYw</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>pdf_download</code></b>&nbsp;&nbsp;
@@ -6703,7 +6550,7 @@ Must be one of:
                value=""
                data-component="body">
     <br>
-<p>Must be a file. Must not be greater than 10240 kilobytes. Example: <code>/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/phprf7eha4g2gqd6a4ljCL</code></p>
+<p>Must be a file. Must not be greater than 10240 kilobytes. Example: <code>/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/phpgmv59852m6q5bxnI71x</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>audio</code></b>&nbsp;&nbsp;
@@ -6715,7 +6562,7 @@ Must be one of:
                value=""
                data-component="body">
     <br>
-<p>Must be a file. Must not be greater than 51200 kilobytes. Example: <code>/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/phpbok9ul5cj5q40RPxW74</code></p>
+<p>Must be a file. Must not be greater than 51200 kilobytes. Example: <code>/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/phphm94ft72aj1p6nOMt2R</code></p>
         </div>
         </form>
 
@@ -7772,7 +7619,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --form "title=architecto"\
     --form "dec=architecto"\
-    --form "image=@/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/php0n6dl217fjmmaP5MiAx" </code></pre></div>
+    --form "image=@/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/phpjmdpp39c7ingfMl3vKc" </code></pre></div>
 
 
 <div class="javascript-example">
@@ -7906,7 +7753,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value=""
                data-component="body">
     <br>
-<p>Must be an image. Must not be greater than 2048 kilobytes. Example: <code>/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/php0n6dl217fjmmaP5MiAx</code></p>
+<p>Must be an image. Must not be greater than 2048 kilobytes. Example: <code>/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/phpjmdpp39c7ingfMl3vKc</code></p>
         </div>
         </form>
 
@@ -8067,7 +7914,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --form "title=architecto"\
     --form "dec=architecto"\
-    --form "image=@/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/php9vtvnm55c1rbaZT9scm" </code></pre></div>
+    --form "image=@/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/phpqrdlvp2afbn574i1AgV" </code></pre></div>
 
 
 <div class="javascript-example">
@@ -8214,7 +8061,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value=""
                data-component="body">
     <br>
-<p>Must be an image. Must not be greater than 2048 kilobytes. Example: <code>/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/php9vtvnm55c1rbaZT9scm</code></p>
+<p>Must be an image. Must not be greater than 2048 kilobytes. Example: <code>/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/phpqrdlvp2afbn574i1AgV</code></p>
         </div>
         </form>
 
@@ -9266,7 +9113,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --form "context=architecto"\
     --form "group_id=16"\
-    --form "pdf=@/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/php3qkt9ai9tv4hdUKMu5R" </code></pre></div>
+    --form "pdf=@/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/phpf9vmdlprulqa8wAGydv" </code></pre></div>
 
 
 <div class="javascript-example">
@@ -9400,7 +9247,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value=""
                data-component="body">
     <br>
-<p>Must be a file. Must not be greater than 10240 kilobytes. Example: <code>/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/php3qkt9ai9tv4hdUKMu5R</code></p>
+<p>Must be a file. Must not be greater than 10240 kilobytes. Example: <code>/private/var/folders/lw/dckbpbp17tqck3zx0bc_j6bw0000gn/T/phpf9vmdlprulqa8wAGydv</code></p>
         </div>
         </form>
 
@@ -10056,6 +9903,171 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <p>Example: <code>architecto</code></p>
             </div>
                     </form>
+
+                <h1 id="auth">auth</h1>
+
+    
+
+                                <h2 id="auth-POSTapi-register">Get all books</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+
+
+<span id="example-requests-POSTapi-register">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "https://abdalrhman.cupital.xyz/api/register" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"name\": \"b\",
+    \"email\": \"zbailey@example.net\",
+    \"password\": \"-0pBNvYgxw\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "https://abdalrhman.cupital.xyz/api/register"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "name": "b",
+    "email": "zbailey@example.net",
+    "password": "-0pBNvYgxw"
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-register">
+</span>
+<span id="execution-results-POSTapi-register" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-register"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-register"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-register" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-register">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-register" data-method="POST"
+      data-path="api/register"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-register', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-register"
+                    onclick="tryItOut('POSTapi-register');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-register"
+                    onclick="cancelTryOut('POSTapi-register');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-register"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/register</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-register"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-register"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>name</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="name"                data-endpoint="POSTapi-register"
+               value="b"
+               data-component="body">
+    <br>
+<p>Must not be greater than 255 characters. Example: <code>b</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>email</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="email"                data-endpoint="POSTapi-register"
+               value="zbailey@example.net"
+               data-component="body">
+    <br>
+<p>Must be a valid email address. Example: <code>zbailey@example.net</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>password</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="password"                data-endpoint="POSTapi-register"
+               value="-0pBNvYgxw"
+               data-component="body">
+    <br>
+<p>Must be at least 6 characters. Example: <code>-0pBNvYgxw</code></p>
+        </div>
+        </form>
 
             
 
