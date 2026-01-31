@@ -16,9 +16,10 @@ php artisan view:clear || true
 
 # Cache configuration for better performance (only if .env exists)
 if [ -f .env ]; then
-    php artisan config:cache || true
-    php artisan route:cache || true
-    php artisan view:cache || true
+    # php artisan config:cache || true
+    # php artisan route:cache || true
+    # php artisan view:cache || true
+    echo "Skipping cache for debugging..."
 fi
 
 # Execute the command passed to the container
