@@ -76,12 +76,10 @@ return [
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
 
-          'admins' => [
-        'driver' => 'eloquent',
-        'model' => User::class,
-        'query' => function ($query) {
-            $query->where('role', 'admin');
-        },
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => User::class,
+        ],
 
         // 'users' => [
         //     'driver' => 'database',
