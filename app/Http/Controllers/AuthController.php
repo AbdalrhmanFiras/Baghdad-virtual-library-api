@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AdminLoginRequest;
+use App\Http\Requests\AdminRegisterRequest;
 use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserRgisterRequest;
 use App\Http\Resources\UserAuthResource;
@@ -118,25 +120,47 @@ class AuthController extends Controller
         ]);
     }
 
-    public function loginAdmin(Request $request)
+    public function registerAdmin(AdminRegisterRequest $request)
     {
+        $data = $request->validated();
+
+        $data['password'] = bcrypt($data['password']);
+        $data['role'] = 'admin';
+
+        $admin = User::create($data);
+
+        $token = auth('admin')->login($admin);
+
+        return $this->responseSuccess([
+            'access_token' => $token,
+
+        ], 'Admin registered successfully', 201);
+    }
+
+    public function loginAdmin(AdminLoginRequest $request)
+    {
+        $request->validated();
         $credentials = $request->only('email', 'password');
 
-        if (! $token = auth('admin')->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+        $user = User::where('email', $credentials['email'])
+            ->where('role', 'admin')
+            ->first();
+
+        if (! $user || ! auth('admin')->attempt($credentials)) {
+            return $this->responseError(null, 'Unauthorized', 401);
         }
 
-        return response()->json([
+        $token = auth('admin')->tokenById($user->id);
+
+        return $this->responseSuccess([
             'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth('admin')->factory()->getTTL() * 60,
-        ]);
+        ], 'Admin logged in successfully');
     }
 
     public function logoutAdmin()
     {
         auth('admin')->logout();
 
-        return response()->json(['message' => 'Logged out successfully']);
+        return $this->responseSuccess(null, 'Logged out successfully');
     }
 }

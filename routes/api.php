@@ -54,17 +54,20 @@ Route::middleware('auth:api')->prefix('user')->group(function () {
 });
 
 // //////////////////////////////////?Admin//////////////////////////////////////////
+
+Route::prefix('admin')->group(function () {
+    Route::post('/register', [AuthController::class, 'registerAdmin']);
+    Route::post('/login', [AuthController::class, 'loginAdmin']);
+
+});
+
 // **********************************/Author/*****************************//
 Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::post('/author', [AuthorController::class, 'store']);
     Route::put('/author/{Id}', [AuthorController::class, 'update']);
     Route::delete('/author/{Id}', [AuthorController::class, 'delete']);
 
-    // **********************************/Auth/*****************************//
-
-    Route::post('/login', [AuthController::class, 'loginAdmin'])->withoutMiddleware('auth:admin');
     Route::post('/logout', [AuthController::class, 'logoutAdmin'])->middleware('auth:admin');
-
     // **********************************/Category Groups/*****************************//
 
     Route::prefix('categories')->group(function () {
