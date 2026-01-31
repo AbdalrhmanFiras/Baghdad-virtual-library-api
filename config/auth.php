@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\User;
+
 return [
 
     /*
@@ -40,10 +42,15 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-        'api'=> [
+        'api' => [
             'driver' => 'jwt',
-            'provider' => 'users'
-        ]
+            'provider' => 'users',
+        ],
+
+        'admin' => [
+            'driver' => 'jwt',
+            'provider' => 'admins',
+        ],
     ],
 
     /*
@@ -68,6 +75,13 @@ return [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
+
+          'admins' => [
+        'driver' => 'eloquent',
+        'model' => User::class,
+        'query' => function ($query) {
+            $query->where('role', 'admin');
+        },
 
         // 'users' => [
         //     'driver' => 'database',

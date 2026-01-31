@@ -117,4 +117,26 @@ class AuthController extends Controller
             'token' => $token,
         ]);
     }
+
+    public function loginAdmin(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+
+        if (! $token = auth('admin')->attempt($credentials)) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => auth('admin')->factory()->getTTL() * 60,
+        ]);
+    }
+
+    public function logoutAdmin()
+    {
+        auth('admin')->logout();
+
+        return response()->json(['message' => 'Logged out successfully']);
+    }
 }
