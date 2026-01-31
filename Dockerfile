@@ -53,7 +53,11 @@ COPY . .
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
 
-RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
+RUN echo '<Directory /var/www/html/public>\n\
+    AllowOverride All\n\
+    Require all granted\n\
+    </Directory>' > /etc/apache2/conf-available/laravel.conf \
+    && a2enconf laravel
 
 # Create necessary directories
 RUN mkdir -p storage/framework/{sessions,views,cache} \
