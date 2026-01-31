@@ -8,6 +8,10 @@ return [
      * If you need to change this behavior, you can add your custom routes resolver using `Scramble::routes()`.
      */
     'api_path' => 'api',
+    'routes' => [
+        base_path('routes/api_user.php'),
+        base_path('routes/api_admin.php'),
+    ],
 
     /*
      * Your API domain. By default, app domain is used. This is also a part of the default API routes
