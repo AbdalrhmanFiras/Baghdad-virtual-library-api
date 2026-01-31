@@ -102,7 +102,7 @@ return [
     */
 
     'auth' => [
-        'guard' => 'admin',
+        'guard' => 'web',
     ],
 
     'file_generation' => [
