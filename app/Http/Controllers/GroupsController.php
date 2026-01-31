@@ -15,13 +15,12 @@ use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
- * @group User
- *
  * @tags Groups Endpoint
  */
 class GroupsController extends Controller
 {
     /**
+     * @group User
      * Create Groups
      */
     public function store(StoreGroupRequest $request)
