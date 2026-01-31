@@ -62,7 +62,7 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
 
     // **********************************/Auth/*****************************//
 
-    Route::post('/login', [AuthController::class, 'loginAdmin']);
+    Route::post('/login', [AuthController::class, 'loginAdmin'])->withoutMiddleware('auth:admin');
     Route::post('/logout', [AuthController::class, 'logoutAdmin'])->middleware('auth:admin');
 
     // **********************************/Category Groups/*****************************//
