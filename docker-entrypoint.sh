@@ -1,14 +1,9 @@
 #!/bin/bash
 set -e
 
-# Ensure storage directories exist
-mkdir -p storage/framework/{sessions,views,cache}
-mkdir -p storage/logs
-mkdir -p bootstrap/cache
-
 # Set proper permissions for Laravel directories
-chown -R www-data:www-data storage bootstrap/cache
-chmod -R 775 storage bootstrap/cache
+chown -R www-data:www-data storage bootstrap/cache || true
+chmod -R 775 storage bootstrap/cache || true
 
 # Clear Laravel caches if they exist (helpful for debugging)
 php artisan config:clear || true
