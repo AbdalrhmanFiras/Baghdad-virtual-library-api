@@ -12,7 +12,6 @@ use App\Http\Resources\BookResource;
 use App\Models\Author;
 use App\Models\Book;
 use App\Services\TelegramService;
-use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -154,7 +153,7 @@ class BookController extends Controller
     public function index()
     {
 
-        $books = Book::paginate(10);
+        $books = Book::with('flags')->paginate(10);
         if ($books->isEmpty()) {
             return $this->responseError(null, 'No books yet.');
         }
@@ -517,9 +516,8 @@ class BookController extends Controller
     {
         try {
             $data = $request->validated();
-            $bookId = $request->input('book_id');
 
-            $book = Book::find($bookId);
+            $book = Book::with('flags')->find($bookId);
             if (! $book) {
                 return response()->json([
                     'message' => 'Book not found',
@@ -534,16 +532,14 @@ class BookController extends Controller
                 'flag' => $data['flag'],
             ]);
 
-            return response()->json([
-                'message' => 'Flag added successfully',
-                'book_id' => $book->id,
-                'flag' => $data['flag'],
-            ], 201);
-        } catch (Exception $e) {
-            return response()->json([
-                'message' => 'Something went wrong',
-                'error' => $e->getMessage(),
-            ], 500);
+            $book->load('flags');
+
+            return $this->responseSuccess([
+                'data' => new BookResource($book),
+            ], 'Flag added successfully.', 201);
+
+        } catch (\Exception $e) {
+            return $this->responseError('Something went wrong', 500, $e->getMessage());
         }
     }
 }
