@@ -16,23 +16,11 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [
-        '*',
-        'https://abdalrhman.cupital.xyz', // رابط السيرفر
-    ],
+    'allowed_origins' => ['*'],
 
     'allowed_origins_patterns' => [],
 
-    'allowed_headers' => [
-        'Accept',
-        'Authorization',
-        'Content-Type',
-        'X-Requested-With',
-        'X-CSRF-TOKEN',
-        'X-XSRF-TOKEN',
-        'X-Auth-Token',
-        'X-API-Key',
-    ],
+    'allowed_headers' => ['*'],
 
     'exposed_headers' => [
         'Authorization',
