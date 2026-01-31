@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Enum\BookStatusEnum;
-use App\Enum\UserBookEnum;
+use App\Enums\BookStatusEnum;
+use App\Enums\UserBookEnum;
 use App\Helper\FileHelper;
 use App\Http\Requests\AddBookFlagRequest;
 use App\Http\Requests\StoreBookRequest;

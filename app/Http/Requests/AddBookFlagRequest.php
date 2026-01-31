@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Enum\BookFlagsEnum;
+use App\Enums\BookFlagsEnum;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -24,7 +24,7 @@ class AddBookFlagRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'flag' => ['required', 'string', Rule::in(BookFlagsEnum::values())],
+            'flag' => ['required', 'string', Rule::in(array_column(BookFlagsEnum::cases(), 'value'))],
         ];
     }
 }
