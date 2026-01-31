@@ -120,6 +120,9 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+     * Admin Register
+     */
     public function registerAdmin(AdminRegisterRequest $request)
     {
         $data = $request->validated();
@@ -137,6 +140,9 @@ class AuthController extends Controller
         ], 'Admin registered successfully', 201);
     }
 
+    /**
+     * Admin login
+     */
     public function loginAdmin(AdminLoginRequest $request)
     {
         $request->validated();
@@ -157,6 +163,9 @@ class AuthController extends Controller
         ], 'Admin logged in successfully');
     }
 
+    /**
+     * Admin logout
+     */
     public function logoutAdmin()
     {
         auth('admin')->logout();

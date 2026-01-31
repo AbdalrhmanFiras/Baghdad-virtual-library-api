@@ -169,6 +169,9 @@ class BookController extends Controller
         ], 'Books fetched successfully.', 200);
     }
 
+    /**
+     * Get Trending Books
+     */
     public function indexTrending()
     {
 
@@ -189,6 +192,9 @@ class BookController extends Controller
         ], 'Books fetched successfully.', 200);
     }
 
+    /**
+     * Get Recommended Books
+     */
     public function indexRec()
     {
 
@@ -209,6 +215,9 @@ class BookController extends Controller
         ], 'Books fetched successfully.', 200);
     }
 
+    /**
+     * Get Best Books
+     */
     public function indexBest()
     {
 
