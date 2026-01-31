@@ -101,6 +101,10 @@ return [
     |
     */
 
+    'auth' => [
+        'guard' => 'admin',
+    ],
+
     'file_generation' => [
         'flags' => [],
     ],

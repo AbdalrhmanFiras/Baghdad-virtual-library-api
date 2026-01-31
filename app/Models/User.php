@@ -96,4 +96,14 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->belongsToMany(UserTags::class, 'tag_users', 'user_id', 'user_tag_id');
     }
+
+    // public function canAccessFilament(): bool
+    // {
+    //     return $this->hasRole('admin');
+    // }
+
+    public function canAccessFilament(): bool
+    {
+        return true; // temporarily allow all users
+    }
 }
