@@ -17,8 +17,8 @@ return [
     'allowed_methods' => ['*'],
 
     'allowed_origins' => [
+        '*',
         'https://abdalrhman.cupital.xyz', // رابط السيرفر
-        // Vite default
     ],
 
     'allowed_origins_patterns' => [],
