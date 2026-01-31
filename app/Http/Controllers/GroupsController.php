@@ -83,6 +83,7 @@ class GroupsController extends Controller
     }
 
     /**
+     * @group User
      * Show(All) Groups
      */
     public function index()
