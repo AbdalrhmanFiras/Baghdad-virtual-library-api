@@ -8,10 +8,18 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable implements JWTSubject
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
+
+class User extends Authenticatable implements JWTSubject, FilamentUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return true; // defined logic
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -102,8 +110,5 @@ class User extends Authenticatable implements JWTSubject
     //     return $this->hasRole('admin');
     // }
 
-    public function canAccessFilament(): bool
-    {
-        return true; // temporarily allow all users
-    }
+    //
 }
