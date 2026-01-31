@@ -53,6 +53,8 @@ COPY . .
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
 
+RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
+
 # Create necessary directories
 RUN mkdir -p storage/framework/{sessions,views,cache} \
     storage/logs \
