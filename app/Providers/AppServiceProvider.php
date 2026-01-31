@@ -23,8 +23,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (app()->environment('production') || request()->server('HTTP_X_FORWARDED_PROTO') === 'https') {
-             \Illuminate\Support\Facades\URL::forceScheme('https');
+       
+  if (
+            (app()->environment('production') || request()->server('HTTP_X_FORWARDED_PROTO') === 'https') &&
+            !in_array(request()->getHost(), ['localhost', '127.0.0.1'])
+        ) {             \Illuminate\Support\Facades\URL::forceScheme('https');
         }
 
         Scramble::configure()
