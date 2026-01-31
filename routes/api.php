@@ -93,6 +93,7 @@ Route::middleware('auth:api')->prefix('admin')->group(function () {
     Route::get('books/{book}/add-fav', [BookController::class, 'addBooktofav']);
     Route::get('books/{book}/add-read', [BookController::class, 'addToRead']);
     Route::post('books/{book}/pages-read', [BookController::class, 'updatePagesRead']);
+    Route::post('books/{book}/flag', [BookController::class, 'addFlagToBook']);
     Route::post('books/{book}/remove-read', [BookController::class, 'removeToRead']);
     Route::post('books/{book}/remove-fav', [BookController::class, 'removeFav']);
 
@@ -106,7 +107,7 @@ Route::middleware('auth:api')->prefix('admin')->group(function () {
 
     // **********************************/User Tags/*****************************//
 
-    Route::prefix('/')->group(function () {
+    Route::prefix('tags')->group(function () {
         Route::get('/', [UserTagsController::class, 'index']);
         Route::post('/', [UserTagsController::class, 'store']);
         Route::put('/{id}', [UserTagsController::class, 'update']);

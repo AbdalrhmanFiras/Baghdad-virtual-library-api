@@ -73,11 +73,11 @@ class BookController extends Controller
             }
 
             $book = Book::create($data);
-            $message = "🆕🔔 <b>تم إضافة كتاب جديد!</b>\n";
-            $message .= "📖 <b>العنوان:</b> {$book->title}\n";
-            $message .= "✍️ <b>المؤلف:</b> {$book->author}\n";
-            $message .= "🔗 <a href='{$book->url}'>رابط الكتاب</a>";
-            $telegram->sendMessage($message);
+            // $message = "🆕🔔 <b>تم إضافة كتاب جديد!</b>\n";
+            // $message .= "📖 <b>العنوان:</b> {$book->title}\n";
+            // $message .= "✍️ <b>المؤلف:</b> {$book->author}\n";
+            // $message .= "🔗 <a href='{$book->url}'>رابط الكتاب</a>";
+            // $telegram->sendMessage($message);
 
             $file = $request->file('image') ?? null;
             if ($file) {
@@ -513,7 +513,7 @@ class BookController extends Controller
      *
      * `Admin(only)`
      */
-    public function addFlagToBook(AddBookFlagRequest $request)
+    public function addFlagToBook(AddBookFlagRequest $request, $bookId)
     {
         try {
             $data = $request->validated();

@@ -102,7 +102,6 @@ class UserTagsController extends Controller
             $admin = Auth::user();
             $member = User::findOrFail($memberId);
 
-            // تأكد إن العضو في نفس مجموعة الـ admin
             $adminGroupIds = $admin->groups()->pluck('groups.id')->toArray();
             $memberGroupIds = $member->groups()->pluck('groups.id')->toArray();
             if (! count(array_intersect($adminGroupIds, $memberGroupIds))) {
