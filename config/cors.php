@@ -3,6 +3,7 @@
 return [
     'paths' => [
         'api/*',
+        'admin/*',
         'sanctum/csrf-cookie',
         'docs/*',
         'api-docs*',
