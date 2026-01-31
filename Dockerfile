@@ -29,6 +29,7 @@ COPY . .
 RUN a2enmod rewrite
 
 # إنشاء مجلدات التخزين والكاش
+RUN npm install
 RUN mkdir -p storage/framework/{sessions,views,cache} \
     storage/logs \
     bootstrap/cache
