@@ -40,13 +40,6 @@ Route::middleware('auth:api')->prefix('user')->group(function () {
         Route::patch('/comment/{bookId}/{commentId}', [CommentController::class, 'update']);
         Route::delete('/comment/{bookId}/{commentId}', [CommentController::class, 'delete']);
     });
-});
-
-// //////////////////////////////////?Admin//////////////////////////////////////////
-Route::middleware('auth:api')->prefix('admin')->group(function () {
-    Route::post('/author', [AuthorController::class, 'store']);
-    Route::put('/author/{Id}', [AuthorController::class, 'update']);
-    Route::delete('/author/{Id}', [AuthorController::class, 'delete']);
 
     // **********************************/Groups/*****************************//
     Route::get('/groups-search', [GroupsController::class, 'search']);
@@ -57,6 +50,14 @@ Route::middleware('auth:api')->prefix('admin')->group(function () {
     Route::delete('/groups/{id}', [GroupsController::class, 'destroy'])->whereNumber('id');
     Route::post('/groups/{id}/join', [GroupsController::class, 'join'])->whereNumber('id');
     Route::post('/groups/{id}/leave', [GroupsController::class, 'leave'])->whereNumber('id');
+
+});
+
+// //////////////////////////////////?Admin//////////////////////////////////////////
+Route::middleware('auth:api')->prefix('admin')->group(function () {
+    Route::post('/author', [AuthorController::class, 'store']);
+    Route::put('/author/{Id}', [AuthorController::class, 'update']);
+    Route::delete('/author/{Id}', [AuthorController::class, 'delete']);
     // **********************************/Category Groups/*****************************//
 
     Route::prefix('categories')->group(function () {

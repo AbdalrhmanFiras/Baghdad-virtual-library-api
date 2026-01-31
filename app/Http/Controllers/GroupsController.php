@@ -15,6 +15,8 @@ use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
+ * @group User
+ *
  * @tags Groups Endpoint
  */
 class GroupsController extends Controller
