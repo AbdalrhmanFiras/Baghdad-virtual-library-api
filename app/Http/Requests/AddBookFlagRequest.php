@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\BookFlagsEnum;
+use App\Enum\BookFlagsEnum;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
