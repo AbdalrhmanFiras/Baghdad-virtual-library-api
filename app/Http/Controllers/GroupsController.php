@@ -20,7 +20,6 @@ use Spatie\QueryBuilder\QueryBuilder;
 class GroupsController extends Controller
 {
     /**
-     * @group User
      * Create Groups
      */
     public function store(StoreGroupRequest $request)
@@ -83,7 +82,6 @@ class GroupsController extends Controller
     }
 
     /**
-     * @group User
      * Show(All) Groups
      */
     public function index()
