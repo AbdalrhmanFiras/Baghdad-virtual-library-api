@@ -47,10 +47,10 @@ return [
             'provider' => 'users',
         ],
 
-        'admin' => [
-            'driver' => 'jwt',
-            'provider' => 'admins',
-        ],
+        // 'admin' => [
+        //     'driver' => 'jwt',
+        //     'provider' => 'admins',
+        // ],
     ],
 
     /*
@@ -76,10 +76,10 @@ return [
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
 
-        'admins' => [
-            'driver' => 'eloquent',
-            'model' => User::class,
-        ],
+        // 'admins' => [
+        //     'driver' => 'eloquent',
+        //     'model' => User::class,
+        // ],
 
         // 'users' => [
         //     'driver' => 'database',
