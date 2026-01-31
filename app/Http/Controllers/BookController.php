@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\BookFlagsEnum;
 use App\Enums\BookStatusEnum;
 use App\Enums\UserBookEnum;
 use App\Helper\FileHelper;
@@ -154,6 +155,66 @@ class BookController extends Controller
     {
 
         $books = Book::with('flags')->paginate(10);
+        if ($books->isEmpty()) {
+            return $this->responseError(null, 'No books yet.');
+        }
+
+        return $this->responseSuccess([
+            'data' => BookResource::collection($books), 'meta' => [
+                'current_page' => $books->currentPage(),
+                'last_page' => $books->lastPage(),
+                'per_page' => $books->perPage(),
+                'total' => $books->total(),
+            ],
+        ], 'Books fetched successfully.', 200);
+    }
+
+    public function indexTrending()
+    {
+
+        $books = Book::with('flags')
+            ->whereHas('flags', fn ($q) => $q->where('flag', BookFlagsEnum::Trending->value))
+            ->paginate(10);
+        if ($books->isEmpty()) {
+            return $this->responseError(null, 'No books yet.');
+        }
+
+        return $this->responseSuccess([
+            'data' => BookResource::collection($books), 'meta' => [
+                'current_page' => $books->currentPage(),
+                'last_page' => $books->lastPage(),
+                'per_page' => $books->perPage(),
+                'total' => $books->total(),
+            ],
+        ], 'Books fetched successfully.', 200);
+    }
+
+    public function indexRec()
+    {
+
+        $books = Book::with('flags')
+            ->whereHas('flags', fn ($q) => $q->where('flag', BookFlagsEnum::Recommended->value))
+            ->paginate(10);
+        if ($books->isEmpty()) {
+            return $this->responseError(null, 'No books yet.');
+        }
+
+        return $this->responseSuccess([
+            'data' => BookResource::collection($books), 'meta' => [
+                'current_page' => $books->currentPage(),
+                'last_page' => $books->lastPage(),
+                'per_page' => $books->perPage(),
+                'total' => $books->total(),
+            ],
+        ], 'Books fetched successfully.', 200);
+    }
+
+    public function indexBest()
+    {
+
+        $books = Book::with('flags')
+            ->whereHas('flags', fn ($q) => $q->where('flag', BookFlagsEnum::Best->value))
+            ->paginate(10);
         if ($books->isEmpty()) {
             return $this->responseError(null, 'No books yet.');
         }

@@ -81,6 +81,9 @@ Route::middleware('auth:api')->prefix('admin')->group(function () {
 
     Route::get('/books-search', [BookController::class, 'search']);
     Route::get('/books', [BookController::class, 'index']);
+    Route::get('/books/best', [BookController::class, 'indexBest']);
+    Route::get('/books/recommended', [BookController::class, 'indexRec']);
+    Route::get('/books/trending', [BookController::class, 'indexTrending']);
     Route::get('books/fav', [BookController::class, 'getFav']);
     Route::get('books/to-read', [BookController::class, 'getToRead']);
     Route::get('books/reading', [BookController::class, 'getReading']);
