@@ -49,6 +49,7 @@ class BookForm
                 ->disk('s3-private')
                 ->directory('books/images')
                 ->visibility('private')
+                ->preserveFilenames(false)
                 ->image()
                 ->previewable(false)
                 ->openable(false)
