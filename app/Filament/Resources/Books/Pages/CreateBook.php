@@ -27,4 +27,9 @@ class CreateBook extends CreateRecord
 
         return $book;
     }
+
+    protected function getRedirectUrl(): string
+    {
+        return static::getResource()::getUrl('index');
+    }
 }
