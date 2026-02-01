@@ -83,6 +83,8 @@ class BooksTable
                     ->formatStateUsing(fn ($state) => strip_tags($state))
                     ->tooltip(fn ($record) => strip_tags($record->dec))->toggleable(),
 
+                TextColumn::make('categories.name')->label('category')->badge()->toggleable(),
+
             ])
 
             ->filters([

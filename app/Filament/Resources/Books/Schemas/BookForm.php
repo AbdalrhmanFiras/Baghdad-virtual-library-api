@@ -37,7 +37,7 @@ class BookForm
                             'published' => 'Published',
                             'archived' => 'Archived',
                         ])
-                        ->default('draft')
+
                         ->required()
                         ->columnSpanFull(),
                 ]),
@@ -107,6 +107,11 @@ class BookForm
                         ->directory('books/images')
                         ->visibility('private')
                         ->image()
+                        ->afterStateHydrated(function ($component, $record) {
+                            if ($record?->image) {
+                                $component->state($record->image->url);
+                            }
+                        })
                         ->previewable(true)
                         ->openable(true)
                         ->downloadable(false)
