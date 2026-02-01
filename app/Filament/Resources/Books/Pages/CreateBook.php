@@ -14,7 +14,7 @@ class CreateBook extends CreateRecord
     {
         $data['is_readable'] = ! empty($data['pdf_read']);
         $data['is_downloadable'] = ! empty($data['pdf_download']);
-        $data['has_audio'] = ! empty($data['has_audio']);
+        $data['has_audio'] = ! empty($data['audio']);
 
         $book = Book::create($data);
 
@@ -22,10 +22,9 @@ class CreateBook extends CreateRecord
             $book->categories()->sync($data['categories']);
         }
 
-        if (! empty($data['image'])) {
+        if (! empty($data['cover_image'])) {
             $book->image()->create([
-                'url' => $data['image'],
-                'type' => 'books',
+                'url' => $data['cover_image'],
             ]);
         }
 

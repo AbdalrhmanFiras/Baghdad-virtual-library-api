@@ -101,17 +101,11 @@ class BookForm
                         ->downloadable(false)
                         ->columnSpanFull(),
 
-                    FileUpload::make('image')
+                    FileUpload::make('cover_image')
                         ->label('Cover Image')
                         ->disk('s3-private')
                         ->directory('books/images')
-                        ->visibility('private')
                         ->image()
-                        ->afterStateHydrated(function ($component, $record) {
-                            if ($record?->image) {
-                                $component->state($record->image->url);
-                            }
-                        })
                         ->previewable(true)
                         ->openable(true)
                         ->downloadable(false)
