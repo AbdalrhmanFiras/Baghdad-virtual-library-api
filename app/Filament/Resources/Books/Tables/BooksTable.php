@@ -55,7 +55,7 @@ class BooksTable
                     ->boolean()
                     ->trueIcon('heroicon-o-speaker-wave')
                     ->colors([
-                        'success' => fn ($record) => ! empty($record->pdf_download),
+                        'success' => fn ($record) => ! empty($record->audio),
                     ])->toggleable()->alignCenter(),
 
                 TextColumn::make('rating')
@@ -71,12 +71,17 @@ class BooksTable
                     })
                     ->badge()
                     ->colors([
-                        'danger' => fn ($state) => $state <= 2,          // أحمر إذا 2 أو أقل
-                        'warning' => fn ($state) => $state == 3,         // برتقالي إذا 3
-                        'success' => fn ($state) => $state > 3,          // أخضر إذا أكبر من 3
-                    ])
+                        'danger' => fn ($state) => $state <= 2,
+                        'warning' => fn ($state) => $state == 3,
+                        'success' => fn ($state) => $state > 3,
+                    ])->alignCenter()
                     ->sortable()
                     ->toggleable(),
+
+                TextColumn::make('dec')
+                    ->label('Description')->limit(50)->wrap()->alignCenter()->alignLeft()
+                    ->formatStateUsing(fn ($state) => strip_tags($state))
+                    ->tooltip(fn ($record) => strip_tags($record->dec))->toggleable(),
 
             ])
 
