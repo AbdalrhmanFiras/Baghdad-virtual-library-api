@@ -17,6 +17,14 @@ ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf \
     && sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
+
+# Create custom PHP configuration for increased upload limits
+RUN echo "file_uploads = On\n\
+memory_limit = 512M\n\
+upload_max_filesize = 64M\n\
+post_max_size = 64M\n\
+max_execution_time = 600\n" > /usr/local/etc/php/conf.d/uploads.ini
+
 # Install system dependencies and PHP extensions
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
@@ -73,6 +81,11 @@ RUN a2enmod rewrite
 # Create necessary directories
 RUN mkdir -p storage/framework/{sessions,views,cache} \
     storage/logs \
+# Create necessary directories
+RUN mkdir -p storage/framework/{sessions,views,cache} \
+    storage/logs \
+    storage/app/public \
+    storage/app/private \
     bootstrap/cache
 
 # Copy and set permissions for entrypoint script
