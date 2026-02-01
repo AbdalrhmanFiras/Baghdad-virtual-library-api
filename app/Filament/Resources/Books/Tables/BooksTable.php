@@ -6,7 +6,6 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ViewColumn;
 use Filament\Tables\Table;
@@ -34,11 +33,6 @@ class BooksTable
                     ->label('Cover')
                     ->view('tables.columns.image-hover')
                     ->toggleable()->alignLeft(),
-                // ImageColumn::make('book_image')
-                //     ->disk('s3-public')
-                //     ->label('Cover')
-                //     ->height(50)
-                //     ->width(35),
 
                 IconColumn::make('pdf_read')
                     ->label('Readable')

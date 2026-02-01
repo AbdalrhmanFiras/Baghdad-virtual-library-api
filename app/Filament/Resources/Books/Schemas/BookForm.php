@@ -85,8 +85,8 @@ class BookForm
                         ->directory('books/read')
                         ->visibility('private')
                         ->acceptedFileTypes(['application/pdf', 'image/png', 'image/jpeg'])
-                        ->previewable(false)
-                        ->openable(false)
+                        ->previewable(true)
+                        ->openable(true)
                         ->downloadable(false)
                         ->columnSpanFull(),
 
