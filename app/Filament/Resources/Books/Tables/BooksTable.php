@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Books\Tables;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ViewColumn;
 use Filament\Tables\Table;
@@ -15,10 +16,10 @@ class BooksTable
     {
         return $table
             ->columns([
-                TextColumn::make('id')->label('ID')->searchable()->sortable()->badge(),
-                TextColumn::make('title')->searchable(),
-                TextColumn::make('publish_year')->label('Published')->searchable(),
-                TextColumn::make('language')->label('Language')->searchable(),
+                TextColumn::make('id')->label('ID')->searchable()->sortable()->badge()->toggleable(),
+                TextColumn::make('title')->searchable()->toggleable(),
+                TextColumn::make('publish_year')->label('Published')->searchable()->toggleable(),
+                TextColumn::make('language')->label('Language')->searchable()->toggleable(),
                 TextColumn::make('author.author_name')
                     ->label('Author')
                     ->sortable()
@@ -27,11 +28,56 @@ class BooksTable
                     'primary' => 'Draft',
                     'success' => 'Published',
                     'danger' => 'Archived',
-                ])->sortable(),
+                ])->sortable()->toggleable(),
                 ViewColumn::make('image_preview')
                     ->label('Cover')
                     ->view('tables.columns.image-hover')
+                    ->toggleable()->alignLeft(),
+
+                IconColumn::make('pdf_read')
+                    ->label('Readable')
+                    ->boolean()
+                    ->trueIcon('heroicon-o-document-text')
+                    ->colors([
+                        'success' => fn ($record) => ! empty($record->pdf_read),
+                    ])->toggleable()->alignCenter(),
+
+                IconColumn::make('pdf_download')
+                    ->label('Downloadable')
+                    ->boolean()
+                    ->trueIcon('heroicon-o-arrow-down-tray')
+                    ->colors([
+                        'success' => fn ($record) => ! empty($record->pdf_download),
+                    ])->toggleable()->alignCenter(),
+
+                IconColumn::make('audio')
+                    ->label('Audoi')
+                    ->boolean()
+                    ->trueIcon('heroicon-o-speaker-wave')
+                    ->colors([
+                        'success' => fn ($record) => ! empty($record->pdf_download),
+                    ])->toggleable()->alignCenter(),
+
+                TextColumn::make('rating')
+                    ->label('Rating')
+                    ->formatStateUsing(function ($state) {
+                        $fullStars = floor($state);
+                        $halfStar = ($state - $fullStars) >= 0.5 ? 1 : 0;
+                        $emptyStars = 5 - $fullStars - $halfStar;
+
+                        return str_repeat('⭐', $fullStars)
+                            .($halfStar ? '✬' : '')
+                            .str_repeat('☆', $emptyStars);
+                    })
+                    ->badge()
+                    ->colors([
+                        'danger' => fn ($state) => $state <= 2,          // أحمر إذا 2 أو أقل
+                        'warning' => fn ($state) => $state == 3,         // برتقالي إذا 3
+                        'success' => fn ($state) => $state > 3,          // أخضر إذا أكبر من 3
+                    ])
+                    ->sortable()
                     ->toggleable(),
+
             ])
 
             ->filters([
