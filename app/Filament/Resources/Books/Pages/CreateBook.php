@@ -12,6 +12,10 @@ class CreateBook extends CreateRecord
 
     protected function handleRecordCreation(array $data): \Illuminate\Database\Eloquent\Model
     {
+        $data['is_readable'] = ! empty($data['pdf_read']);
+        $data['is_downloadable'] = ! empty($data['pdf_download']);
+        $data['has_audio'] = ! empty($data['has_audio']);
+
         $book = Book::create($data);
 
         if (! empty($data['categories'])) {

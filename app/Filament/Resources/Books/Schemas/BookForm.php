@@ -33,6 +33,18 @@ class BookForm
                 ->disk('s3-private')
                 ->directory('books/download')
                 ->visibility('private')
+                ->preserveFilenames(false)
+                ->acceptedFileTypes(['application/pdf', 'image/png', 'image/jpeg'])
+                ->previewable(false)
+                ->openable(false)
+                ->downloadable(false),
+
+            FileUpload::make('pdf_read')
+                ->disk('s3-private')
+                ->directory('books/read')
+                ->visibility('private')
+                ->preserveFilenames(false)
+                ->acceptedFileTypes(['application/pdf', 'image/png', 'image/jpeg'])
                 ->previewable(false)
                 ->openable(false)
                 ->downloadable(false),
@@ -41,6 +53,7 @@ class BookForm
                 ->disk('s3-private')
                 ->directory('books/audio')
                 ->visibility('private')
+                ->preserveFilenames(false)
                 ->previewable(false)
                 ->openable(false)
                 ->downloadable(false),
@@ -50,8 +63,9 @@ class BookForm
                 ->directory('books/images')
                 ->visibility('private')
                 ->preserveFilenames(false)
+                ->acceptedFileTypes(['audio/mpeg', 'audio/wav'])
                 ->image()
-                ->previewable(false)
+                ->previewable(true)
                 ->openable(false)
                 ->downloadable(false),
 
@@ -62,10 +76,18 @@ class BookForm
 
             Select::make('status_case')
                 ->options([
-                    'Draft' => 'Draft',
-                    'Published' => 'Published',
+                    'draft' => 'Draft',
+                    'published' => 'Published',
+                    'archived' => 'Archived',
                 ])
-                ->default('Draft')
+                ->default('draft')
+                ->required(),
+
+            TextInput::make('rating')
+                ->minValue(1)
+                ->maxValue(5)
+                ->step(0.1)
+                ->default(1)
                 ->required(),
         ]);
     }
