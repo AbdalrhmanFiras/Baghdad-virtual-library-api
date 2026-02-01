@@ -5,8 +5,8 @@ namespace App\Filament\Resources\Books\Tables;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ViewColumn;
 use Filament\Tables\Table;
 
 class BooksTable
@@ -28,14 +28,9 @@ class BooksTable
                     'success' => 'Published',
                     'danger' => 'Archived',
                 ])->sortable(),
-                ImageColumn::make('image.url')
+                ViewColumn::make('image_preview')
                     ->label('Cover')
-                    ->square()
-                    ->height(50)
-                    ->extraAttributes([
-                        'class' => 'w-16',
-                        'style' => 'padding-top:4px; padding-bottom:4px;',
-                    ])
+                    ->view('tables.columns.image-hover')
                     ->toggleable(),
             ])
 
