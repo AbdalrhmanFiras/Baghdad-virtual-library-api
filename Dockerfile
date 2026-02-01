@@ -54,6 +54,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     gd \
     intl \
     opcache \
+    fileinfo \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 

@@ -2,8 +2,9 @@
 set -e
 
 # Set proper permissions for Laravel directories
-chown -R www-data:www-data storage bootstrap/cache || true
-chmod -R 775 storage bootstrap/cache || true
+mkdir -p storage/app/private/livewire-tmp
+chown -R www-data:www-data storage bootstrap/cache storage/app/private/livewire-tmp || true
+chmod -R 775 storage bootstrap/cache storage/app/private/livewire-tmp || true
 
 # Clear Laravel caches if they exist (helpful for debugging)
 php artisan config:clear || true
