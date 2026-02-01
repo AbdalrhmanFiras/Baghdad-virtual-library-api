@@ -12,25 +12,12 @@ class CreateBook extends CreateRecord
 
     protected function handleRecordCreation(array $data): \Illuminate\Database\Eloquent\Model
     {
-        // إنشاء الكتاب مع كل الـ paths المرفوعة
-        $book = Book::create([
-            'title' => $data['title'],
-            'author_id' => $data['author_id'],
-            'dec' => $data['dec'],
-            'publish_year' => $data['publish_year'],
-            'language' => $data['language'],
-            'status_case' => $data['status_case'] ?? 'Draft',
-            'pdf_read' => $data['pdf_read'] ?? null,
-            'pdf_download' => $data['pdf_download'] ?? null,
-            'audio' => $data['audio'] ?? null,
-        ]);
+        $book = Book::create($data);
 
-        // ربط الفئات
         if (! empty($data['categories'])) {
             $book->categories()->sync($data['categories']);
         }
 
-        // الصورة
         if (! empty($data['image'])) {
             $book->image()->create([
                 'url' => $data['image'],
