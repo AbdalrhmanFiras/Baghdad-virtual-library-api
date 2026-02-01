@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Books\Schemas;
 
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -85,11 +86,18 @@ class BookForm
                         ->directory('books/read')
                         ->visibility('private')
                         ->acceptedFileTypes(['application/pdf', 'image/png', 'image/jpeg'])
-                        ->previewable(true)
-                        ->openable(true)
+                        ->previewable(false)
+                        ->openable(false)
                         ->downloadable(false)
                         ->columnSpanFull()
                         ->preserveFilenames(),
+
+                    Placeholder::make('pdf_read_proxy')
+                        ->label('رابط PDF')
+                        ->content(fn ($record) => $record->pdf_read
+                            ? '[فتح PDF]('.route('file-proxy', ['encodedPath' => base64_encode($record->pdf_read)]).')'
+                            : 'لا يوجد ملف PDF')
+                        ->visible(fn ($context) => in_array($context, ['edit', 'view'])),
 
                     FileUpload::make('audio')
                         ->label('Audio')
