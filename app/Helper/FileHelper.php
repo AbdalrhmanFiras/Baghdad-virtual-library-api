@@ -2,7 +2,7 @@
 
 namespace App\Helper;
 
-use App\Enum\UserBookEnum;
+use App\Enums\UserBookEnum;
 use App\Models\Book;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;

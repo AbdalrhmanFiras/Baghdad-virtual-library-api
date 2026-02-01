@@ -12,7 +12,6 @@ use App\Http\Requests\UpdateBookRequest;
 use App\Http\Resources\BookResource;
 use App\Models\Author;
 use App\Models\Book;
-use App\Services\TelegramService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -29,7 +28,7 @@ class BookController extends Controller
      *
      * `Admin(only)`
      */
-    public function store(StoreBookRequest $request, TelegramService $telegram)
+    public function store(StoreBookRequest $request)
     {
         $data = $request->validated();
         $data['status_case'] = BookStatusEnum::Draft->value;
@@ -73,11 +72,6 @@ class BookController extends Controller
             }
 
             $book = Book::create($data);
-            // $message = "🆕🔔 <b>تم إضافة كتاب جديد!</b>\n";
-            // $message .= "📖 <b>العنوان:</b> {$book->title}\n";
-            // $message .= "✍️ <b>المؤلف:</b> {$book->author}\n";
-            // $message .= "🔗 <a href='{$book->url}'>رابط الكتاب</a>";
-            // $telegram->sendMessage($message);
 
             $file = $request->file('image') ?? null;
             if ($file) {
