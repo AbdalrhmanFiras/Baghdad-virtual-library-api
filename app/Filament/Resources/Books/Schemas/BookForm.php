@@ -88,7 +88,8 @@ class BookForm
                         ->previewable(true)
                         ->openable(true)
                         ->downloadable(false)
-                        ->columnSpanFull(),
+                        ->columnSpanFull()
+                        ->preserveFilenames(),
 
                     FileUpload::make('audio')
                         ->label('Audio')
