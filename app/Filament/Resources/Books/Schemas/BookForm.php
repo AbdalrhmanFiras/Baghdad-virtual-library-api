@@ -109,7 +109,9 @@ class BookForm
                         ->previewable(true)
                         ->openable(true)
                         ->downloadable(false)
-                        ->columnSpanFull(),
+                        ->columnSpanFull()
+                        ->visible(fn (string $context) => in_array($context, ['create', 'view'])),
+
                 ]),
 
         ]);
