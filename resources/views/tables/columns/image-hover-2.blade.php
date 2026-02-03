@@ -2,7 +2,6 @@
     use Illuminate\Support\Facades\Storage;
     $url = $record->image ? Storage::disk('s3-private')->temporaryUrl($record->image->url, now()->addMinutes(5)) : null;
 @endphp
-
 @if ($url)
     <div style="display: inline-block;">
         <img src="{{ $url }}" class="hover-trigger-{{ $record->id }}"
@@ -10,9 +9,9 @@
             alt="Thumbnail">
 
         <div id="popup-{{ $record->id }}"
-            style="position: fixed; z-index: 999999; display: none; pointer-events: none; width: max-content; transform: translateX(-100%);">
+            style="position: fixed; z-index: 999999; display: none; pointer-events: none;">
             <img src="{{ $url }}"
-                style="height: 250px; width: auto; max-width: 400px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2);"
+                style="height: 200px; width: auto; border-radius: 8px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5); border: 1px solid rgba(255,255,255,0.1);"
                 alt="Preview">
         </div>
 
@@ -22,12 +21,12 @@
                 const popup = document.getElementById('popup-{{ $record->id }}');
 
                 trigger.addEventListener('mouseenter', () => {
+                    // Get the exact position of the thumbnail on the screen
                     const rect = trigger.getBoundingClientRect();
 
-                    // Position at the LEFT edge of the thumbnail minus a 15px gap
+                    // Position the popup to the right of the thumbnail
                     popup.style.top = rect.top + 'px';
-                    popup.style.left = (rect.left - 15) + 'px';
-
+                    popup.style.left = (rect.right + 15) + 'px';
                     popup.style.display = 'block';
                 });
 
