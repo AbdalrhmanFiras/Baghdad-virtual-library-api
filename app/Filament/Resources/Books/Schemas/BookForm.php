@@ -3,10 +3,10 @@
 namespace App\Filament\Resources\Books\Schemas;
 
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\ViewField;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Storage;
@@ -75,18 +75,33 @@ class BookForm
                         ->disk('s3-private')
                         ->directory('books/download')
                         ->visibility('private')
-                        ->acceptedFileTypes(['application/pdf', 'image/png', 'image/jpeg'])
+                        ->acceptedFileTypes(['application/pdf'])
                         ->previewable(false)
                         ->openable(false)
-                        ->downloadable(false)
-                        ->columnSpanFull(),
+                        ->downloadable(true)
+                        ->preserveFilenames()
+                        ->columnSpanFull()
+                        ->dehydrated(fn ($state) => filled($state))
+                        ->saveUploadedFileUsing(function ($file, $set, $get, $record) {
+
+                            if ($record && $record->pdf_download) {
+                                Storage::disk('s3-private')->delete($record->pdf_download);
+                            }
+
+                            $path = $file->store('books/download', 's3-private');
+
+                            $set('pdf_download', $path);
+
+                            return $path;
+
+                        }),
 
                     FileUpload::make('pdf_read')
                         ->label('Readable PDF/Image')
                         ->disk('s3-private')
                         ->directory('books/read')
                         ->visibility('private')
-                        ->acceptedFileTypes(['application/pdf', 'image/png', 'image/jpeg'])
+                        ->acceptedFileTypes(['application/pdf'])
                         ->previewable(false)
                         ->openable(true)
                         ->downloadable(false)
@@ -95,7 +110,6 @@ class BookForm
                         ->dehydrated(fn ($state) => filled($state))
                         ->saveUploadedFileUsing(function ($file, $set, $get, $record) {
 
-                            // حذف الملف القديم عند التحديث
                             if ($record && $record->pdf_read) {
                                 Storage::disk('s3-private')->delete($record->pdf_read);
                             }
@@ -105,37 +119,61 @@ class BookForm
                             $set('pdf_read', $path);
 
                             return $path;
-                        }),
-
-                    Placeholder::make('pdf_read_link')
-                        ->label('رابط PDF')
-                        ->content(fn ($record) => $record->pdf_read
-                            ? '[فتح PDF]('.Storage::disk('s3-private')
-                                ->temporaryUrl($record->pdf_read, now()->addMinutes(10)).')'
-                            : 'لا يوجد ملف PDF')
-                        ->visible(fn ($context) => in_array($context, ['edit', 'view'])),
-
+                        }), // done
                     FileUpload::make('audio')
                         ->label('Audio')
                         ->disk('s3-private')
                         ->directory('books/audio')
                         ->visibility('private')
                         ->acceptedFileTypes(['audio/mpeg', 'audio/wav'])
-                        ->previewable(false)
-                        ->openable(false)
-                        ->downloadable(false)
-                        ->columnSpanFull(),
+                        ->columnSpanFull()
+                        ->dehydrated(fn ($state) => filled($state))
+                        ->saveUploadedFileUsing(function ($file, $set, $record) {
+
+                            if ($record && $record->audio) {
+                                Storage::disk('s3-private')->delete($record->audio);
+                            }
+                            $path = $file->store('books/audio', 's3-private');
+
+                            $set('audio', $path);
+
+                            return $path;
+                        }),
 
                     FileUpload::make('cover_image')
                         ->label('Cover Image')
+                        ->image()
                         ->disk('s3-private')
                         ->directory('books/images')
-                        ->image()
-                        ->previewable(true)
-                        ->openable(true)
+                        ->preserveFilenames()
+                        ->previewable(fn (string $context) => $context === 'create')->openable(true)
                         ->downloadable(false)
                         ->columnSpanFull()
-                        ->visible(fn (string $context) => in_array($context, ['create', 'view'])),
+                        ->dehydrated(fn ($state) => filled($state))
+                        ->saveUploadedFileUsing(function ($file, $set, $get, $record) {
+
+                            if ($record && $record->image->url) {
+                                Storage::disk('s3-private')->delete($record->image->url);
+                            }
+
+                            $path = $file->store('books/images', 's3-private');
+                            $set('cover_image', $path);
+
+                            return $path;
+                        }),
+                    ViewField::make('current_cover_image')
+                        ->label('Current Cover Image')
+                        ->view('tables.columns.image')
+                        ->viewData(function ($record) {
+                            if (! $record || ! $record->image) {
+                                return ['url' => null];
+                            }
+
+                            return [
+                                'url' => Storage::disk('s3-private')->temporaryUrl($record->image->url, now()->addMinutes(10)),
+                            ];
+                        })
+                        ->hiddenOn('create'),
 
                 ]),
 
