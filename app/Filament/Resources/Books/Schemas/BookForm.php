@@ -9,6 +9,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Facades\Storage;
 
 class BookForm
 {
@@ -87,15 +88,30 @@ class BookForm
                         ->visibility('private')
                         ->acceptedFileTypes(['application/pdf', 'image/png', 'image/jpeg'])
                         ->previewable(false)
-                        ->openable(false)
+                        ->openable(true)
                         ->downloadable(false)
                         ->columnSpanFull()
-                        ->preserveFilenames(),
+                        ->preserveFilenames()
+                        ->dehydrated(fn ($state) => filled($state))
+                        ->saveUploadedFileUsing(function ($file, $set, $get, $record) {
 
-                    Placeholder::make('pdf_read_proxy')
+                            // حذف الملف القديم عند التحديث
+                            if ($record && $record->pdf_read) {
+                                Storage::disk('s3-private')->delete($record->pdf_read);
+                            }
+
+                            $path = $file->store('books/read', 's3-private');
+
+                            $set('pdf_read', $path);
+
+                            return $path;
+                        }),
+
+                    Placeholder::make('pdf_read_link')
                         ->label('رابط PDF')
                         ->content(fn ($record) => $record->pdf_read
-                            ? '[فتح PDF]('.route('file-proxy', ['encodedPath' => base64_encode($record->pdf_read)]).')'
+                            ? '[فتح PDF]('.Storage::disk('s3-private')
+                                ->temporaryUrl($record->pdf_read, now()->addMinutes(10)).')'
                             : 'لا يوجد ملف PDF')
                         ->visible(fn ($context) => in_array($context, ['edit', 'view'])),
 
