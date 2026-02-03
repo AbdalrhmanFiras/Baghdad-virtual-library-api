@@ -35,7 +35,7 @@ class CategoriesRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                TextColumn::make('name')->label('Category Name')->badge()->searchable(),
+                TextColumn::make('name')->label('Name')->badge(),
             ])
             ->headerActions([
                 AttachAction::make(),
