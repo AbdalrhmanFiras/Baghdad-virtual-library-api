@@ -58,4 +58,9 @@ class NewsResource extends Resource
             'edit' => EditNews::route('/{record}/edit'),
         ];
     }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return (string) static::getModel()::count();
+    }
 }

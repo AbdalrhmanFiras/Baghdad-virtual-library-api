@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Books\Tables;
 use App\Enums\BookFlagsEnum;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\Select;
@@ -111,6 +112,7 @@ class BooksTable
             ])
             ->recordActions([
                 EditAction::make(),
+                DeleteAction::make(),
                 Action::make('flag_book')
                     ->label('Flag Book')
                     ->icon('heroicon-o-flag')

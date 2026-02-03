@@ -54,4 +54,9 @@ class BookResource extends Resource
             'edit' => EditBook::route('/{record}/edit'),
         ];
     }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return (string) static::getModel()::count();
+    }
 }
