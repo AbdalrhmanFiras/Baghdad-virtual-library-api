@@ -78,25 +78,25 @@ class Book extends Model
 
     protected static function booted()
     {
-        static::updating(function ($book) {
-            // تحقق إذا كان حقل pdf_read قد تغيّر
-            if ($book->isDirty('pdf_read')) {
-                // حذف الملف القديم من S3
-                Storage::disk('s3-private')->delete($book->getOriginal('pdf_read'));
-            }
+        // static::updating(function ($book) {
+        //     // تحقق إذا كان حقل pdf_read قد تغيّر
+        //     if ($book->isDirty('pdf_read')) {
+        //         // حذف الملف القديم من S3
+        //         Storage::disk('s3-private')->delete($book->getOriginal('pdf_read'));
+        //     }
 
-            // نفس الشيء لأي حقل آخر تريد حذفه عند التغيير
-            if ($book->isDirty('pdf_download')) {
-                Storage::disk('s3-private')->delete($book->getOriginal('pdf_download'));
-            }
+        //     // نفس الشيء لأي حقل آخر تريد حذفه عند التغيير
+        //     if ($book->isDirty('pdf_download')) {
+        //         Storage::disk('s3-private')->delete($book->getOriginal('pdf_download'));
+        //     }
 
-            if ($book->isDirty('audio')) {
-                Storage::disk('s3-private')->delete($book->getOriginal('audio'));
-            }
+        //     if ($book->isDirty('audio')) {
+        //         Storage::disk('s3-private')->delete($book->getOriginal('audio'));
+        //     }
 
-            if ($book->isDirty('cover_image')) {
-                Storage::disk('s3-private')->delete($book->getOriginal('cover_image'));
-            }
-        });
+        //     if ($book->isDirty('cover_image')) {
+        //         Storage::disk('s3-private')->delete($book->getOriginal('cover_image'));
+        //     }
+        // });
     }
 }

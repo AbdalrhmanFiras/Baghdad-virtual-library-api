@@ -16,8 +16,8 @@ class BooksTable
     {
         return $table
             ->columns([
-                TextColumn::make('id')->label('ID')->searchable()->sortable()->badge()->toggleable(),
-                TextColumn::make('title')->searchable()->toggleable(),
+                TextColumn::make('id')->label('ID')->searchable()->sortable()->badge()->toggleable(false),
+                TextColumn::make('title')->searchable()->toggleable(false),
                 TextColumn::make('publish_year')->label('Published')->searchable()->toggleable(),
                 TextColumn::make('language')->label('Language')->searchable()->toggleable(),
                 TextColumn::make('author.author_name')
@@ -32,7 +32,7 @@ class BooksTable
                 ViewColumn::make('image_preview')
                     ->label('Cover')
                     ->view('tables.columns.image-hover')
-                    ->toggleable()->alignLeft(),
+                    ->toggleable(false)->alignLeft(),
 
                 IconColumn::make('pdf_read')
                     ->label('Readable')
@@ -76,7 +76,7 @@ class BooksTable
                         'success' => fn ($state) => $state > 3,
                     ])->alignCenter()
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable(true),
 
                 TextColumn::make('dec')
                     ->label('Description')->limit(50)->wrap()->alignCenter()->alignLeft()

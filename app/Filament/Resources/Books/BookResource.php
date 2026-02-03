@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Books;
 use App\Filament\Resources\Books\Pages\CreateBook;
 use App\Filament\Resources\Books\Pages\EditBook;
 use App\Filament\Resources\Books\Pages\ListBooks;
+use App\Filament\Resources\Books\RelationManagers\CategoriesRelationManager;
 use App\Filament\Resources\Books\Schemas\BookForm;
 use App\Filament\Resources\Books\Tables\BooksTable;
 use App\Models\Book;
@@ -35,8 +36,7 @@ class BookResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
-        ];
+            CategoriesRelationManager::class,        ];
     }
 
     public static function getPages(): array
