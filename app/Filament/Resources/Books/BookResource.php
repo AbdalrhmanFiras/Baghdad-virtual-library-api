@@ -36,7 +36,9 @@ class BookResource extends Resource
     public static function getRelations(): array
     {
         return [
-            CategoriesRelationManager::class,        ];
+            // CategoriesRelationManager::class,
+            RelationManagers\FlagsRelationManager::class,
+        ];
     }
 
     public static function getPages(): array

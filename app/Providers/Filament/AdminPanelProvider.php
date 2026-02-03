@@ -31,6 +31,9 @@ class AdminPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Blue,
                 'success' => Color::Green,
+                'orange' => Color::Orange,
+                'red' => Color::Red,
+                'yellow' => Color::Yellow,
 
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')

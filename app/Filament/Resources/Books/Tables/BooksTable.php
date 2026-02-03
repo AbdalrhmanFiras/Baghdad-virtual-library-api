@@ -2,13 +2,19 @@
 
 namespace App\Filament\Resources\Books\Tables;
 
+use App\Enums\BookFlagsEnum;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\Select;
+use Filament\Notifications\Notification;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ViewColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Contracts\Database\Query\Builder;
 
 class BooksTable
 {
@@ -25,9 +31,9 @@ class BooksTable
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('status_case')->label('Status')->badge()->colors([
-                    'primary' => 'Draft',
-                    'success' => 'Published',
-                    'danger' => 'Archived',
+                    'success' => fn ($state) => $state === 'draft',
+                    'primary' => fn ($state) => $state === 'published',
+                    'yellow' => fn ($state) => $state === 'archived',
                 ])->sortable()->toggleable(),
                 ViewColumn::make('image_preview')
                     ->label('Cover')
@@ -82,21 +88,54 @@ class BooksTable
                     ->label('Description')->limit(50)->wrap()->alignCenter()->alignLeft()
                     ->formatStateUsing(fn ($state) => strip_tags($state))
                     ->tooltip(fn ($record) => strip_tags($record->dec))->toggleable(),
-
+                TextColumn::make('flags.flag')
+                    ->label('Flags')
+                    ->badge()
+                    ->searchable(),
                 TextColumn::make('categories.name')->label('Category')->badge()->toggleable(),
 
             ])
 
             ->filters([
-                //
+                SelectFilter::make('flag')
+                    ->options(BookFlagsEnum::class)
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query->when(
+                            $data['value'],
+                            fn (Builder $query, $value): Builder => $query->whereHas(
+                                'flags',
+                                fn (Builder $query) => $query->where('flag', $value)
+                            )
+                        );
+                    }),
             ])
             ->recordActions([
                 EditAction::make(),
+                Action::make('flag_book')
+                    ->label('Flag Book')
+                    ->icon('heroicon-o-flag')
+                    ->form([
+                        Select::make('flag')
+                            ->label('Flag')
+                            ->options(BookFlagsEnum::class)
+                            ->required(),
+                    ])
+                    ->action(function ($record, array $data) {
+                        $record->flags()->create([
+                            'flag' => $data['flag'],
+                        ]);
+
+                        Notification::make()
+                            ->title('Flag added sucessfully')
+                            ->success()
+                            ->send();
+                    }),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
             ]);
+
     }
 }

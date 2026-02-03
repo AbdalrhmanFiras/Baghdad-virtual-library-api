@@ -2,49 +2,47 @@
 
 namespace App\Filament\Resources\Books\RelationManagers;
 
-use Filament\Actions\AttachAction;
-use Filament\Actions\DetachAction;
+use App\Enums\BookFlagsEnum;
+use Filament\Actions\CreateAction;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
-use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
-class CategoriesRelationManager extends RelationManager
+class FlagsRelationManager extends RelationManager
 {
-    protected static string $relationship = 'categories';
+    protected static string $relationship = 'flags';
 
-    protected static ?string $recordTitleAttribute = 'name';
+    protected static ?string $recordTitleAttribute = 'flag';
 
     public function form(Schema $schema): Schema
     {
         return $schema->components([
             Section::make()->schema([
-                TextInput::make('name')
-                    ->label('Category Name')
-                    ->required()
-                    ->maxLength(255)])->columnSpanFull(),
+                Select::make('flag')
+                    ->label('Flag')
+                    ->options(BookFlagsEnum::class)
+                    ->required(),
+            ])->columnSpanFull(),
         ]);
-
     }
 
     public function table(Table $table): Table
     {
         return $table
             ->columns([
-                TextColumn::make('name')->label('Name')->badge(),
+                TextColumn::make('flag')->badge(),
             ])
             ->headerActions([
-                AttachAction::make(),
+                CreateAction::make(),
             ])
             ->actions([
                 EditAction::make(),
-                DetachAction::make(),
-            ])
-            ->bulkActions([
-
+                DeleteAction::make(),
             ]);
     }
 }

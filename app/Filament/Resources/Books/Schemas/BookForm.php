@@ -165,14 +165,13 @@ class BookForm
                         ->label('Current Cover Image')
                         ->view('tables.columns.image')
                         ->viewData(function ($record) {
-                            if (! $record || ! $record->image) {
-                                return ['url' => null];
-                            }
+                            $image = $record->image;
 
                             return [
-                                'url' => Storage::disk('s3-private')->temporaryUrl($record->image->url, now()->addMinutes(10)),
+                                'url' => $image ? Storage::disk('s3-private')->temporaryUrl($image->url, now()->addMinutes(10)) : null,
                             ];
                         })
+                        ->visible(fn ($record) => $record && $record->image)
                         ->hiddenOn('create'),
 
                 ]),
