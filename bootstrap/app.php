@@ -13,6 +13,9 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->trustProxies(at: '*');
+        
+        // Add CORS middleware globally for API documentation (Scramble) and API routes
+        $middleware->append(\Illuminate\Http\Foundation\Http\Middleware\HandleCors::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
