@@ -22,6 +22,7 @@ class BooksTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->deferLoading()
             ->columns([
                 TextColumn::make('id')->label('ID')->searchable()->sortable()->badge()->toggleable(false),
                 TextColumn::make('title')->searchable()->toggleable(false),

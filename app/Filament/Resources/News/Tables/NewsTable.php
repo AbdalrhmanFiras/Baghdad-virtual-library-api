@@ -15,6 +15,7 @@ class NewsTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->deferLoading()
             ->columns([
                 ViewColumn::make('image')
                     ->view('tables.columns.image-hover-2')
