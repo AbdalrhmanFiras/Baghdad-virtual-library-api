@@ -10,5 +10,5 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Schedule::call(function () {
-    News::where('created_at', '<=', now()->subHours(24))->each->delete();
+    News::where('created_at', '<=', now()->subHours(1))->get()->each->delete();
 })->hourly();
