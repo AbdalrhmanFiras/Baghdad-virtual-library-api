@@ -1,34 +1,50 @@
 @php
-    $url = $record->image 
-        ? \Illuminate\Support\Facades\Storage::disk('s3-private')->temporaryUrl($record->image->url, now()->addMinutes(10)) 
+    $url = $record->image
+        ? \Illuminate\Support\Facades\Storage::disk('s3-private')->temporaryUrl(
+            $record->image->url,
+            now()->addMinutes(10),
+        )
         : null;
 @endphp
 
 @if ($url)
-    <div x-data="{ open: false, x: 0, y: 0 }" style="display: inline-block;">
-        <img src="{{ $url }}"
-             @mousemove="
-                x = $event.clientX; 
-                y = $event.clientY; 
-                open = true;
-             "
-             @mouseleave="open = false"
-             style="width: 50px; height: 50px; object-fit: cover; border-radius: 6px; cursor: pointer; transition: transform 0.2s;"
-             onmouseover="this.style.transform='scale(1.1)'"
-             onmouseout="this.style.transform='scale(1)'"
-             alt="Thumbnail">
+    <div style="display: inline-block;">
+        <img src="{{ $url }}" class="hover-trigger-{{ $record->id }}"
+            style="width: 60px; height: 60px; object-fit: cover; border-radius: 6px; cursor: pointer; display: block;"
+            alt="Thumbnail">
 
-        <template x-teleport="body">
-            <div x-show="open"
-                 x-cloak
-                 x-transition.opacity
-                 style="position: fixed; z-index: 999999; pointer-events: none; display: none;"
-                 :style="`top: ${y}px; left: ${x - 15}px; transform: translate(-100%, -50%);`"
-            >
-                <img src="{{ $url }}"
-                     style="max-height: 80vh; width: auto; max-width: 500px; object-fit: contain; border-radius: 12px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7); border: 2px solid rgba(255,255,255,0.4); background: #000;"
-                     alt="Preview">
-            </div>
-        </template>
+        <script>
+            (function() {
+                const trigger = document.querySelector('.hover-trigger-{{ $record->id }}');
+                let popup = document.getElementById('popup-{{ $record->id }}');
+
+                if (!popup) {
+                    popup = document.createElement('div');
+                    popup.id = 'popup-{{ $record->id }}';
+                    /* CHANGES: 
+                       1. Removed translateX(-100%) so it flows to the right.
+                       2. Changed margin-left to positive 15px to create a gap.
+                       3. Kept translateY(-25%) to keep it vertically aligned.
+                    */
+                    popup.style.cssText =
+                        'position: fixed; z-index: 999999; display: none; pointer-events: none; transform: translateY(-25%); margin-left: 75px;';
+
+                    popup.innerHTML =
+                        `<img src="{{ $url }}" style="max-height: 40vh; width: auto; max-width: 250px; border-radius: 8px; box-shadow: 0 15px 30px rgba(0,0,0,0.5); border: 2px solid rgba(255,255,255,0.3); background: #000;">`;
+                    document.body.appendChild(popup);
+                }
+
+                trigger.addEventListener('mouseenter', () => {
+                    const rect = trigger.getBoundingClientRect();
+                    popup.style.top = rect.top + 'px';
+                    popup.style.left = rect.left + 'px';
+                    popup.style.display = 'block';
+                });
+
+                trigger.addEventListener('mouseleave', () => {
+                    popup.style.display = 'none';
+                });
+            })();
+        </script>
     </div>
 @endif
