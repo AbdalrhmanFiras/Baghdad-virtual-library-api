@@ -1,31 +1,32 @@
 @php
-    $url = $record->image ? \Illuminate\Support\Facades\Storage::disk('s3-private')->temporaryUrl($record->image->url, now()->addMinutes(10)) : null;
+    $url = $record->image 
+        ? \Illuminate\Support\Facades\Storage::disk('s3-private')->temporaryUrl($record->image->url, now()->addMinutes(10)) 
+        : null;
 @endphp
 
 @if ($url)
-    <div x-data="{ open: false, top: 0, left: 0 }" class="relative flex items-center">
+    <div x-data="{ open: false, x: 0, y: 0 }" style="display: inline-block;">
         <img src="{{ $url }}"
-             @mouseenter="
+             @mousemove="
+                x = $event.clientX; 
+                y = $event.clientY; 
                 open = true;
-                const rect = $el.getBoundingClientRect();
-                top = rect.top;
-                left = rect.right + 10;
              "
              @mouseleave="open = false"
-             class="cursor-pointer rounded-md object-cover shadow-sm transition-transform hover:scale-105"
-             style="width: 50px; height: 50px;"
+             style="width: 50px; height: 50px; object-fit: cover; border-radius: 6px; cursor: pointer; transition: transform 0.2s;"
+             onmouseover="this.style.transform='scale(1.1)'"
+             onmouseout="this.style.transform='scale(1)'"
              alt="Thumbnail">
 
         <template x-teleport="body">
             <div x-show="open"
-                 x-transition:enter="transition ease-out duration-200"
-                 x-transition:enter-start="opacity-0 scale-95"
-                 x-transition:enter-end="opacity-100 scale-100"
-                 class="fixed z-[1000] pointer-events-none"
-                 :style="`top: ${top}px; left: ${left}px;`"
-                 style="display: none;">
+                 x-cloak
+                 x-transition.opacity
+                 style="position: fixed; z-index: 999999; pointer-events: none; display: none;"
+                 :style="`top: ${y}px; left: ${x - 15}px; transform: translate(-100%, -50%);`"
+            >
                 <img src="{{ $url }}"
-                     class="rounded-lg shadow-2xl border-2 border-white/20 max-w-[350px] max-h-[350px] object-contain bg-gray-900"
+                     style="max-height: 80vh; width: auto; max-width: 500px; object-fit: contain; border-radius: 12px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7); border: 2px solid rgba(255,255,255,0.4); background: #000;"
                      alt="Preview">
             </div>
         </template>

@@ -1,40 +1,32 @@
 @php
-    use Illuminate\Support\Facades\Storage;
-    $url = $record->image ? Storage::disk('s3-private')->temporaryUrl($record->image->url, now()->addMinutes(5)) : null;
+    $url = $record->image 
+        ? \Illuminate\Support\Facades\Storage::disk('s3-private')->temporaryUrl($record->image->url, now()->addMinutes(10)) 
+        : null;
 @endphp
 
 @if ($url)
-    <div style="display: inline-block;">
-        <img src="{{ $url }}" class="hover-trigger-{{ $record->id }}"
-            style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px; cursor: pointer; display: block; margin: 5px 0;"
+    <div x-data="{ open: false, x: 0, y: 0 }" style="display: inline-block;">
+        <img src="{{ $url }}"
+            @mousemove="
+                x = $event.clientX; 
+                y = $event.clientY; 
+                open = true;
+            "
+            @mouseleave="open = false"
+            style="width: 60px; height: 60px; object-fit: cover; border-radius: 6px; cursor: pointer;" 
             alt="Thumbnail">
 
-        <div id="popup-{{ $record->id }}"
-            style="position: fixed; z-index: 999999; display: none; pointer-events: none; width: max-content; transform: translateX(-100%);">
-            <img src="{{ $url }}"
-                style="height: 250px; width: auto; max-width: 400px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2);"
-                alt="Preview">
-        </div>
-
-        <script>
-            (function() {
-                const trigger = document.querySelector('.hover-trigger-{{ $record->id }}');
-                const popup = document.getElementById('popup-{{ $record->id }}');
-
-                trigger.addEventListener('mouseenter', () => {
-                    const rect = trigger.getBoundingClientRect();
-
-                    // Position at the LEFT edge of the thumbnail minus a 15px gap
-                    popup.style.top = rect.top + 'px';
-                    popup.style.left = (rect.left - 15) + 'px';
-
-                    popup.style.display = 'block';
-                });
-
-                trigger.addEventListener('mouseleave', () => {
-                    popup.style.display = 'none';
-                });
-            })();
-        </script>
+        <template x-teleport="body">
+            <div x-show="open" 
+                 x-cloak
+                 x-transition.opacity
+                 style="position: fixed; z-index: 999999; pointer-events: none; display: none;"
+                 :style="`top: ${y}px; left: ${x - 20}px; transform: translate(-100%, -50%);`"
+            >
+                <img src="{{ $url }}"
+                    style="max-height: 80vh; width: auto; max-width: 500px; object-fit: contain; border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); border: 2px solid rgba(255,255,255,0.2); background: #000;"
+                    alt="Preview">
+            </div>
+        </template>
     </div>
 @endif
