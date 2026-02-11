@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\GroupStatusEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
@@ -11,6 +12,10 @@ class Groups extends Model
     protected $guarded = ['id'];
 
     protected $appends = ['image_url'];
+
+    protected $casts = [
+        'availability' => GroupStatusEnum::class,
+    ];
 
     public function category_groups()
     {
