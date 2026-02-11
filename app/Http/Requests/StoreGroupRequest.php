@@ -28,8 +28,8 @@ class StoreGroupRequest extends FormRequest
             'categories.*' => 'required|exists:category_groups,id',
             'image' => 'required|image|mimes:jpg,png,jpeg',
             'rating' => 'required|numeric|min:1|max:5',
-            'status' => 'required|in:public,private',
-            'availbility' => 'required|in:active,unactive',
+            'availbility' => 'required|in:public,private',
+            'status' => 'required|in:active,unactive',
         ];
     }
 }
