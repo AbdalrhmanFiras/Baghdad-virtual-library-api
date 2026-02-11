@@ -250,7 +250,7 @@ class GroupsController extends Controller
     protected function getPublic()
     {
 
-        $count = Groups::where('availbility', GroupStatusEnum::Public->value)->count();
+        $count = Groups::where('availbility', GroupStatusEnum::Public)->count();
 
         return $count;
     }
@@ -258,7 +258,7 @@ class GroupsController extends Controller
     protected function getPrivate()
     {
 
-        $count = Groups::where('availbility', GroupStatusEnum::Private->value)->count();
+        $count = Groups::where('availbility', GroupStatusEnum::Private)->count();
 
         return $count;
     }
