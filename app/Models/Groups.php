@@ -14,7 +14,7 @@ class Groups extends Model
     protected $appends = ['image_url'];
 
     protected $casts = [
-        'availability' => GroupStatusEnum::class,
+        'availbility' => GroupStatusEnum::class,
     ];
 
     public function category_groups()
