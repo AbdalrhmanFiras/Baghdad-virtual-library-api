@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\GroupStatusEnum;
 use App\Helper\FileHelper;
 use App\Http\Requests\StoreGroupRequest;
 use App\Http\Requests\UpdateGroupRequest;
 use App\Http\Resources\GroupResource;
+use App\Models\CategoryGroup;
 use App\Models\Groups;
+use Dedoc\Scramble\Attributes\Group;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
@@ -96,6 +99,8 @@ class GroupsController extends Controller
             'last_page' => $groups->lastPage(),
             'per_page' => $groups->perPage(),
             'total' => $groups->total(),
+            'public_count' => $this->getPublic(),
+            'private_count' => $this->getPrivate(),
         ]], 'Groups fetched successfully.', 200);
     }
 
@@ -241,4 +246,33 @@ class GroupsController extends Controller
             return $this->responseError(null, $e->getMessage(), 500);
         }
     }
+
+    protected function getPublic()
+    {
+
+        $count = Groups::where('availbility', GroupStatusEnum::Public->value)->count();
+
+        return $count;
+    }
+
+    protected function getPrivate()
+    {
+
+        $count = Groups::where('availbility', GroupStatusEnum::Private->value)->count();
+
+        return $count;
+    }
+
+    // protected function getCategory(): array
+    // {
+
+    //     $cate = CategoryGroup::get();
+
+    //     $CateCount = [];
+    //     foreach ($cate as $index) {
+    //         $CateCount = $index->count();
+    //     }
+
+    //     return $CateCount;
+    // }
 }

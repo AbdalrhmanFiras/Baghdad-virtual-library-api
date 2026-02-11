@@ -145,7 +145,7 @@ class AuthController extends Controller
      */
     public function loginAdmin(AdminLoginRequest $request)
     {
-        $request->validated();
+        $Data = $request->validated();
         $credentials = $request->only('email', 'password');
 
         $user = User::where('email', $credentials['email'])
