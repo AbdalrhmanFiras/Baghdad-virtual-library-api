@@ -23,8 +23,9 @@ class GroupResource extends JsonResource
             'availbility' => $this->availbility,
             'image_url' => $this->when($this->image_url, fn () => $this->image_url),
             'categories' => CategoryResource::collection($this->whenLoaded('category_groups')),
-            'owner' => optional($this->user->profile)->fullname,
-
+            'owner' => $this->whenLoaded('user', function () {
+                return optional($this->user->profile)->fullname;
+            }),
         ];
     }
 }

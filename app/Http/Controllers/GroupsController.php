@@ -52,8 +52,9 @@ class GroupsController extends Controller
                 $group->category_groups()->sync($categories);
             }
             DB::commit();
+            $group->load('user.profile');
 
-            return $this->responseSuccess(['data' => new GroupResource($group)->load('user')],
+            return $this->responseSuccess(['data' => new GroupResource($group)],
                 'Group created Successfully', 201);
         } catch (Exception $e) {
             DB::rollBack();
