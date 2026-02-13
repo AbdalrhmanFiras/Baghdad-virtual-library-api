@@ -7,7 +7,7 @@ use App\Filament\Resources\Tickets\TicketResource;
 use App\Models\Ticket;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Schemas\Components\Tabs\Tab;
-use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Builder;
 
 class ListTickets extends ListRecords
 {
@@ -17,12 +17,12 @@ class ListTickets extends ListRecords
     {
         return [
             'open' => Tab::make()
-                ->badge(Ticket::query()->where('status', 'open')->count())
+                ->badge(Ticket::query()->where('status', TicketStatusEnum::OPEN->value)->count())
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('status', TicketStatusEnum::OPEN->value)),
             'in_progress' => Tab::make()
-                ->badge(Ticket::query()->where('status', 'in_progress')->count())->modifyQueryUsing(fn (Builder $query) => $query->where('status', TicketStatusEnum::IN_PROGRESS->value)),
+                ->badge(Ticket::query()->where('status', TicketStatusEnum::IN_PROGRESS->value)->count())->modifyQueryUsing(fn (Builder $query) => $query->where('status', TicketStatusEnum::IN_PROGRESS->value)),
             'closed' => Tab::make()
-                ->badge(Ticket::query()->where('status', 'closed')->count())->modifyQueryUsing(fn (Builder $query) => $query->where('status', TicketStatusEnum::CLOSED->value)),
+                ->badge(Ticket::query()->where('status', TicketStatusEnum::CLOSED->value)->count())->modifyQueryUsing(fn (Builder $query) => $query->where('status', TicketStatusEnum::CLOSED->value)),
 
         ];
 
