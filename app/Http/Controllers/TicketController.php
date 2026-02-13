@@ -8,9 +8,7 @@ use App\Models\Ticket;
 use Illuminate\Support\Facades\Auth;
 
 /**
- * @group Ticket Management
- *
- * Tickets Endpoint
+ * @tags Tickets Endpoint
  */
 class TicketController extends Controller
 {
