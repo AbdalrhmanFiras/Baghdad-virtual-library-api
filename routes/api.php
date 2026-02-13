@@ -12,6 +12,7 @@ use App\Http\Controllers\GroupsController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TelegramController;
+use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserTagsController;
 use Illuminate\Support\Facades\Route;
 
@@ -76,6 +77,12 @@ Route::middleware('auth:api')->prefix('user')->group(function () {
     Route::get('/news', [NewsController::class, 'index']);
     Route::get('/news/{newId}', [NewsController::class, 'show']);
 
+    // **********************************/Tickets/*****************************//
+    Route::prefix('tickets')->group(function () {
+        Route::get('/', [TicketController::class, 'index']);
+        Route::post('/', [TicketController::class, 'store']);
+        Route::get('/{id}', [TicketController::class, 'show']);
+    });
 });
 
 // //////////////////////////////////?Admin//////////////////////////////////////////

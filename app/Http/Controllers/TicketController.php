@@ -1,0 +1,55 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\StoreTicketRequest;
+use App\Http\Resources\TicketResource;
+use App\Models\Ticket;
+use Illuminate\Support\Facades\Auth;
+
+/**
+ * @group Ticket Management
+ *
+ * Tickets Endpoint
+ */
+class TicketController extends Controller
+{
+    /**
+     * Get All Tickets
+     */
+    public function index()
+    {
+        $tickets = Ticket::where('user_id', Auth::id())->get();
+
+        return $tickets ? $this->responseSuccess(TicketResource::collection($tickets)) : $this->responseError(null, 'No tickets found', 404);
+    }
+
+    /**
+     * Create a new Ticket
+     */
+    public function store(StoreTicketRequest $request)
+    {
+        $data = $request->validated()
+            + ['user_id' => Auth::id()];
+        $ticket = Ticket::create($data);
+
+        return $ticket ? $this->responseSuccess(new TicketResource($ticket), 'Ticket created successfully', 201) : $this->responseError(null, 'Failed to create ticket');
+    }
+
+    /**
+     * Get a specific Ticket
+     */
+    public function show($id)
+    {
+        $ticket = Ticket::where('id', $id)->where('user_id', Auth::id())->first();
+
+        return $ticket ? $this->responseSuccess(new TicketResource($ticket)) : $this->responseError(null, 'Ticket not found', 404);
+    }
+
+    // public function destroy(Ticket $ticket)
+    // {
+    //     $deleted = $ticket->delete();
+
+    //     return $deleted ? $this->responseSuccess(null, 'Ticket deleted successfully') : $this->responseError(null, 'Failed to delete ticket');
+    // }
+}
