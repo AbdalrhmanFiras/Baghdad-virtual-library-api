@@ -23,7 +23,7 @@ class TicketsTable
                     'yellow' => fn ($state) => $state === 'closed',
                 ])->sortable()->toggleable(),
                 TextColumn::make('type')->label('Type')->searchable()->toggleable(),
-                TextColumn::make('user.name')->label('User')->sortable()->searchable(),
+                TextColumn::make('user.name')->label('User')->sortable()->searchable()->toggleable(false),
             ])
             ->filters([
                 //
