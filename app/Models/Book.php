@@ -20,6 +20,11 @@ class Book extends Model
         'has_audio' => 'boolean',
     ];
 
+    public function setDecAttribute($value)// for stripping tags from description
+    {
+        $this->attributes['dec'] = strip_tags($value);
+    }
+
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'category_book');

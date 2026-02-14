@@ -131,7 +131,7 @@ class BooksTable
                             ->title('Flag added sucessfully')
                             ->success()
                             ->send();
-                    }),
+                    })->visible(fn ($record) => $record->flags()->count() === 0),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
