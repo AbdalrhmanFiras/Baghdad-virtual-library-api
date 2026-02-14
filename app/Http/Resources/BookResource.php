@@ -31,9 +31,13 @@ class BookResource extends JsonResource
             'to_read' => (bool) ($this->pivot?->to_read),
             'pages_read' => (int) ($this->pivot?->pages_read ?? 0),
             'reads_count' => $this->reads_count,
-            'pdf_read' => Storage::disk('s3-private')->temporaryUrl($this->pdf_read, Carbon::now()->addMinute(5)),
+            'pdf_read' => $this->pdf_read 
+                ? Storage::disk('s3-private')->temporaryUrl($this->pdf_read, Carbon::now()->addMinute(5))
+                : null,
 
-            'pdf_download' => Storage::disk('s3-private')->temporaryUrl($this->pdf_download, Carbon::now()->addMinute(5)),
+            'pdf_download' => $this->pdf_download 
+                ? Storage::disk('s3-private')->temporaryUrl($this->pdf_download, Carbon::now()->addMinute(5))
+                : null,
 
             'audio' => $this->when($this->audio, fn () => $this->audio),
 
