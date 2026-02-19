@@ -14,7 +14,6 @@ class FileHelper
     // books/images/uuid.ext
     public static function ImageUpload($file, string $type, ?string $content, $disk = 's3-private')
     {
-
         if (! $file) {
             return null;
         }

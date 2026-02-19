@@ -281,7 +281,7 @@ class BookController extends Controller
     }
 
     /**
-     * Read the Book
+     * download the Book
      */
     public function streamPdfDownload(Book $book)
     {
