@@ -266,7 +266,7 @@ class BookController extends Controller
     public function delete($id)
     {
         try {
-            // remove the pdf too
+
             $book = Book::getBook($id)->firstOrFail();
             FileHelper::DeleteBookStuff($book);
             $book->categories()->detach(); // remove from the pivot table
