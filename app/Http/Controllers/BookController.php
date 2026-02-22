@@ -15,6 +15,7 @@ use App\Models\Book;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -605,5 +606,19 @@ class BookController extends Controller
         } catch (\Exception $e) {
             return $this->responseError('Something went wrong', 500, $e->getMessage());
         }
+    }
+
+    /**
+     *  Reading Book
+     */
+    public function Reading($id)
+    {
+
+        $data = Book::where('id', $id)->where('is_readable', true)->first();
+
+        $tempUrl = Storage::disk('s3-private')->temporaryUrl($data?->pdf_read, now()->addMinutes(45));
+
+        return $this->responseSuccess(['url' => $tempUrl], 'URL fetched successfully.', 200);
+
     }
 }

@@ -71,6 +71,7 @@ Route::middleware('auth:api')->prefix('user')->group(function () {
     Route::post('books/{book}/pages-read', [BookController::class, 'updatePagesRead']);
     Route::post('books/{book}/remove-read', [BookController::class, 'removeToRead']);
     Route::post('books/{book}/remove-fav', [BookController::class, 'removeFav']);
+    Route::get('books/{id}/reading', [BookController::class, 'Reading']);
 
     // **********************************/News/*****************************//
 
