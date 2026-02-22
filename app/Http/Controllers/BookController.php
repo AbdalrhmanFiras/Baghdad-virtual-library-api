@@ -616,9 +616,32 @@ class BookController extends Controller
 
         $data = Book::where('id', $id)->where('is_readable', true)->first();
 
+        $pdfPath = $data?->pdf_read;
+
+        if (! $pdfPath) {
+            return response()->json([
+                'url' => null,
+                'message' => 'PDF not available',
+            ], 404);
+        }
+
         $tempUrl = Storage::disk('s3-private')->temporaryUrl($data?->pdf_read, now()->addMinutes(45));
 
         return $this->responseSuccess(['url' => $tempUrl], 'URL fetched successfully.', 200);
 
+    }
+
+    public function Audio($id)
+    {
+
+        $data = Book::where('id', $id)->where('has_audio', true)->first();
+
+        if (! $data || ! $data->audio) {
+            return $this->responseError(null, 'Audio not available.', 404);
+        }
+
+        $tempUrl = Storage::disk('s3-private')->temporaryUrl($data->audio, now()->addMinutes(45));
+
+        return $this->responseSuccess(['url' => $tempUrl], 'URL fetched successfully.', 200);
     }
 }
