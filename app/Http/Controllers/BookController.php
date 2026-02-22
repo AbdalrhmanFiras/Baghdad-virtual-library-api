@@ -631,6 +631,9 @@ class BookController extends Controller
 
     }
 
+    /**
+     * Audio URL
+     */
     public function Audio($id)
     {
 
