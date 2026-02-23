@@ -609,13 +609,13 @@ class BookController extends Controller
     }
 
     /**
-     * Stream Reading PDF (proxy through Laravel to avoid S3 CORS)
+     * Get Reading PDF URL
      *
-     * Instead of returning a temporary S3 URL (which causes browser CORS errors),
-     * this endpoint fetches the PDF from the private S3 bucket and streams it
-     * directly to the client. The browser only talks to our own API domain.
+     * Returns a signed URL to the PDF stream endpoint (valid for 45 minutes).
+     * The frontend can open this URL directly in an iframe or PDF.js —
+     * no Bearer token header needed, no CORS issues.
      */
-    public function Reading($id)
+    public function Reading($id): \Illuminate\Http\JsonResponse
     {
         $book = Book::where('id', $id)->where('is_readable', true)->firstOrFail();
 
@@ -626,23 +626,62 @@ class BookController extends Controller
             ], 404);
         }
 
+        // Track reading status
         $user = Auth::user();
+        if ($user) {
+            $userBook = $user->books()->find($book->id);
+            if (! $userBook) {
+                $user->books()->attach($book->id, [
+                    'status'      => \App\Enums\UserBookEnum::Reading->value,
+                    'pages_read'  => 0,
+                    'total_pages' => $book->total_pages ?? null,
+                ]);
+            }
+        }
 
-        return FileHelper::streamFilepdf($book, $user);
+        // Generate a time-limited signed URL pointing to our own stream endpoint
+        $signedUrl = \Illuminate\Support\Facades\URL::temporarySignedRoute(
+            'books.read-stream',
+            now()->addMinutes(45),
+            ['book' => $book->id]
+        );
+
+        return response()->json([
+            'url'        => $signedUrl,
+            'expires_in' => 45 * 60, // seconds
+        ], 200);
     }
 
     /**
-     * Stream PDF for reading (alias used by explicit /read route)
+     * Stream PDF (used by the signed URL — no Bearer token required)
      */
-    public function streamPdfRead(Book $book)
+    public function streamPdfRead(Book $book): \Symfony\Component\HttpFoundation\StreamedResponse
     {
         if (! $book->pdf_read) {
             abort(404, 'PDF not available.');
         }
 
-        $user = Auth::user();
+        $disk = \Illuminate\Support\Facades\Storage::disk('s3-private');
 
-        return FileHelper::streamFilepdf($book, $user);
+        if (! $disk->exists($book->pdf_read)) {
+            abort(404, 'File not found.');
+        }
+
+        $fileSize = $disk->size($book->pdf_read);
+
+        return new \Symfony\Component\HttpFoundation\StreamedResponse(function () use ($disk, $book) {
+            $stream = $disk->readStream($book->pdf_read);
+            fpassthru($stream);
+            if (is_resource($stream)) {
+                fclose($stream);
+            }
+        }, 200, [
+            'Content-Type'           => 'application/pdf',
+            'Content-Length'         => $fileSize,
+            'Content-Disposition'    => 'inline; filename="'.basename($book->pdf_read).'"',
+            'Cache-Control'          => 'no-store, no-cache',
+            'X-Content-Type-Options' => 'nosniff',
+        ]);
     }
 
     /**

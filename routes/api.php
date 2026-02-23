@@ -168,4 +168,10 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
 
 });
 
+
+// PDF stream route — protected by signed URL (no Bearer token needed for iframe/PDF.js)
+Route::get('books/{book}/read-stream', [BookController::class, 'streamPdfRead'])
+    ->name('books.read-stream')
+    ->middleware('signed');
+
 Route::post('/telegram/webhook', [TelegramController::class, 'handle']);
