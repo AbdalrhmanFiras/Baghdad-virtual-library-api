@@ -149,6 +149,9 @@ class FileHelper
             ]);
         }
 
+        // Get file size for Content-Length header so PDF.js can show progress
+        $fileSize = $disk->size($book->pdf_read);
+
         return new StreamedResponse(function () use ($disk, $book) {
             $stream = $disk->readStream($book->pdf_read);
             fpassthru($stream);
@@ -156,8 +159,11 @@ class FileHelper
                 fclose($stream);
             }
         }, 200, [
-            'Content-Type' => 'application/pdf',
+            'Content-Type'        => 'application/pdf',
+            'Content-Length'      => $fileSize,
             'Content-Disposition' => 'inline; filename="'.basename($book->pdf_read).'"',
+            'Cache-Control'       => 'no-store, no-cache',
+            'X-Content-Type-Options' => 'nosniff',
         ]);
     }
 }

@@ -609,26 +609,40 @@ class BookController extends Controller
     }
 
     /**
-     *  Reading Book
+     * Stream Reading PDF (proxy through Laravel to avoid S3 CORS)
+     *
+     * Instead of returning a temporary S3 URL (which causes browser CORS errors),
+     * this endpoint fetches the PDF from the private S3 bucket and streams it
+     * directly to the client. The browser only talks to our own API domain.
      */
     public function Reading($id)
     {
+        $book = Book::where('id', $id)->where('is_readable', true)->firstOrFail();
 
-        $data = Book::where('id', $id)->where('is_readable', true)->first();
-
-        $pdfPath = $data?->pdf_read;
-
-        if (! $pdfPath) {
+        if (! $book->pdf_read) {
             return response()->json([
-                'url' => null,
+                'url'     => null,
                 'message' => 'PDF not available',
             ], 404);
         }
 
-        $tempUrl = Storage::disk('s3-private')->temporaryUrl($data?->pdf_read, now()->addMinutes(45));
+        $user = Auth::user();
 
-        return $this->responseSuccess(['url' => $tempUrl], 'URL fetched successfully.', 200);
+        return FileHelper::streamFilepdf($book, $user);
+    }
 
+    /**
+     * Stream PDF for reading (alias used by explicit /read route)
+     */
+    public function streamPdfRead(Book $book)
+    {
+        if (! $book->pdf_read) {
+            abort(404, 'PDF not available.');
+        }
+
+        $user = Auth::user();
+
+        return FileHelper::streamFilepdf($book, $user);
     }
 
     /**
