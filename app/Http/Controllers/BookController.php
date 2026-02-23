@@ -639,11 +639,12 @@ class BookController extends Controller
             }
         }
 
-        // Generate a time-limited signed URL pointing to our own stream endpoint
+        // Generate a relative signed URL (path only) — avoids http/https mismatch behind reverse proxy
         $signedUrl = \Illuminate\Support\Facades\URL::temporarySignedRoute(
             'books.read-stream',
             now()->addMinutes(45),
-            ['book' => $book->id]
+            ['book' => $book->id],
+            absolute: false
         );
 
         return response()->json([
