@@ -12,6 +12,7 @@ use App\Models\Groups;
 use Dedoc\Scramble\Attributes\Group;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -88,21 +89,33 @@ class GroupsController extends Controller
     /**
      * Show(All) Groups
      */
-    public function index()
+    public function index(Request $request)
     {
-        $groups = Groups::with(['image', 'category_groups', 'users'])->paginate(5);
+        $query = Groups::with(['image', 'category_groups', 'users']);
+
+        if ($request->category_id) {
+            $query->whereHas('category_groups', function ($q) use ($request) {
+                $q->where('category_groups.id', $request->category_id);
+            });
+        }
+
+        $groups = $query->paginate(5);
+
         if ($groups->isEmpty()) {
             return $this->responseError('null', 'There is no groups found', 404);
         }
 
-        return $this->responseSuccess(['data' => GroupResource::collection($groups), 'meta' => [
-            'current_page' => $groups->currentPage(),
-            'last_page' => $groups->lastPage(),
-            'per_page' => $groups->perPage(),
-            'total' => $groups->total(),
-            'public_count' => $this->getPublic(),
-            'private_count' => $this->getPrivate(),
-        ]], 'Groups fetched successfully.', 200);
+        return $this->responseSuccess([
+            'data' => GroupResource::collection($groups),
+            'meta' => [
+                'current_page' => $groups->currentPage(),
+                'last_page' => $groups->lastPage(),
+                'per_page' => $groups->perPage(),
+                'total' => $groups->total(),
+                'public_count' => $this->getPublic(),
+                'private_count' => $this->getPrivate(),
+            ],
+        ], 'Groups fetched successfully.', 200);
     }
 
     /**
