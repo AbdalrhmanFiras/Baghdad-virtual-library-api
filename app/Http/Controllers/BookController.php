@@ -638,13 +638,18 @@ class BookController extends Controller
             }
         }
 
-        // Generate a relative signed URL (path only) — avoids http/https mismatch behind reverse proxy
-        $signedUrl = \Illuminate\Support\Facades\URL::temporarySignedRoute(
+        // Generate a RELATIVE signed URL (path + query only) so the signature is validated
+        // by the `signed:relative` middleware (path-only comparison, immune to reverse-proxy
+        // scheme/host differences).  We then prepend APP_URL ourselves so the frontend
+        // still receives a fully-qualified URL it can open directly.
+        $relativeSigned = \Illuminate\Support\Facades\URL::temporarySignedRoute(
             'books.read-stream',
             now()->addMinutes(45),
             ['book' => $book->id],
-            absolute: true
+            absolute: false          // signs path+query only
         );
+
+        $signedUrl = rtrim(config('app.url'), '/') . $relativeSigned;
 
         return response()->json([
             'url' => $signedUrl,
