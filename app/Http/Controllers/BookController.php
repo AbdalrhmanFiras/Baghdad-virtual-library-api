@@ -626,7 +626,6 @@ class BookController extends Controller
             ], 404);
         }
 
-        // Track reading status
         $user = Auth::user();
         if ($user) {
             $userBook = $user->books()->find($book->id);
