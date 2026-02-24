@@ -621,7 +621,7 @@ class BookController extends Controller
 
         if (! $book->pdf_read) {
             return response()->json([
-                'url'     => null,
+                'url' => null,
                 'message' => 'PDF not available',
             ], 404);
         }
@@ -632,8 +632,8 @@ class BookController extends Controller
             $userBook = $user->books()->find($book->id);
             if (! $userBook) {
                 $user->books()->attach($book->id, [
-                    'status'      => \App\Enums\UserBookEnum::Reading->value,
-                    'pages_read'  => 0,
+                    'status' => \App\Enums\UserBookEnum::Reading->value,
+                    'pages_read' => 0,
                     'total_pages' => $book->total_pages ?? null,
                 ]);
             }
@@ -644,11 +644,11 @@ class BookController extends Controller
             'books.read-stream',
             now()->addMinutes(45),
             ['book' => $book->id],
-            absolute: false
+            absolute: true
         );
 
         return response()->json([
-            'url'        => $signedUrl,
+            'url' => $signedUrl,
             'expires_in' => 45 * 60, // seconds
         ], 200);
     }
@@ -677,10 +677,10 @@ class BookController extends Controller
                 fclose($stream);
             }
         }, 200, [
-            'Content-Type'           => 'application/pdf',
-            'Content-Length'         => $fileSize,
-            'Content-Disposition'    => 'inline; filename="'.basename($book->pdf_read).'"',
-            'Cache-Control'          => 'no-store, no-cache',
+            'Content-Type' => 'application/pdf',
+            'Content-Length' => $fileSize,
+            'Content-Disposition' => 'inline; filename="'.basename($book->pdf_read).'"',
+            'Cache-Control' => 'no-store, no-cache',
             'X-Content-Type-Options' => 'nosniff',
         ]);
     }
