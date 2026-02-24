@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TicketsStatusEnum;
 use App\Http\Requests\StoreTicketRequest;
 use App\Http\Resources\TicketResource;
 use App\Models\Ticket;
@@ -30,6 +31,8 @@ class TicketController extends Controller
         $data = $request->validated()
             + ['user_id' => Auth::id()];
         $ticket = Ticket::create($data);
+
+        $ticket->status = TicketsStatusEnum::OPEN->value;
 
         return $ticket ? $this->responseSuccess(new TicketResource($ticket), 'Ticket created successfully', 201) : $this->responseError(null, 'Failed to create ticket');
     }
