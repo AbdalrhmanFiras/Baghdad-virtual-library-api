@@ -649,7 +649,7 @@ class BookController extends Controller
             absolute: false          // signs path+query only
         );
 
-        $signedUrl = rtrim(config('app.url'), '/') . $relativeSigned;
+        $signedUrl = rtrim(config('app.url'), '/').$relativeSigned;
 
         return response()->json([
             'url' => $signedUrl,
