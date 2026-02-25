@@ -56,6 +56,7 @@ Route::middleware('auth:api')->prefix('user')->group(function () {
 
     // **********************************/Books/*****************************//
 
+    Route::post('books/{book}/track-page', [BookController::class, 'trackPage']);
     Route::get('books/download', [BookController::class, 'getDownload']);
     Route::get('/books-search', [BookController::class, 'search']);
     Route::get('/books/best', [BookController::class, 'indexBest']);
@@ -170,7 +171,7 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
 });
 
 Route::get('books/{book}/read-stream', [BookController::class, 'streamPdfRead'])
-    ->name('books.read-stream')
-    ->middleware('signed:relative');
+    ->name('books.read-stream');
+// ->middleware('signed:relative');
 
 Route::post('/telegram/webhook', [TelegramController::class, 'handle']);

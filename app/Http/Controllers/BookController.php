@@ -13,6 +13,7 @@ use App\Http\Resources\BookResource;
 use App\Models\Author;
 use App\Models\Book;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -141,6 +142,24 @@ class BookController extends Controller
         } catch (ModelNotFoundException) {
             return $this->responseError(null, 'Book not found.', 404);
         }
+    }
+
+    public function trackPage(Request $request, Book $book)
+    {
+        $user = Auth::user();
+        if (! $user) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        $page = $request->input('page', 1);
+
+        $userBook = $user->books()->find($book->id);
+        if ($userBook) {
+            $userBook->pivot->pages_read = max($userBook->pivot->pages_read, $page);
+            $userBook->pivot->save();
+        }
+
+        return response()->json(['success' => true]);
     }
 
     /**
@@ -665,13 +684,7 @@ class BookController extends Controller
     {
         $book = Book::where('id', $id)->where('is_readable', true)->firstOrFail();
 
-        if (! $book->pdf_read) {
-            return response()->json([
-                'url' => null,
-                'message' => 'PDF not available',
-            ], 404);
-        }
-
+        // Track user reading
         $user = Auth::user();
         if ($user) {
             $userBook = $user->books()->find($book->id);
@@ -684,22 +697,11 @@ class BookController extends Controller
             }
         }
 
-        // Generate a RELATIVE signed URL (path + query only) so the signature is validated
-        // by the `signed:relative` middleware (path-only comparison, immune to reverse-proxy
-        // scheme/host differences).  We then prepend APP_URL ourselves so the frontend
-        // still receives a fully-qualified URL it can open directly.
-        $relativeSigned = \Illuminate\Support\Facades\URL::temporarySignedRoute(
-            'books.read-stream',
-            now()->addMinutes(45),
-            ['book' => $book->id],
-            absolute: false          // signs path+query only
-        );
-
-        $signedUrl = rtrim(config('app.url'), '/').$relativeSigned;
+        // رابط مباشر للـ PDF بدون middleware
+        $directUrl = rtrim(config('app.url'), '/')."/api/books/{$book->id}/read-stream";
 
         return response()->json([
-            'url' => $signedUrl,
-            'expires_in' => 45 * 60, // seconds
+            'url' => $directUrl,
         ], 200);
     }
 
