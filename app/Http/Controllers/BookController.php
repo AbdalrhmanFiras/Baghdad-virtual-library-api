@@ -305,28 +305,43 @@ class BookController extends Controller
     }
 
     /**
-     * Get Download
+     * Get Downloaded Books
      */
     public function getDownload()
     {
 
         $user = Auth::user();
 
-        $books = $user->books()->wherePivot('pdf_download', true)
-            ->paginate(10);
-
+        $books = $user->books()
+            ->where(function ($q) {
+                $q->where('user_books.pdf_download', true)
+                    ->orwhere('user_books.audio', true);
+            })
+            ->get();
+        $count = $books->count();
         if ($books->isEmpty()) {
             return $this->responseError('null', 'There is no download yet. ', 404);
         }
 
-        return $this->responseSuccess(['data' => BookResource::collection($books)], 'Books fetched successfully', 202);
+        return $this->responseSuccess(['data' => BookResource::collection($books),
+            'count' => $count], 'Books fetched successfully', 202);
 
     }
 
     public function streamAudio(Book $book)
     {
+        $user = Auth::user();
         if (! $book->audio) {
             abort(404, 'Audio not available.');
+        }
+        if ($user->books()->where('book_id', $book->id)->exists()) {
+            $user->books()->updateExistingPivot($book->id, [
+                'audio' => true,
+            ]);
+        } else {
+            $user->books()->attach($book->id, [
+                'audio' => true,
+            ]);
         }
 
         return FileHelper::streamFile($book->audio, 'audio/mpeg', 'inline');
@@ -446,6 +461,7 @@ class BookController extends Controller
         }
 
         return $this->responseSuccess(['data' => BookResource::collection($books),
+            'count' => $books->count(),
             'meta' => [
                 'current_page' => $books->currentPage(),
                 'last_page' => $books->lastPage(),
@@ -490,6 +506,7 @@ class BookController extends Controller
         }
 
         return $this->responseSuccess(['data' => BookResource::collection($books),
+            'count' => $books->count(),
             'meta' => [
                 'current_page' => $books->currentPage(),
                 'last_page' => $books->lastPage(),

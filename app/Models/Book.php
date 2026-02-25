@@ -53,7 +53,7 @@ class Book extends Model
     public function users()
     {
         return $this->belongsToMany(User::class, 'user_books')
-            ->withPivot('status', 'fav', 'to_read', 'pages_read', 'total_pages')
+            ->withPivot('status', 'fav', 'to_read', 'pages_read', 'total_pages', 'audio')
             ->withTimestamps();
     }
 
