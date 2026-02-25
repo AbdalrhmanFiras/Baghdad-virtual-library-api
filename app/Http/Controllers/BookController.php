@@ -286,10 +286,20 @@ class BookController extends Controller
      */
     public function streamPdfDownload(Book $book)
     {
+        $user = Auth::user();
         if (! $book->pdf_download) {
             abort(404, 'PDF not available.');
         }
         $book->increment('reads_count');
+        if ($user->books()->where('book_id', $book->id)->exists()) {
+            $user->books()->updateExistingPivot($book->id, [
+                'pdf_download' => true,
+            ]);
+        } else {
+            $user->books()->attach($book->id, [
+                'pdf_download' => true,
+            ]);
+        }
 
         return FileHelper::streamFile($book->pdf_download, 'application/pdf', 'attachment');
     }
