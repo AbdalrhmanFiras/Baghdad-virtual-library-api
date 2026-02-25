@@ -304,6 +304,25 @@ class BookController extends Controller
         return FileHelper::streamFile($book->pdf_download, 'application/pdf', 'attachment');
     }
 
+    /**
+     * Get Download
+     */
+    public function getDownload()
+    {
+
+        $user = Auth::user();
+
+        $books = $user->books()->wherePivot('pdf_download', true || 1)
+            ->paginate(10);
+
+        if ($books->isEmpty()) {
+            return $this->responseError('null', 'There is no download yet. ', 404);
+        }
+
+        return $this->responseSuccess(['data' => BookResource::collection($books)], 'Books fetched successfully', 202);
+
+    }
+
     public function streamAudio(Book $book)
     {
         if (! $book->audio) {
