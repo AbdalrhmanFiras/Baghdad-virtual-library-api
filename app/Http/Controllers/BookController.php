@@ -312,7 +312,7 @@ class BookController extends Controller
 
         $user = Auth::user();
 
-        $books = $user->books()->wherePivot('pdf_download', true || 1)
+        $books = $user->books()->wherePivot('pdf_download', true)
             ->paginate(10);
 
         if ($books->isEmpty()) {
