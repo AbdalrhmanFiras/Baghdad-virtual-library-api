@@ -97,7 +97,7 @@ class User extends Authenticatable implements FilamentUser, JWTSubject
     public function books()
     {
         return $this->belongsToMany(Book::class, 'user_books')
-            ->withPivot('status', 'fav', 'to_read', 'total_pages', 'pages_read')// use pivot model
+            ->withPivot('status', 'fav', 'to_read', 'total_pages', 'pages_read', 'pdf_download')// use pivot model
             ->withTimestamps();
     }
 

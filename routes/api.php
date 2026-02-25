@@ -56,6 +56,7 @@ Route::middleware('auth:api')->prefix('user')->group(function () {
 
     // **********************************/Books/*****************************//
 
+    Route::get('books/download', [BookController::class, 'getDownload']);
     Route::get('/books-search', [BookController::class, 'search']);
     Route::get('/books/best', [BookController::class, 'indexBest']);
     Route::get('/books/recommended', [BookController::class, 'indexRec']);
@@ -66,7 +67,6 @@ Route::middleware('auth:api')->prefix('user')->group(function () {
     Route::get('books/complete', [BookController::class, 'getComplete']);
     Route::get('/books/{bookId}', [BookController::class, 'show']);
     Route::get('books/{book}/download', [BookController::class, 'streamPdfDownload']);
-    Route::get('books/download', [BookController::class, 'getDownload']);
     Route::get('books/{book}/add-fav', [BookController::class, 'addBooktofav']);
     Route::get('books/{book}/add-read', [BookController::class, 'addToRead']);
     Route::post('books/{book}/pages-read', [BookController::class, 'updatePagesRead']);
