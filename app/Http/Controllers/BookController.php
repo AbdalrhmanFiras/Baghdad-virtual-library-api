@@ -753,4 +753,36 @@ class BookController extends Controller
 
         return $this->responseSuccess(['url' => $tempUrl], 'URL fetched successfully.', 200);
     }
+
+    public function openReading($id)
+    {
+        $book = Book::where('id', $id)->where('is_readable', true)->firstOrFail();
+
+        if (! $book->pdf_read) {
+            abort(404, 'PDF not available.');
+        }
+
+        $user = Auth::user();
+        if ($user) {
+            $userBook = $user->books()->find($book->id);
+            if (! $userBook) {
+                $user->books()->attach($book->id, [
+                    'status' => \App\Enums\UserBookEnum::Reading->value,
+                    'pages_read' => 0,
+                    'total_pages' => $book->total_pages ?? null,
+                ]);
+            }
+        }
+
+        // Create a relative signed URL for the stream route
+        $relativeSigned = \Illuminate\Support\Facades\URL::temporarySignedRoute(
+            'books.read-stream',
+            now()->addMinutes(45),
+            ['book' => $book->id],
+            absolute: false
+        );
+
+        // Just redirect the user to that URL
+        return redirect($relativeSigned);
+    }
 }
