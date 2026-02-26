@@ -171,7 +171,7 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
 });
 
 Route::get('books/{book}/read-stream', [BookController::class, 'streamPdfRead'])
-    ->name('books.read-stream')
-    ->middleware('signed:relative');
+    ->name('books.read-stream');
+// ->middleware('signed:relative');
 
 Route::post('/telegram/webhook', [TelegramController::class, 'handle']);

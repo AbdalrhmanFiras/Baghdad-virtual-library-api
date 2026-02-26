@@ -786,7 +786,7 @@ class BookController extends Controller
             'books.read-stream',
             now()->addMinutes(45),
             ['book' => $book->id],
-            absolute: false
+            absolute: true
         );
 
         return response()->json([
