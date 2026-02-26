@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -759,15 +760,19 @@ class BookController extends Controller
      */
     public function openReading($id)
     {
-        $book = Book::where('id', $id)->where('is_readable', true)->firstOrFail();
+        $book = Book::where('id', $id)
+            ->where('is_readable', true)
+            ->firstOrFail();
 
         if (! $book->pdf_read) {
             abort(404, 'PDF not available.');
         }
 
         $user = Auth::user();
+
         if ($user) {
             $userBook = $user->books()->find($book->id);
+
             if (! $userBook) {
                 $user->books()->attach($book->id, [
                     'status' => \App\Enums\UserBookEnum::Reading->value,
@@ -777,15 +782,15 @@ class BookController extends Controller
             }
         }
 
-        // Create a relative signed URL for the stream route
-        $relativeSigned = \Illuminate\Support\Facades\URL::temporarySignedRoute(
+        $signedUrl = URL::temporarySignedRoute(
             'books.read-stream',
             now()->addMinutes(45),
             ['book' => $book->id],
             absolute: false
         );
 
-        // Just redirect the user to that URL
-        return redirect($relativeSigned);
+        return response()->json([
+            'reader_url' => $signedUrl,
+        ]);
     }
 }
