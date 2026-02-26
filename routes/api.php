@@ -64,17 +64,17 @@ Route::middleware('auth:api')->prefix('user')->group(function () {
     Route::get('/books/trending', [BookController::class, 'indexTrending']);
     Route::get('books/fav', [BookController::class, 'getFav']);
     Route::get('books/to-read', [BookController::class, 'getToRead']);
-    // Route::get('books/reading', [BookController::class, 'getReading']);
+    Route::get('books/reading', [BookController::class, 'getReading']);
     Route::get('books/complete', [BookController::class, 'getComplete']);
     Route::get('/books/{bookId}', [BookController::class, 'show']);
-    Route::get('user/books/{id}/open-reading', [BookController::class, 'openReading']);
+    Route::get('/books/{id}/open-reading', [BookController::class, 'openReading']);
     Route::get('books/{book}/download', [BookController::class, 'streamPdfDownload']);
     Route::get('books/{book}/add-fav', [BookController::class, 'addBooktofav']);
     Route::get('books/{book}/add-read', [BookController::class, 'addToRead']);
     Route::post('books/{book}/pages-read', [BookController::class, 'updatePagesRead']);
     Route::post('books/{book}/remove-read', [BookController::class, 'removeToRead']);
     Route::post('books/{book}/remove-fav', [BookController::class, 'removeFav']);
-    Route::get('books/{id}/reading', [BookController::class, 'Reading']);
+    // Route::get('books/{id}/reading', [BookController::class, 'Reading']);
     Route::get('books/{id}/audio', [BookController::class, 'Audio']);
 
     // **********************************/News/*****************************//
@@ -137,7 +137,6 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::get('/books/{bookId}', [BookController::class, 'show']);
     Route::patch('/books/{bookId}', [BookController::class, 'update']);
     Route::delete('/books/{bookId}', [BookController::class, 'delete']);
-    // Route::get('books/{book}/read', [BookController::class, 'streamPdfRead']);
 
     // **********************************/News/*****************************//
 
