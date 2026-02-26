@@ -679,31 +679,31 @@ class BookController extends Controller
      * Returns a signed URL to the PDF stream endpoint (valid for 45 minutes).
      * The frontend can open this URL directly in an iframe or PDF.js —
      * no Bearer token header needed, no CORS issues.
-     */
-    public function Reading($id): \Illuminate\Http\JsonResponse
-    {
-        $book = Book::where('id', $id)->where('is_readable', true)->firstOrFail();
+    //  */
+    // public function Reading($id): \Illuminate\Http\JsonResponse
+    // {
+    //     $book = Book::where('id', $id)->where('is_readable', true)->firstOrFail();
 
-        // Track user reading
-        $user = Auth::user();
-        if ($user) {
-            $userBook = $user->books()->find($book->id);
-            if (! $userBook) {
-                $user->books()->attach($book->id, [
-                    'status' => \App\Enums\UserBookEnum::Reading->value,
-                    'pages_read' => 0,
-                    'total_pages' => $book->total_pages ?? null,
-                ]);
-            }
-        }
+    //     // Track user reading
+    //     $user = Auth::user();
+    //     if ($user) {
+    //         $userBook = $user->books()->find($book->id);
+    //         if (! $userBook) {
+    //             $user->books()->attach($book->id, [
+    //                 'status' => \App\Enums\UserBookEnum::Reading->value,
+    //                 'pages_read' => 0,
+    //                 'total_pages' => $book->total_pages ?? null,
+    //             ]);
+    //         }
+    //     }
 
-        // رابط مباشر للـ PDF بدون middleware
-        $directUrl = rtrim(config('app.url'), '/')."/api/books/{$book->id}/read-stream";
+    //     // رابط مباشر للـ PDF بدون middleware
+    //     $directUrl = rtrim(config('app.url'), '/')."/api/books/{$book->id}/read-stream";
 
-        return response()->json([
-            'url' => $directUrl,
-        ], 200);
-    }
+    //     return response()->json([
+    //         'url' => $directUrl,
+    //     ], 200);
+    // }
 
     /**
      * Stream PDF (used by the signed URL — no Bearer token required)
@@ -755,7 +755,7 @@ class BookController extends Controller
     }
 
     /**
-     *  for open Book
+     * open(Read) Book
      */
     public function openReading($id)
     {
