@@ -64,7 +64,7 @@ Route::middleware('auth:api')->prefix('user')->group(function () {
     Route::get('/books/trending', [BookController::class, 'indexTrending']);
     Route::get('books/fav', [BookController::class, 'getFav']);
     Route::get('books/to-read', [BookController::class, 'getToRead']);
-    Route::get('books/reading', [BookController::class, 'getReading']);
+    // Route::get('books/reading', [BookController::class, 'getReading']);
     Route::get('books/complete', [BookController::class, 'getComplete']);
     Route::get('/books/{bookId}', [BookController::class, 'show']);
     Route::get('user/books/{id}/open-reading', [BookController::class, 'openReading']);

@@ -754,6 +754,9 @@ class BookController extends Controller
         return $this->responseSuccess(['url' => $tempUrl], 'URL fetched successfully.', 200);
     }
 
+    /**
+     *  for open Book
+     */
     public function openReading($id)
     {
         $book = Book::where('id', $id)->where('is_readable', true)->firstOrFail();
