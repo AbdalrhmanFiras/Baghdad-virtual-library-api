@@ -22,7 +22,7 @@ class BookResource extends JsonResource
             'description' => $this->dec,
             'language' => $this->language,
             'publish_year' => (int) $this->publish_year,
-            'flags' => BookFlagResource::collection($this->whenLoaded('flags')),
+            // 'flags' => BookFlagResource::collection($this->whenLoaded('flags')),
             'rating' => (float) $this->rating,
             'status' => $this->status_case,
             'author_name' => $this->author->author_name ?? null,
