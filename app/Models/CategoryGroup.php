@@ -10,8 +10,11 @@ class CategoryGroup extends Model
 
     public function groups()
     {
-        return $this->belongsToMany(Groups::class, 'group_category_groups',
-            'group_id',
-            'category_group_id');
+        return $this->belongsToMany(
+            Groups::class,
+            'group_category_groups',
+            'category_group_id', // THIS model key
+            'group_id'           // related model key
+        );
     }
 }

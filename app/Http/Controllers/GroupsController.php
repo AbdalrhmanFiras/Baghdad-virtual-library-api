@@ -89,21 +89,21 @@ class GroupsController extends Controller
     /**
      * Show(All) Groups
      */
+
+    /**
+     * Show (All) Groups with optional category filter
+     */
     public function index(Request $request)
     {
-        $query = Groups::with(['image', 'category_groups', 'users']);
-
-        if ($request->category_id) {
-            $query->whereHas('category_groups', function ($q) use ($request) {
-                $q->where('category_groups.id', $request->category_id);
-            });
-        }
-
-        $groups = $query->paginate(5);
-
-        if ($groups->isEmpty()) {
-            return $this->responseError('null', 'There is no groups found', 404);
-        }
+        $groups = Groups::query()
+            ->with(['image', 'category_groups'])
+            ->withCount('users')
+            ->when($request->filled('category_id'), function ($query) use ($request) {
+                $query->whereHas('category_groups', function ($q) use ($request) {
+                    $q->where('id', $request->category_id);
+                });
+            })
+            ->paginate(10);
 
         return $this->responseSuccess([
             'data' => GroupResource::collection($groups),
@@ -117,6 +117,35 @@ class GroupsController extends Controller
             ],
         ], 'Groups fetched successfully.', 200);
     }
+
+    // public function index(Request $request)
+    // {
+    //     $query = Groups::with(['image', 'category_groups', 'users']);
+
+    //     if ($request->category_id) {
+    //         $query->whereHas('category_groups', function ($q) use ($request) {
+    //             $q->where('category_groups.id', $request->category_id);
+    //         });
+    //     }
+
+    //     $groups = $query->paginate(10);
+
+    //     if ($groups->isEmpty()) {
+    //         return $this->responseError('null', 'There is no groups found', 404);
+    //     }
+
+    //     return $this->responseSuccess([
+    //         'data' => GroupResource::collection($groups),
+    //         'meta' => [
+    //             'current_page' => $groups->currentPage(),
+    //             'last_page' => $groups->lastPage(),
+    //             'per_page' => $groups->perPage(),
+    //             'total' => $groups->total(),
+    //             'public_count' => $this->getPublic(),
+    //             'private_count' => $this->getPrivate(),
+    //         ],
+    //     ], 'Groups fetched successfully.', 200);
+    // }
 
     /**
      * Update Groups
