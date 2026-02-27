@@ -103,7 +103,7 @@ class GroupsController extends Controller
                     $q->where('id', $request->category_id);
                 });
             })
-            ->paginate(10);
+            ->paginate(100);
 
         return $this->responseSuccess([
             'data' => GroupResource::collection($groups),
