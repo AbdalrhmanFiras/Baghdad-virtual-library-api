@@ -73,7 +73,8 @@ class GroupsController extends Controller
      */
     public function showMy()
     {
-        $groups = Groups::with(['image', 'category_groups', 'users'])->where('user_id', Auth::id())->paginate(5);
+        $groups = Groups::with(['image', 'category_groups', 'users'])->where('user_id', Auth::id())
+            ->paginate(5);
         if ($groups->isEmpty()) {
             return $this->responseError('null', 'There is no groups found', 404);
         }
@@ -83,6 +84,7 @@ class GroupsController extends Controller
             'last_page' => $groups->lastPage(),
             'per_page' => $groups->perPage(),
             'total' => $groups->total(),
+            'count' => $groups->count(),
         ]], 'Groups fetched successfully.', 200);
     }
 
