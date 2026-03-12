@@ -29,6 +29,7 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+
         $telegram = new TelegramService;
         $message = "🆕 مستخدم جديد سجل في الموقع!\n";
         $message .= "👤 الاسم: {$user->name}\n";
