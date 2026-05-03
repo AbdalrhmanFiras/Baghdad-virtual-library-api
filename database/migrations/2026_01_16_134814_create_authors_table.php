@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('author_name');
             $table->text('dec');
+            $table->index('author_name');
             $table->timestamps();
         });
     }

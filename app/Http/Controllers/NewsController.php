@@ -34,7 +34,7 @@ class NewsController extends Controller
             'type' => 'news',
         ]);
 
-        return $this->responseSuccess(['data' => new NewsResource($news)], 'News created sucessfully.', 201);
+        return $this->responseSuccess('News created sucessfully.', 201);
 
     }
 
@@ -70,8 +70,7 @@ class NewsController extends Controller
 
         }
 
-        return $this->responseSuccess([
-            'data' => new NewsResource($new->fresh('image'))],
+        return $this->responseSuccess(
             'News updated successfully', 200);
     }
 

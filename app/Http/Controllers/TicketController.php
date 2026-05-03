@@ -34,7 +34,7 @@ class TicketController extends Controller
 
         $ticket->status = TicketsStatusEnum::OPEN->value;
 
-        return $ticket ? $this->responseSuccess(new TicketResource($ticket), 'Ticket created successfully', 201) : $this->responseError(null, 'Failed to create ticket');
+        return $ticket ? $this->responseSuccess('Ticket created successfully', 201) : $this->responseError(null, 'Failed to create ticket');
     }
 
     /**
@@ -46,11 +46,4 @@ class TicketController extends Controller
 
         return $ticket ? $this->responseSuccess(new TicketResource($ticket)) : $this->responseError(null, 'Ticket not found', 404);
     }
-
-    // public function destroy(Ticket $ticket)
-    // {
-    //     $deleted = $ticket->delete();
-
-    //     return $deleted ? $this->responseSuccess(null, 'Ticket deleted successfully') : $this->responseError(null, 'Failed to delete ticket');
-    // }
 }

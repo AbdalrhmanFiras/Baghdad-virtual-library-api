@@ -7,7 +7,6 @@ use App\Helper\FileHelper;
 use App\Http\Requests\StoreGroupRequest;
 use App\Http\Requests\UpdateGroupRequest;
 use App\Http\Resources\GroupResource;
-use App\Models\CategoryGroup;
 use App\Models\Groups;
 use Dedoc\Scramble\Attributes\Group;
 use Exception;
@@ -55,7 +54,7 @@ class GroupsController extends Controller
             DB::commit();
             $group->load('user.profile');
 
-            return $this->responseSuccess(['data' => new GroupResource($group)],
+            return $this->responseSuccess(
                 'Group created Successfully', 201);
         } catch (Exception $e) {
             DB::rollBack();
@@ -120,35 +119,6 @@ class GroupsController extends Controller
         ], 'Groups fetched successfully.', 200);
     }
 
-    // public function index(Request $request)
-    // {
-    //     $query = Groups::with(['image', 'category_groups', 'users']);
-
-    //     if ($request->category_id) {
-    //         $query->whereHas('category_groups', function ($q) use ($request) {
-    //             $q->where('category_groups.id', $request->category_id);
-    //         });
-    //     }
-
-    //     $groups = $query->paginate(10);
-
-    //     if ($groups->isEmpty()) {
-    //         return $this->responseError('null', 'There is no groups found', 404);
-    //     }
-
-    //     return $this->responseSuccess([
-    //         'data' => GroupResource::collection($groups),
-    //         'meta' => [
-    //             'current_page' => $groups->currentPage(),
-    //             'last_page' => $groups->lastPage(),
-    //             'per_page' => $groups->perPage(),
-    //             'total' => $groups->total(),
-    //             'public_count' => $this->getPublic(),
-    //             'private_count' => $this->getPrivate(),
-    //         ],
-    //     ], 'Groups fetched successfully.', 200);
-    // }
-
     /**
      * Update Groups
      */
@@ -170,7 +140,7 @@ class GroupsController extends Controller
             }
             DB::commit();
 
-            return $this->responseSuccess(['data' => new GroupResource($group)], 'Group updated successfully', 200);
+            return $this->responseSuccess('Group updated successfully', 200);
         } catch (ModelNotFoundException) {
             return $this->responseError('null', 'This group is not longer exists.', 404);
         } catch (Exception $e) {
@@ -307,17 +277,4 @@ class GroupsController extends Controller
 
         return $count;
     }
-
-    // protected function getCategory(): array
-    // {
-
-    //     $cate = CategoryGroup::get();
-
-    //     $CateCount = [];
-    //     foreach ($cate as $index) {
-    //         $CateCount = $index->count();
-    //     }
-
-    //     return $CateCount;
-    // }
 }

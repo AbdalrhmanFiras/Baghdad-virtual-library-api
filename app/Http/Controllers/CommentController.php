@@ -110,7 +110,7 @@ class CommentController extends Controller
                 ->firstOrFail();
             $comment->update($data);
 
-            return $this->responseSuccess(new CommentResource($comment), 'Comment updated successfully', 200);
+            return $this->responseSuccess('Comment updated successfully', 200);
 
         } catch (ModelNotFoundException) {
             return $this->responseError(null, 'comment not found', 404);

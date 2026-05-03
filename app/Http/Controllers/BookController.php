@@ -95,11 +95,7 @@ class BookController extends Controller
             }
             DB::commit();
 
-            return $this->responseSuccess(
-                new BookResource($book->load('categories', 'author')),
-                'Book uploaded successfully.',
-                201
-            );
+            return $this->responseSuccess(['message' => 'Book create successfully'], 200);
         } catch (\Exception $e) {
             DB::rollBack();
             if (isset($book)) {
@@ -136,10 +132,7 @@ class BookController extends Controller
                 }
             });
 
-            return response()->json([
-                'message' => 'Book updated successfully',
-                'data' => new BookResource($book->fresh('image', 'categories')),
-            ], 200);
+            return response()->json(['message' => 'Book updated successfully'], 200);
         } catch (ModelNotFoundException) {
             return $this->responseError(null, 'Book not found.', 404);
         }
@@ -630,7 +623,7 @@ class BookController extends Controller
                     }
                 }),
             ])
-            ->allowedSorts(['title', 'publish_year', 'rating', 'author'])
+            ->allowedSorts(['publish_year', 'rating', 'author'])
             ->allowedIncludes(['author', 'categories'])
             ->paginate(10)
             ->appends(request()->query());

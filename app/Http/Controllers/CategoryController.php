@@ -37,7 +37,7 @@ class CategoryController extends Controller
         $data = $request->validated();
         $category = Category::create($data);
 
-        return $this->responseSuccess(new CategoryResource($category), 'Category created successfully', 201);
+        return $this->responseSuccess('Category created successfully', 201);
     }
 
     /**
@@ -69,7 +69,7 @@ class CategoryController extends Controller
         $data = $request->validated();
         $category->update($data);
 
-        return $this->responseSuccess(new CategoryResource($category), 'Category updated successfully', 200);
+        return $this->responseSuccess('Category updated successfully', 200);
     }
 
     /**

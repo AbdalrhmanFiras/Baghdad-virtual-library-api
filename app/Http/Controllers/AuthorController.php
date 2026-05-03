@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreAuthorRequest;
 use App\Http\Requests\UpdateAuthorRequest;
 use App\Models\Author;
+use Exception;
 
 /**
  * @tags Author Endpoint
@@ -24,7 +25,7 @@ class AuthorController extends Controller
         $data = $request->validated();
         $author = Author::create($data);
 
-        return $this->responseSuccess($author, 'Author added successfully', 201);
+        return $this->responseSuccess('Author added successfully', 201);
     }
 
     /**
@@ -44,7 +45,7 @@ class AuthorController extends Controller
         }
         $author->update($data);
 
-        return $this->responseSuccess($author, 'Author updated successfully', 200);
+        return $this->responseSuccess('Author updated successfully', 200);
     }
 
     /**
@@ -65,7 +66,18 @@ class AuthorController extends Controller
         return $this->responseSuccess(null, 'Author deleted successfully', 200);
     }
 
-    // public function index(){
-    //    $authors = Author::paginate(10);
-    // }
+    /**
+     * Get All Author
+     *
+     * This endpoint allows you to get all author.
+     * `Admin(only)`
+     */
+    public function index()
+    {
+        $authors = Author::paginate(10);
+        if (! $authors) {
+            throw new Exception('authors not found');
+        }
+        return $authors;
+    }
 }

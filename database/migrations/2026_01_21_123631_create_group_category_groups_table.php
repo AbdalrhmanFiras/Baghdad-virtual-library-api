@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('group_id')->constrained('groups')->onDelete('cascade');
             $table->foreignId('category_group_id')->constrained('category_groups')->onDelete('cascade');
             $table->unique(['group_id', 'category_group_id']);
+            $table->index('group_id');
             $table->timestamps();
         });
     }

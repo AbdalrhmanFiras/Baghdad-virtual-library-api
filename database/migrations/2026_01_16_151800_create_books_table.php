@@ -27,6 +27,8 @@ return new class extends Migration
             $table->boolean('is_readable')->default(false);
             $table->boolean('is_downloadable')->default(false);
             $table->boolean('has_audio')->default(false);
+            $table->index('title');
+            $table->index('publish_year');
             $table->timestamps();
         });
     }
