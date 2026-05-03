@@ -96,6 +96,7 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     // **********************************/Author/*****************************//
 
     Route::post('/author', [AuthorController::class, 'store']);
+    Route::get('/author', [AuthorController::class, 'index']);
     Route::put('/author/{Id}', [AuthorController::class, 'update']);
     Route::delete('/author/{Id}', [AuthorController::class, 'delete']);
 
