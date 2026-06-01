@@ -82,9 +82,6 @@ RUN a2enmod rewrite
 # Create necessary directories
 RUN mkdir -p storage/framework/{sessions,views,cache} \
     storage/logs \
-# Create necessary directories
-RUN mkdir -p storage/framework/{sessions,views,cache} \
-    storage/logs \
     storage/app/public \
     storage/app/private \
     bootstrap/cache

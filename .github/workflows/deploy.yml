@@ -1,0 +1,42 @@
+name: Deploy to DigitalOcean
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t baghdad-library:latest .
+
+      - name: Save Docker image
+        run: docker save baghdad-library:latest | gzip > baghdad-library.tar.gz
+
+      - name: Copy image to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: 104.248.254.190
+          username: root
+          password: ${{ secrets.DO_PASSWORD }}
+          source: "baghdad-library.tar.gz"
+          target: "/root/baghdad-library/"
+
+      - name: Deploy on server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: 104.248.254.190
+          username: root
+          password: ${{ secrets.DO_PASSWORD }}
+          script: |
+            cd /root/baghdad-library
+            docker load < baghdad-library.tar.gz
+            rm baghdad-library.tar.gz
+            docker compose down
+            docker compose up -d
+            echo "✅ Deployed successfully"
