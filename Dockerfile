@@ -95,7 +95,7 @@ RUN chown -R www-data:www-data storage bootstrap/cache \
     && chmod -R 775 storage bootstrap/cache
 
 # Expose port 80
-EXPOSE 80
+EXPOSE 82
 
 # Use entrypoint script
 ENTRYPOINT ["docker-entrypoint.sh"]

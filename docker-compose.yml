@@ -1,41 +1,72 @@
-version: '3.8'
-
 services:
   app:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: laravel-app
     restart: unless-stopped
     ports:
-      - "127.0.0.1:8000:80"
+      - "80:82"
     volumes:
       - storage_data:/var/www/html/storage
-    env_file:
-      - .env.production
-    depends_on:
-      db:
-        condition: service_healthy
-
-  db:
-    image: mysql:8.0
-    container_name: mysql-db
-    restart: unless-stopped
-    ports:
-      - "127.0.0.1:3306:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-BaghdadLib2026!Strong}
-      MYSQL_DATABASE: baghdad_library
-      MYSQL_USER: baghdad_user
-      MYSQL_PASSWORD: ${DB_PASSWORD:-BaghdadLib@SecurePass2026}
+      - APP_NAME=${APP_NAME:-Laravel}
+      - APP_ENV=${APP_ENV:-production}
+      - APP_KEY=${APP_KEY}
+      - APP_DEBUG=${APP_DEBUG:-false}
+      - APP_URL=${APP_URL}
+      - APP_LOCALE=${APP_LOCALE:-en}
+      - APP_FALLBACK_LOCALE=${APP_FALLBACK_LOCALE:-en}
+      - APP_FAKER_LOCALE=${APP_FAKER_LOCALE:-en_US}
+      - APP_MAINTENANCE_DRIVER=${APP_MAINTENANCE_DRIVER:-file}
+      - BCRYPT_ROUNDS=${BCRYPT_ROUNDS:-12}
+      - LOG_CHANNEL=${LOG_CHANNEL:-stack}
+      - LOG_STACK=${LOG_STACK:-single}
+      - LOG_DEPRECATIONS_CHANNEL=${LOG_DEPRECATIONS_CHANNEL:-null}
+      - LOG_LEVEL=${LOG_LEVEL:-debug}
+      - DB_CONNECTION=${DB_CONNECTION:-mysql}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT:-3306}
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - SESSION_DRIVER=${SESSION_DRIVER:-database}
+      - SESSION_LIFETIME=${SESSION_LIFETIME:-120}
+      - SESSION_ENCRYPT=${SESSION_ENCRYPT:-false}
+      - SESSION_PATH=${SESSION_PATH:-/}
+      - SESSION_DOMAIN=${SESSION_DOMAIN:-null}
+      - BROADCAST_CONNECTION=${BROADCAST_CONNECTION:-log}
+      - FILESYSTEM_DISK=${FILESYSTEM_DISK:-s3}
+      - QUEUE_CONNECTION=${QUEUE_CONNECTION:-sync}
+      - CACHE_STORE=${CACHE_STORE:-database}
+      - REDIS_CLIENT=${REDIS_CLIENT:-phpredis}
+      - REDIS_HOST=${REDIS_HOST:-127.0.0.1}
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-null}
+      - REDIS_PORT=${REDIS_PORT:-6379}
+      - MAIL_MAILER=${MAIL_MAILER:-log}
+      - MAIL_HOST=${MAIL_HOST:-127.0.0.1}
+      - MAIL_PORT=${MAIL_PORT:-2525}
+      - MAIL_USERNAME=${MAIL_USERNAME:-null}
+      - MAIL_PASSWORD=${MAIL_PASSWORD:-null}
+      - MAIL_FROM_ADDRESS=${MAIL_FROM_ADDRESS:-hello@example.com}
+      - MAIL_FROM_NAME=${MAIL_FROM_NAME:-Laravel}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - GOOGLE_REDIRECT_URI=${GOOGLE_REDIRECT_URI}
+      - AWS_URL=${AWS_URL}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:-eu-north-1}
+      - AWS_BUCKET=${AWS_BUCKET}
+      - AWS_USE_PATH_STYLE_ENDPOINT=${AWS_USE_PATH_STYLE_ENDPOINT:-false}
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_WEBHOOK_SECRET=${TELEGRAM_WEBHOOK_SECRET}
+      - JWT_SECRET=${JWT_SECRET}
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      test: ["CMD", "curl", "-f", "http://localhost/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
 
 volumes:
   storage_data:
-  mysql_data:
